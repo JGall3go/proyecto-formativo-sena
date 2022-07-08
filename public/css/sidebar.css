@@ -1,0 +1,486 @@
+* {
+  top: 0;
+  left: 0;
+  margin: 0;
+}
+
+body{
+  font-family: helvetica;
+  background-color: #F5F5F5;
+}
+
+hr {
+  border: 1px solid rgb(97, 96, 96);
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 20px 10px 0 10px;
+}
+
+h4{
+  font-size: 15px;
+  font-weight: bold;
+}
+
+h6 {
+  font-weight: bold;
+  font-size: 10.72px;
+  margin: 0 10px 20px 10px;
+  color: #bbbbbb;
+}
+
+#ionIconElement{
+  width: 15px;
+  height: 15px;
+  fill: white;
+}
+
+#ionIconDrop{
+  font-size: 15px;
+  margin-left: 15px;
+  pointer-events: none;
+}
+
+/* The side navigation menu */
+.sidebar{
+  left: 0;
+  top: 12.7%;
+  color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #1A1A1A;
+  position: fixed;
+  height: 72.7%;
+  overflow: auto;
+  z-index: 2;
+  overflow: auto;
+}
+
+#sidebarItems{
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Sidebar links */ 
+.sidebar a{
+  font-size: 15px;
+  border-radius: 5px;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content:flex-start;
+  align-items: center;
+  color: #f5f5f5;
+  text-decoration: none;
+  margin-bottom: 7px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.sidebar a #ionIconElement{
+  margin-left: 7%;
+}
+
+.sidebarCollected a #ionIconElement{
+  margin-left: 0%;
+}
+
+#dropbox {
+  padding-left: 7%;
+}
+
+#initialItem{
+  margin-top: 7px;
+}
+
+.sidebarHeader{
+  width: 200px;
+  height: 12.7%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  position: fixed;
+  background-color: #141414;
+}
+
+.sidebarHeaderCollect{
+  width: 200px;
+  height: 12.7%;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  position: fixed;
+  background-color: #141414;
+}
+
+#menuIcon{
+  margin-right: 10px;
+  color: #f5f5f5;
+  font-size: 35px;
+  border-radius: 5px;
+  height: 35px;
+  width: 35px;
+}
+
+#menuIconBack{
+  display: none;
+  padding: 2px;
+  color: #f5f5f5;
+  font-size: 35px;
+  border-radius: 5px;
+  height: 35px;
+}
+
+#menuIcon:hover{
+  cursor: pointer;
+  background-color: #323232;
+  transition-duration: 0.3s;
+}
+
+#menuIconBack:hover{
+  cursor: pointer;
+  background-color: #323232;
+  transition-duration: 0.3s;
+}
+
+#complementarios {
+  /*185*/
+  background-color: #323232;
+  border-radius: 5px;
+  max-height: 0px;
+  list-style: none;
+  overflow: hidden;
+  margin-bottom: 7px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#complementarios a{
+  margin-right: 0;
+  margin-left: 0;
+  height: 40px;
+}
+
+#complementarios a:hover {
+  background-color: #272727;
+  transition-duration: 0.3s;
+}
+
+#tituloProfile{
+  margin-left: 10px;
+}
+
+#imageProfile{ 
+  width: 40px;
+  height: 40px;
+  border-radius: 150px;
+}
+
+#profileSidebar{
+  top: 85%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 200px;
+  height: 15%;
+  position: fixed;
+  background-color: #141414;
+}
+
+#spanCollect{
+  margin-left: 25px;
+}
+
+/* Active/current link */
+#sidebar a.active {
+  background-color: #5e72e4;
+  color: white;
+}
+
+/* Links on mouse-over */
+#sidebar a:hover:not(.active, #dropbox, #complementarios a, #profileAncla) {
+  background-color: #323232;
+  color: white;
+  transition-duration: 0.3s;
+}
+
+#profileAncla{
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  color: #f5f5f5;
+  padding: 0;
+  border-radius: 0;
+}
+
+#profileAncla:hover{
+  color: #9e9d9d;
+  cursor: pointer;
+  transition-duration: 0.3s;
+}
+
+#hoverComp {
+  margin-bottom: 0;
+}
+
+/* Scrollbar de la sidebar */
+
+#sidebar{
+  width: 200px;
+}
+
+#sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Barra lateral recogida */
+
+.sidebarCollected{
+  align-items: center;
+  width: 60px;
+  top: 12.7%;
+  color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+  background-color: #1A1A1A;
+  position: fixed;
+  height: 72.7%;
+  overflow: auto;
+}
+
+.sidebarCollected a{
+  align-items: center;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f5f5f5;
+  text-decoration: none;
+  margin-bottom: 7px;
+  margin-right: 10px;
+  margin-left: 10px;
+  min-height: 40px;
+}
+
+.sidebarCollected#ionIconElement{
+  font-size: 15px;
+}
+
+.sidebarCollected a:hover:not(.active, #dropbox, #complementarios a, #profileAncla) {
+  background-color: #323232;
+  color: white;
+  transition-duration: 0.3s;
+}
+
+#complementariosHidden{
+  display: none;
+  margin-bottom: 7px;
+}
+
+/* Active/current link */
+.sidebarCollected a.active {
+  background-color: #0083A3;
+  color: white;
+}
+
+.textElementMenuCollected{
+  display: none;
+}
+
+/* Responsive Design */
+
+.content{
+  margin-left: 200px;
+  padding: 1px 20px;
+  height: 100%;
+}
+
+.contentCollect{
+  margin-left: 60px;
+  padding: 1px 20px;
+  height: 50px;
+}
+
+/* Responsive Header */
+
+.headerContentResponsive{
+  display: none;
+  width: 100%;
+  height: max-content;
+  background-color: #1A1A1A;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#menuIconResponsive{
+  padding: 2px;
+  color: #f5f5f5;
+  font-size: 35px;
+  border-radius: 5px;
+  height: 35px;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+#menuIconBackResponsive{
+  display: none;
+  padding: 2px;
+  color: #f5f5f5;
+  font-size: 35px;
+  border-radius: 5px;
+  height: 35px;
+}
+
+#menuIconResponsive:hover{
+  cursor: pointer;
+  background-color: #323232;
+  transition-duration: 0.3s;
+}
+
+#menuIconBackResponsive:hover{
+  cursor: pointer;
+  background-color: #323232;
+  transition-duration: 0.3s;
+}
+
+#profileAnclaResponsive{
+  color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  color: #f5f5f5;
+  margin-right: 15px;
+}
+
+#profileAnclaResponsive img{ 
+  width: 30px;
+  height: 30px;
+  border-radius: 150px;
+}
+
+#profileAnclaResponsive h5{
+  margin-left: 10px;
+}
+
+#closeIconResponsive{
+  display: none;
+  padding: 2px;
+  margin-right: 10px;
+  color: #f5f5f5;
+  font-size: 35px;
+  border-radius: 5px;
+  height: 35px;
+}
+
+#closeIconResponsive:hover {
+  background-color: #323232;
+}
+
+/* Responsive Content */
+
+/* Desktop */
+@media screen and (min-width: 1024px) {
+  .sidebar{
+    left: 0;
+    width: 200px;
+  }
+}
+
+/* Tablets */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  
+  div#content{
+    margin-left: 0%;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Se hace desaparecer la barra lateral */
+  .sidebar{
+    left: -250px;
+    width: 250px;
+    height: 87.3%;
+  }
+
+  .sidebarHeader{
+    left: -250px;
+    display: flex;
+    width: 250px;
+  }
+
+  .headerContentResponsive{
+    display: flex;
+  }
+
+  #closeIconResponsive{
+    display: flex;
+  }
+
+  #menuIconBack{
+    display: none;
+  }
+
+  #menuIcon{
+    display: none;
+  }
+
+  #menuIconIco{
+    display: none;
+  }
+
+  #profileSidebar{
+    display: none;
+  }
+}
+
+/* Phones */
+@media screen and (max-width: 767px) {
+
+  div#content{
+    margin-left: 0%;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Se hace desaparecer la barra lateral */
+  .sidebar{
+    left: -250px;
+    width: 250px;
+    height: 87.3%;
+  }
+
+  .sidebarHeader{
+    left: -250px;
+    display: flex;
+    width: 250px;
+  }
+
+  .headerContentResponsive{
+    display: flex;
+  }
+
+  #closeIconResponsive{
+    display: flex;
+  }
+
+  #menuIconBack{
+    display: none;
+  }
+
+  #menuIcon{
+    display: none;
+  }
+
+  #menuIconIco{
+    display: none;
+  }
+
+  #profileSidebar{
+    display: none;
+  }
+}
