@@ -160,18 +160,8 @@
                 </div>
 
                 <div class="inputContainer">
-                    <input type="date" name="fechaNacimiento" class="input" id="inputDate" onchange="resetValue(this, this.value)" value="" min="1900-01-01" max="2022-12-31" placeholder=" ">
-                    <label for="" class="label">Fecha de Nacimiento</label>
-                </div>
-
-                <div class="inputContainer">
                     <input name="contrasena" type="text" class="input" placeholder=" " autocomplete="off">
                     <label for="" class="label">Contraseña</label>
-                </div>
-
-                <div class="inputContainer">
-                    <input name="estado_idEstado" type="number" class="input" placeholder=" " autocomplete="off">
-                    <label for="" class="label">Estado</label>
                 </div>
             
                 <div class="inputContainer">
@@ -193,6 +183,24 @@
                     <input name="email" type="email" class="input" placeholder=" " autocomplete="off">
                     <label for="" class="label">Email</label>
                 </div>
+
+                <div class="inputContainer">
+                    <input type="date" name="fechaNacimiento" class="input" id="inputDate" onchange="resetValue(this, this.value)" value="" min="1900-01-01" max="2022-12-31" placeholder=" " required="required">
+                    <label for="" class="label">Fecha de Nacimiento</label>
+                </div>
+
+                <div class="inputContainerSelect">
+                    <select class="input" name='estado_idEstado' id="inputSelect" style="-webkit-appearance: none;">
+                        @php
+                            # Se comprueba si hay roles repetidos para no colocarlos.
+                            $estadoAnterior = '';
+                            foreach ($estadosTotales as $estado) {
+                                echo "<option value='$estado->idEstado'>$estado->estado</option>";
+                            }
+                        @endphp
+                    </select>
+                    <label for="" class="label">Estado</label>
+                </div>
             
                 <input type="submit" class="createButton" value="Crear">
             </form>
@@ -213,20 +221,10 @@
                 </div>
 
                 <div class="inputContainer">
-                    <input type="date" name="fechaNacimiento" class="input" id="inputDate" @isset($usuariosEdit) value="{{ $usuariosEdit->fechaNacimiento }}"@endisset onchange="resetValue(this, this.value)" value="" min="1900-01-01" max="2022-12-31" placeholder=" ">
-                    <label for="" class="label">Fecha de Nacimiento</label>
-                </div>
-
-                <div class="inputContainer">
                     <input name="contrasena" type="text" class="input" @isset($usuariosEdit) value="{{ $usuariosEdit->contrasena }}"@endisset placeholder=" " autocomplete="off">
                     <label for="" class="label">Contraseña</label>
                 </div>
 
-                <div class="inputContainer">
-                    <input name="estado_idEstado" type="number" class="input" @isset($usuariosEdit) value="{{ $usuariosEdit->estado_idEstado }}"@endisset placeholder=" " autocomplete="off">
-                    <label for="" class="label">Estado</label>
-                </div>
-            
                 <div class="inputContainer">
                     <input name="telefono" type="text" class="input" @isset($datosContactoEdit) value="{{ $datosContactoEdit->telefono }}"@endisset placeholder=" " autocomplete="off">
                     <label for="" class="label">Telefono</label>
@@ -246,9 +244,33 @@
                     <input name="email" type="email" class="input" @isset($datosContactoEdit) value="{{ $datosContactoEdit->email }}"@endisset placeholder=" " autocomplete="off">
                     <label for="" class="label">Email</label>
                 </div>
+
+                <div class="inputContainer">
+                    <input type="date" name="fechaNacimiento" class="input" id="inputDate" @isset($usuariosEdit) value="{{ $usuariosEdit->fechaNacimiento }}"@endisset onchange="resetValue(this, this.value)" value="" min="1900-01-01" max="2022-12-31" placeholder=" " required="required">
+                    <label for="" class="label">Fecha de Nacimiento</label>
+                </div>
+
+                <div class="inputContainerSelect" id="lastInput">
+                    <select class="input" name='estado_idEstado' id="inputSelect" style="-webkit-appearance: none;">
+                        @php
+                            foreach ($estadosTotales as $estado) {
+                                if(isset($usuariosEdit)){
+                                    if($usuariosEdit->estado_idEstado == $estado->idEstado){
+                                        echo "<option value='$estado->idEstado' selected>$estado->estado</option>";
+                                    } else {
+                                        echo "<option value='$estado->idEstado'>$estado->estado</option>";
+                                    }
+                                }  else {
+                                    echo "<option value='$estado->idEstado'>$estado->estado</option>";
+                                }   
+                            }
+                        @endphp
+                    </select>
+                    <label for="" class="label">Estado</label>
+                </div>
                 
                 <div class="updateButtonContainer">
-                    <input type="submit" class="updateButton" value="Actualizar" @isset($usuariosEdit) @else disabled @endisset> <a class="cancelButton" @isset($administradoresEdit) href="/dashboard/usuario" @endisset>Cancelar</a>
+                    <input type="submit" class="updateButton" value="Actualizar" @isset($usuariosEdit) @else disabled @endisset> <a class="cancelButton" @isset($usuariosEdit) href="/dashboard/usuario" @endisset>Cancelar</a>
                 </div>
             </form>
         </div>

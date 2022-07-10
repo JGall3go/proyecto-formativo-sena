@@ -11,6 +11,7 @@
     <meta http-equiv="Pragma" content="no-cache">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link href="{{ asset('css/sidebar.css') }}" rel="stylesheet">
     <link href="{{ asset('css/content.css') }}" rel="stylesheet">
     <script src="{{ asset('js/sidebar.js') }}"></script>
@@ -85,7 +86,7 @@
             </span>
 
             <a id="profileAnclaResponsive"><img src="https://www.trecebits.com/wp-content/uploads/2019/02/Persona-1-445x445.jpg">
-            <h4>Normal Person</h4></a>|
+            <h4>Normal Person</h4></a>
 
         </header>
 

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Administrador;
+use App\Models\Cliente;
+use App\Models\Empleado;
 use App\Models\Usuario;
 use App\Models\Perfil;
 use App\Models\DatosContacto;
@@ -41,7 +43,7 @@ class AdministradorController extends Controller
             ->join('datos_contacto', 'datos_contacto_idContacto', '=', 'idContacto') // Tabla de Datos de Contacto
             ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
             ->join('perfil', 'idUsuario', '=', 'usuario_idUsuario') // Tabla de Perfil
-            ->join('rol', 'idRol', '=', 'rol_idRol') // Tabla de Roles (Cliente, Empleado, Administrador)
+            ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('permisos_idPermiso', '=', '1');})
             ->select('idAdministrador', 'nombreUsuario', 'fechaNacimiento', 'contrasena', 'estado', 'telefono', 'ciudadResidencia', 'direccion', 'email', 'rol')
             ->where('idAdministrador', 'Like','%'.$busqueda.'%')
             ->orwhere('nombreUsuario', 'Like','%'.$busqueda.'%')
@@ -139,7 +141,7 @@ class AdministradorController extends Controller
             ->join('datos_contacto', 'datos_contacto_idContacto', '=', 'idContacto') // Tabla de Datos de Contacto
             ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
             ->join('perfil', 'idUsuario', '=', 'usuario_idUsuario') // Tabla de Perfil
-            ->join('rol', 'idRol', '=', 'rol_idRol') // Tabla de Roles (Cliente, Empleado, Administrador)
+            ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('permisos_idPermiso', '=', '1');})
             ->select('idAdministrador', 'nombreUsuario', 'fechaNacimiento', 'contrasena', 'estado', 'telefono', 'ciudadResidencia', 'direccion', 'email', 'rol')->paginate(session('paginate'));
 
             $data['administradoresEdit'] = Administrador::findOrFail($idAdministrador);
@@ -192,6 +194,23 @@ class AdministradorController extends Controller
             $datosPerfil = Perfil::where('usuario_idUsuario', '=', $data['administradoresEdit']->perfil_usuario_idUsuario)->update([
                 'nombrePerfil' => $userData['nombreUsuario'],
                 'rol_idRol' => $userData['rol']]);
+            
+            if ($userData['rol'] == 1){
+                Administrador::destroy($idAdministrador);
+                DB::table('cliente')->insertGetId([
+                    'perfil_idPerfil' => $data['administradoresEdit']->perfil_idPerfil,
+                    'perfil_usuario_idUsuario' => $data['administradoresEdit']->perfil_usuario_idUsuario
+                ]);
+            }
+            
+            if ($userData['rol'] == 3){
+                Administrador::destroy($idAdministrador);
+                DB::table('empleado')->insertGetId([
+                    'perfil_idPerfil' => $data['administradoresEdit']->perfil_idPerfil,
+                    'perfil_usuario_idUsuario' => $data['administradoresEdit']->perfil_usuario_idUsuario
+                ]);
+            }
+                
         }
         
         actualizarDB($idAdministrador, $userData);

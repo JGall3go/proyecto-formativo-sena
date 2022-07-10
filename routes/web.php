@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\AdministradorController;
 use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\ClienteController;
 
 
 /*
@@ -26,13 +27,9 @@ Route::resource('dashboard/usuario', UsuarioController::class);
 
 Route::resource('dashboard/administrador', AdministradorController::class);
 
-Route::get('dashboard/empleado', function () {
-    return view('empleado/index');
-})->name('empleado');
+Route::resource('dashboard/empleado', EmpleadoController::class);
 
-Route::get('/cliente', function () {
-    return view('cliente/index');
-})->name('cliente');
+Route::resource('dashboard/cliente', ClienteController::class);
 
 Route::get('/producto', function () {
     return view('producto/index');

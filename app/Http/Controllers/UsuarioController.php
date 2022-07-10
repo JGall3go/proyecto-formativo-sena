@@ -33,7 +33,7 @@ class UsuarioController extends Controller
         actualizarSession($registros, 'paginate');
 
         function busquedaDB($busqueda){
-            // $data['usuarios'] = Usuario::paginate(5);
+            
             $data['usuarios'] = DB::table('usuario')
             ->orderByRaw('idUsuario')
             ->join('datos_contacto', 'datos_contacto_idContacto', '=', 'idContacto') // Tabla de Datos de Contacto
@@ -47,6 +47,7 @@ class UsuarioController extends Controller
             ->orwhere('contrasena', 'Like','%'.$busqueda.'%' )->paginate(session('paginate'));
 
             $data['usuariosTotales'] = DB::table('usuario')->get();
+            $data['estadosTotales'] = DB::table('estado')->get();
 
             return $data;
         }
@@ -135,6 +136,7 @@ class UsuarioController extends Controller
             $data['usuariosTotales'] = DB::table('usuario')->get();
             $data['usuariosEdit'] = Usuario::findOrFail($idUsuario);
             $data['datosContactoEdit'] = DatosContacto::where('idContacto', $data['usuariosEdit']->datos_contacto_idContacto)->firstOrFail();
+            $data['estadosTotales'] = DB::table('estado')->get();
 
             return $data;
         }

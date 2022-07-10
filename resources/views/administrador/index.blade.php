@@ -245,21 +245,21 @@
                     <label for="" class="label">Fecha de Nacimiento</label>
                 </div>
 
-                <div class="inputContainerSelect">
+                <div class="inputContainerSelect" id="lastInput">
                     <select class="input" name='estado_idEstado' id="inputSelect" style="-webkit-appearance: none;">
                         @php
-                            # Se comprueba si hay roles repetidos para no colocarlos.
-                            $estadoAnterior = '';
-                            foreach ($estadosTotales as $estado) {
-                                if(isset($usuariosEdit)){
-                                    if($usuariosEdit->estado_idEstado == $estado->idEstado){
-                                        echo "<option value='$estado->idEstado' selected>$estado->estado</option>";
-                                    }
+                        foreach ($estadosTotales as $estado) {
+                            if(isset($usuariosEdit)){
+                                if($usuariosEdit->estado_idEstado == $estado->idEstado){
+                                    echo "<option value='$estado->idEstado' selected>$estado->estado</option>";
                                 } else {
                                     echo "<option value='$estado->idEstado'>$estado->estado</option>";
                                 }
+                            } else {
+                                echo "<option value='$estado->idEstado'>$estado->estado</option>";
                             }
-                        @endphp
+                        }
+                    @endphp
                     </select>
                     <label for="" class="label">Estado</label>
                 </div>

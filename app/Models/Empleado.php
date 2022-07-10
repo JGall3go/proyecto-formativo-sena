@@ -10,7 +10,7 @@ class Empleado extends Model
     use HasFactory;
 
     protected $table = "empleado";
-    protected $primarykey = "idEmpleado";
+    protected $primaryKey = "idEmpleado";
 
     public $timestamps = false;
 }
