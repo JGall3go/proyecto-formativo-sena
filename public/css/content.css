@@ -55,6 +55,8 @@
   height: 30px;
   width: 92.07%;
   margin-bottom: 17px;
+  display: flex;
+  flex-direction: row;
 }
 
 .inputContainerSelect {
@@ -62,6 +64,20 @@
   height: 30px;
   width: 100%;
   margin-bottom: 17px;
+}
+
+.inputContainerDouble{
+  position: relative;
+  height: 30px;
+  width: 96%;
+  margin-bottom: 17px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.inputContainerDouble div{
+  width: 46%;
 }
 
 /* Style the inputs */
@@ -83,6 +99,18 @@ input{
   outline: none;
   background: none;
   z-index: 1;
+}
+
+#inputDouble{
+  position: relative;
+  width: 100%;
+}
+
+#inputDoubleSelect {
+  width: 50%;
+  height: 32px;
+  text-align: left;
+  color: #b8b8b9;
 }
 
 #inputDate{
@@ -115,11 +143,16 @@ input[type="date"]::-webkit-calendar-picker-indicator{
   top: 8px;
   left: 15px;
   padding: 0 4px;
+  width: max-content;
   background-color: white;
   color: #b8b8b9;
   font-size: 13px;
   transition: 0.3s;
   z-index: 0;
+}
+
+#secondLabel {
+  left: 185px;
 }
 
 /* Hide the placeholder texts */
@@ -137,9 +170,27 @@ input[type="date"]::-webkit-calendar-picker-indicator{
   color: #5e72e4;
 }
 
+/* Second Label */
+.input:focus + #secondLabel{
+  top: -7px;
+  left: 175px;
+  z-index: 10;
+  font-size: 12px;
+  font-weight: 600;
+  color: #5e72e4;
+}
+
 .input:not(:placeholder-shown) + .label{
   top: -7px;
   left: 3px;
+  z-index: 10;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.input:not(:placeholder-shown) + #secondLabel{
+  top: -7px;
+  left: 175px;
   z-index: 10;
   font-size: 12px;
   font-weight: 600;

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Administrador;
+use App\Models\Proveedor;
 use App\Models\Usuario;
 use App\Models\Perfil;
 use App\Models\DatosContacto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class AdministradorController extends Controller
+class ProveedorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,20 +35,20 @@ class AdministradorController extends Controller
 
         function busquedaDB($busqueda){
             // $data['usuarios'] = Usuario::paginate(5);
-            $data['administradores'] = DB::table('administrador')
-            ->orderByRaw('idAdministrador')
+            $data['proveedores'] = DB::table('proveedor')
+            ->orderByRaw('idProveedor')
             ->join('usuario', 'perfil_usuario_idUsuario', '=', 'idUsuario') // Tabla de Datos de Contacto
             ->join('datos_contacto', 'datos_contacto_idContacto', '=', 'idContacto') // Tabla de Datos de Contacto
             ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
             ->join('perfil', 'idUsuario', '=', 'usuario_idUsuario') // Tabla de Perfil
             ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('permisos_idPermiso', '=', '1');})
-            ->select('idAdministrador', 'nombreUsuario', 'fechaNacimiento', 'contrasena', 'estado', 'telefono', 'ciudadResidencia', 'direccion', 'email', 'rol')
-            ->where('idAdministrador', 'Like','%'.$busqueda.'%')
+            ->select('idProveedor', 'nombreUsuario', 'fechaNacimiento', 'contrasena', 'estado', 'telefono', 'ciudadResidencia', 'direccion', 'email', 'rol')
+            ->where('idProveedor', 'Like','%'.$busqueda.'%')
             ->orwhere('nombreUsuario', 'Like','%'.$busqueda.'%')
             ->orwhere('fechaNacimiento', 'Like','%'.$busqueda.'%')
             ->orwhere('contrasena', 'Like','%'.$busqueda.'%')->paginate(session('paginate'));
 
-            $data['administradoresTotales'] = DB::table('administrador')->get();
+            $data['proveedoresTotales'] = DB::table('proveedor')->get();
             $data['rolesTotales'] = DB::table('rol')->get();
             $data['estadosTotales'] = DB::table('estado')->get();
 
@@ -57,7 +57,7 @@ class AdministradorController extends Controller
 
         $data = busquedaDB($busqueda);
 
-        return view('administrador.index', $data, compact('busqueda', 'page'));
+        return view('proveedor.index', $data, compact('busqueda', 'page'));
     }
 
     /**
@@ -98,24 +98,24 @@ class AdministradorController extends Controller
         $perfilInsertado = DB::table('perfil')->insertGetId([
             'nombrePerfil' => $userData['nombreUsuario'],
             'usuario_idUsuario' => $usuarioInsertado,
-            'rol_idRol' => '2' // Rol Automatico (2 = Administrador)
+            'rol_idRol' => '4' // Rol Automatico (4 = Proveedor)
         ]);
 
-        $administradorInsertado = DB::table('administrador')->insertGetId([
+        $proveedorInsertado = DB::table('proveedor')->insertGetId([
             'perfil_idPerfil' => $perfilInsertado,
             'perfil_usuario_idUsuario' => $usuarioInsertado
         ]);
 
-        return redirect('dashboard/administrador');
+        return redirect('dashboard/proveedor');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Administrador  $Administrador
+     * @param  \App\Models\Proveedor  $proveedor
      * @return \Illuminate\Http\Response
      */
-    public function show(Administrador $administrador)
+    public function show(Proveedor $proveedor)
     {
         //
     }
@@ -123,56 +123,56 @@ class AdministradorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Administrador  $Administrador
+     * @param  \App\Models\Proveedor  $proveedor
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $idAdministrador)
+    public function edit(Request $request, $idProveedor)
     {   
         $page = trim($request->get('page'));
         $params = ['page' => $page];
 
-        function busquedaDB($idAdministrador){
+        function busquedaDB($idProveedor){
             // $data['usuarios'] = Usuario::paginate(5);
-            $data['administradores'] = DB::table('administrador')
-            ->orderByRaw('idAdministrador')
+            $data['proveedor'] = DB::table('proveedor')
+            ->orderByRaw('idProveedor')
             ->join('usuario', 'perfil_usuario_idUsuario', '=', 'idUsuario') // Tabla de Datos de Contacto
             ->join('datos_contacto', 'datos_contacto_idContacto', '=', 'idContacto') // Tabla de Datos de Contacto
             ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
             ->join('perfil', 'idUsuario', '=', 'usuario_idUsuario') // Tabla de Perfil
             ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('permisos_idPermiso', '=', '1');})
-            ->select('idAdministrador', 'nombreUsuario', 'fechaNacimiento', 'contrasena', 'estado', 'telefono', 'ciudadResidencia', 'direccion', 'email', 'rol')->paginate(session('paginate'));
+            ->select('idProveedor', 'nombreUsuario', 'fechaNacimiento', 'contrasena', 'estado', 'telefono', 'ciudadResidencia', 'direccion', 'email', 'rol')->paginate(session('paginate'));
 
-            $data['administradoresEdit'] = Administrador::findOrFail($idAdministrador);
-            $data['usuariosEdit'] = Usuario::findOrFail($data['administradoresEdit']->perfil_usuario_idUsuario);
+            $data['proveedoresEdit'] = Proveedor::findOrFail($idProveedor);
+            $data['usuariosEdit'] = Usuario::findOrFail($data['proveedoresEdit']->perfil_usuario_idUsuario);
             $data['datosContactoEdit'] = DatosContacto::where('idContacto', $data['usuariosEdit']->datos_contacto_idContacto)->firstOrFail();
             
-            $data['administradoresTotales'] = DB::table('administrador')->get();
+            $data['proveedoresTotales'] = DB::table('proveedor')->get();
             $data['rolesTotales'] = DB::table('rol')->get();
             $data['estadosTotales'] = DB::table('estado')->get();
 
             return $data;
         }
 
-        $data = busquedaDB($idAdministrador);
+        $data = busquedaDB($idProveedor);
 
-        return view('administrador.index', $data, compact('params', 'page'));
+        return view('proveedor.index', $data, compact('params', 'page'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Administrador  $Administrador
+     * @param  \App\Models\Proveedor  $proveedor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $idAdministrador)
+    public function update(Request $request, $idProveedor)
     {
         $userData = request()->except(['_token', '_method']);
 
-        function actualizarDB($idAdministrador, $userData){
+        function actualizarDB($idEmpleado, $userData){
 
-            $data['administradoresEdit'] = Administrador::findOrFail($idAdministrador);
-            $usuario = Usuario::findOrFail($data['administradoresEdit']->perfil_usuario_idUsuario);
+            $data['proveedoresEdit'] = Proveedor::findOrFail($idProveedor);
+            $usuario = Usuario::findOrFail($data['proveedoresEdit']->perfil_usuario_idUsuario);
 
             $table = "";
             if($userData['rol'] == 1){$table = "cliente";}
@@ -188,48 +188,39 @@ class AdministradorController extends Controller
                 'email' => $userData['email']]);
 
             // Actualizacion de Usuarios
-            $datosUsuario = Usuario::where('idUsuario', '=', $data['administradoresEdit']->perfil_usuario_idUsuario)->update([
+            $datosUsuario = Usuario::where('idUsuario', '=', $data['proveedoresEdit']->perfil_usuario_idUsuario)->update([
                 'nombreUsuario' => $userData['nombreUsuario'],
                 'fechaNacimiento' => $userData['fechaNacimiento'],
                 'contrasena' => $userData['contrasena'],
                 'estado_idEstado' => $userData['estado_idEstado']]);
 
             // Actualizacion de Usuarios
-            $datosPerfil = Perfil::where('usuario_idUsuario', '=', $data['administradoresEdit']->perfil_usuario_idUsuario)->update([
+            $datosPerfil = Perfil::where('usuario_idUsuario', '=', $data['proveedoresEdit']->perfil_usuario_idUsuario)->update([
                 'nombrePerfil' => $userData['nombreUsuario'],
                 'rol_idRol' => $userData['rol']]);
-
-            if($userData['rol'] != 2){
-                Administrador::destroy($idAdministrador);
+            
+            if($userData['rol'] != 4){
+                Proveedor::destroy($idProveedor);
                 DB::table($table)->insertGetId([
-                    'perfil_idPerfil' => $data['administradoresEdit']->perfil_idPerfil,
-                    'perfil_usuario_idUsuario' => $data['administradoresEdit']->perfil_usuario_idUsuario
+                    'perfil_idPerfil' => $data['proveedoresEdit']->perfil_idPerfil,
+                    'perfil_usuario_idUsuario' => $data['proveedoresEdit']->perfil_usuario_idUsuario
                 ]);
             }
-                
         }
         
-        actualizarDB($idAdministrador, $userData);
+        actualizarDB($idProveedor, $userData);
 
-        return redirect('/dashboard/administrador/');
+        return redirect('/dashboard/empleado/');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Administrador  $Administrador
+     * @param  \App\Models\Proveedor  $proveedor
      * @return \Illuminate\Http\Response
      */
-    public function destroy($idAdministrador)
+    public function destroy(Proveedor $proveedor)
     {
-        $administrador = Administrador::findOrFail($idAdministrador);
-        $usuario = Usuario::findOrFail($administrador->perfil_usuario_idUsuario);
-
-        Administrador::destroy($idAdministrador);
-        Perfil::destroy($administrador->perfil_idPerfil);
-        Usuario::destroy($administrador->perfil_usuario_idUsuario);
-        DatosContacto::destroy($usuario->datos_contacto_idContacto);
-
-        return redirect('/dashboard/administrador');
+        //
     }
 }

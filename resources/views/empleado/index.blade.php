@@ -44,11 +44,12 @@
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
+                    <th>Usuario</th>
                     <th>Fecha de nacimiento</th>
                     <th>Contraseña</th>
                     <th>Estado</th>
                     <th>Telefono</th>
-                    <th>Ciudad</th>
+                    <th>Documento</th>
                     <th>Direccion</th>
                     <th>Email</th>
                     <th>Rol</th>
@@ -63,13 +64,14 @@
                 @foreach($empleados as $empleado)
                 <tr>
                     <td>{{ $empleado->idEmpleado}}</td>
+                    <td>{{$empleado->nombres}} {{$empleado->apellidos}}</td>
                     <td>{{ $empleado->nombreUsuario}}</td>
                     <td>{{ $empleado->fechaNacimiento}}</td>
                     <td>{{ $empleado->contrasena}}</td>
                     <td><span @if($empleado->estado == "Activo")class="activeState"@else class="inactiveState" @endif>{{ $empleado->estado}}<span></td>
                     <td>{{ $empleado->telefono}}</td>
-                    <td>{{ $empleado->ciudadResidencia}}</td>
-                    <td>{{ $empleado->direccion}}</td>
+                    <td>{{ $empleado->tipoDocumento }} - {{ $empleado->documento }}</td>
+                    <td>{{ $empleado->ciudad}} - {{ $empleado->direccion}}</td>
                     <td>{{ $empleado->email}}</td>
                     <td>{{ $empleado->rol}}</td>
                     <td class="actionButton">
@@ -131,10 +133,10 @@
                     <a href='?page=$paginaSiguiente' class='backForwardPaginator' id=$textForward><svg xmlns='http://www.w3.org/2000/svg' class='paginatorSvg' viewBox='0 0 512 512'><title>Adelante</title><path fill='none' stroke-linecap='round' stroke-linejoin='round' stroke-width='48' d='M184 112l144 144-144 144'/></svg></a>
                 </div>";
             @endphp
-
         </div>
-
     </div>
+
+    <!-- CREATE FORM -->
 
     <div class="forms">
         <div class="createForm">
@@ -144,46 +146,83 @@
     
                 <h1 class="title">Crear</h1>
             
-                <div class="inputContainer">
-                    <input name="nombreUsuario" type="text" class="input" placeholder=" " autocomplete="off" required="required">
-                    <label for="" class="label">Nombre de Usuario</label>
+                <div class="inputContainerDouble">
+                    <div>
+                        <input name="nombres" type="text" class="input" id="inputDouble" @isset($usuariosEdit) value="{{ $usuariosEdit->nombreUsuario }}"@endisset placeholder=" " autocomplete="off" required="required">
+                        <label for="" class="label">Nombres</label>
+                    </div>
+                    <div>
+                        <input name="apellidos" type="text" class="input" id="inputDouble" @isset($usuariosEdit) value="{{ $usuariosEdit->nombreUsuario }}"@endisset placeholder=" " autocomplete="off" required="required">
+                        <label for="" class="label" id="secondLabel">Apellidos</label>
+                    </div>
+                </div>
+                
+                <div class="inputContainerDouble">
+                    <div>
+                        <input name="nombreUsuario" type="text" class="input" id="inputDouble" @isset($usuariosEdit) value="{{ $usuariosEdit->nombreUsuario }}"@endisset placeholder=" " autocomplete="off" required="required">
+                        <label for="" class="label">Nombre de Usuario</label>
+                    </div>
+                    <div>
+                        <input name="contrasena" type="text" class="input" id="inputDouble" @isset($usuariosEdit) value="{{ $usuariosEdit->contrasena }}"@endisset placeholder=" " autocomplete="off" required="required">
+                        <label for="" class="label" id="secondLabel">Contraseña</label>
+                    </div>
+                </div>
+
+                <div class="inputContainerDouble">
+                    <div>
+                        <select class="input" id="inputDoubleSelect" name="tipoDocumento" style="-webkit-appearance: none;">
+                            <option disabled selected>Tipo de Documento</option>
+                            @php
+                                foreach ($documentosTotales as $documento) {
+                                    echo "<option value='$documento->idDocumento'>$documento->tipoDocumento</option>";  
+                                }
+                            @endphp 
+                        </select>
+                    </div>
+                    <div>
+                        <input name="documento" type="text" class="input" id="inputDouble" @isset($usuariosEdit) value="{{ $usuariosEdit->contrasena }}"@endisset placeholder=" " autocomplete="off" required="required">
+                        <label for="" class="label" id="secondLabel">Documento</label>
+                    </div>
+                </div>
+
+                <div class="inputContainerDouble">
+                    <div>
+                        <!--<input name="ciudadResidencia" type="text" class="input" id="inputDouble" @isset($datosContactoEdit) value="{{ $datosContactoEdit->ciudadResidencia }}"@endisset placeholder=" " autocomplete="off" required="required">
+                        <label for="" class="label">Ciudad de Residencia</label>-->
+                        <select class="input" id="inputDoubleSelect" name="ciudad" style="-webkit-appearance: none;">
+                            <option disabled selected>Ciudad</option>
+                            @php
+                                foreach ($ciudadesTotales as $ciudad) {
+                                    echo "<option value='$ciudad->idCiudad'>$ciudad->ciudad</option>";
+                                }
+                            @endphp 
+                        </select>
+                    </div>
+                    <div>
+                        <input name="direccion" type="text" class="input" id="inputDouble" @isset($datosContactoEdit) value="{{ $datosContactoEdit->direccion }}"@endisset placeholder=" " autocomplete="off" required="required">
+                        <label for="" class="label"  id="secondLabel">Direccion</label>
+                    </div>
+                </div>
+
+                <div class="inputContainerDouble">
+                    <div>
+                        <input name="email" type="email" class="input" id="inputDouble" @isset($datosContactoEdit) value="{{ $datosContactoEdit->email }}"@endisset placeholder=" " autocomplete="off" required="required">
+                        <label for="" class="label">Email</label>
+                    </div>
+                    <div>
+                        <input name="telefono" type="text" class="input" id="inputDouble" @isset($datosContactoEdit) value="{{ $datosContactoEdit->telefono }}"@endisset placeholder=" " autocomplete="off" required="required">
+                        <label for="" class="label" id="secondLabel">Telefono</label>
+                    </div>
                 </div>
 
                 <div class="inputContainer">
-                    <input name="contrasena" type="text" class="input" placeholder=" " autocomplete="off" required="required">
-                    <label for="" class="label">Contraseña</label>
-                </div>
-            
-                <div class="inputContainer">
-                    <input name="telefono" type="text" class="input" placeholder=" " autocomplete="off" required="required">
-                    <label for="" class="label">Telefono</label>
-                </div>
-
-                <div class="inputContainer">
-                    <input name="ciudadResidencia" type="text" class="input" placeholder=" " autocomplete="off" required="required">
-                    <label for="" class="label">Ciudad de Residencia</label>
-                </div>
-
-                <div class="inputContainer">
-                    <input name="direccion" type="text" class="input" placeholder=" " autocomplete="off" required="required">
-                    <label for="" class="label">Direccion</label>
-                </div>
-            
-                <div class="inputContainer">
-                    <input name="email" type="email" class="input" placeholder=" " autocomplete="off" required="required">
-                    <label for="" class="label">Email</label>
-                </div>
-
-                <div class="inputContainer">
-                    <input type="date" name="fechaNacimiento" class="input" id="inputDate" onchange="resetValue(this, this.value)" value="" min="1900-01-01" max="2022-12-31" placeholder=" " required="required">
+                    <input type="date" name="fechaNacimiento" class="input" id="inputDate" @isset($usuariosEdit) value="{{ $usuariosEdit->fechaNacimiento }}"@endisset onchange="resetValue(this, this.value)" value="" min="1900-01-01" max="2022-12-31" placeholder=" " required="required">
                     <label for="" class="label">Fecha de Nacimiento</label>
                 </div>
 
-                <div class="inputContainerSelect">
+                <div class="inputContainerSelect" id="lastInput">
                     <select class="input" name='estado_idEstado' id="inputSelect" style="-webkit-appearance: none;">
                         @php
-                            # Se comprueba si hay roles repetidos para no colocarlos.
-                            $estadoAnterior = '';
                             foreach ($estadosTotales as $estado) {
                                 echo "<option value='$estado->idEstado'>$estado->estado</option>";
                             }
@@ -201,43 +240,99 @@
             </form>
         </div>
         
+
+        <!-- UPDATE FORM -->
+
         <div class="updateForm">
 
-            <form @isset($empleadosEdit) action="{{ url('dashboard/empleado/'.$empleadosEdit->idEmpleado) }}" method="POST" @endisset enctype="multipart/form-data" class="form" id="secondForm">
+            <form @isset($empleadosEdit) action="{{ url('dashboard/proveedor/'.$empleadosEdit->idProveedor) }}" method="POST" @endisset enctype="multipart/form-data" class="form" id="secondForm">
                 
                 @csrf
                 {{ method_field('PATCH') }}
 
                 <h1 class="title">Editar</h1>
+
+                <div class="inputContainerDouble">
+                    <div>
+                        <input name="nombres" type="text" class="input" id="inputDouble" @isset($usuariosEdit) value="{{ $usuariosEdit->nombreUsuario }}"@endisset placeholder=" " autocomplete="off" required="required">
+                        <label for="" class="label">Nombres</label>
+                    </div>
+                    <div>
+                        <input name="apellidos" type="text" class="input" id="inputDouble" @isset($usuariosEdit) value="{{ $usuariosEdit->nombreUsuario }}"@endisset placeholder=" " autocomplete="off" required="required">
+                        <label for="" class="label" id="secondLabel">Apellidos</label>
+                    </div>
+                </div>
                 
-                <div class="inputContainer">
-                    <input name="nombreUsuario" type="text" class="input" @isset($usuariosEdit) value="{{ $usuariosEdit->nombreUsuario }}"@endisset placeholder=" " autocomplete="off" required="required">
-                    <label for="" class="label">Nombre de Usuario</label>
+                <div class="inputContainerDouble">
+                    <div>
+                        <input name="nombreUsuario" type="text" class="input" id="inputDouble" @isset($usuariosEdit) value="{{ $usuariosEdit->nombreUsuario }}"@endisset placeholder=" " autocomplete="off" required="required">
+                        <label for="" class="label">Nombre de Usuario</label>
+                    </div>
+                    <div>
+                        <input name="contrasena" type="text" class="input" id="inputDouble" @isset($usuariosEdit) value="{{ $usuariosEdit->contrasena }}"@endisset placeholder=" " autocomplete="off" required="required">
+                        <label for="" class="label" id="secondLabel">Contraseña</label>
+                    </div>
                 </div>
 
-                <div class="inputContainer">
-                    <input name="contrasena" type="text" class="input" @isset($usuariosEdit) value="{{ $usuariosEdit->contrasena }}"@endisset placeholder=" " autocomplete="off" required="required">
-                    <label for="" class="label">Contraseña</label>
-                </div>
-            
-                <div class="inputContainer">
-                    <input name="telefono" type="text" class="input" @isset($datosContactoEdit) value="{{ $datosContactoEdit->telefono }}"@endisset placeholder=" " autocomplete="off" required="required">
-                    <label for="" class="label">Telefono</label>
-                </div>
-            
-                <div class="inputContainer">
-                    <input name="ciudadResidencia" type="text" class="input" @isset($datosContactoEdit) value="{{ $datosContactoEdit->ciudadResidencia }}"@endisset placeholder=" " autocomplete="off" required="required">
-                    <label for="" class="label">Ciudad de Residencia</label>
+                <div class="inputContainerDouble">
+                    <div>
+                        <select class="input" id="inputDoubleSelect" name="tipoDocumento" style="-webkit-appearance: none;">
+                            <option disabled selected>Tipo de Documento</option>
+                            @php
+                                foreach ($documentosTotales as $documento) {
+                                    if(isset($usuariosEdit)){
+                                        if($usuariosEdit->tipo_documento_idDocumento == $documento->idDocumento){
+                                            echo "<option value='$documento->idDocumento' selected>$documento->tipoDocumento</option>";
+                                        } else {
+                                            echo "<option value='$documento->idDocumento'>$documento->tipoDocumento</option>";
+                                        }
+                                    }  else {
+                                        echo "<option value='$documento->idDocumento'>$documento->tipoDocumento</option>";
+                                    }   
+                                }
+                            @endphp 
+                        </select>
+                    </div>
+                    <div>
+                        <input name="documento" type="text" class="input" id="inputDouble" @isset($usuariosEdit) value="{{ $usuariosEdit->contrasena }}"@endisset placeholder=" " autocomplete="off" required="required">
+                        <label for="" class="label" id="secondLabel">Documento</label>
+                    </div>
                 </div>
 
-                <div class="inputContainer">
-                    <input name="direccion" type="text" class="input" @isset($datosContactoEdit) value="{{ $datosContactoEdit->direccion }}"@endisset placeholder=" " autocomplete="off" required="required">
-                    <label for="" class="label">Direccion</label>
+                <div class="inputContainerDouble">
+                    <div>
+                        <select class="input" id="inputDoubleSelect" name="ciudad" style="-webkit-appearance: none;">
+                            <option disabled selected>Ciudad</option>
+                            @php
+                                foreach ($ciudadesTotales as $ciudad) {
+                                    if(isset($usuariosEdit)){
+                                        if($usuariosEdit->ciudad_idCiudad == $ciudad->idCiudad){
+                                            echo "<option value='$ciudad->idCiudad' selected>$ciudad->ciudad</option>";
+                                        } else {
+                                            echo "<option value='$ciudad->idCiudad'>$ciudad->ciudad</option>";
+                                        }
+                                    }  else {
+                                        echo "<option value='$ciudad->idCiudad'>$ciudad->ciudad</option>";
+                                    }   
+                                }
+                            @endphp 
+                        </select>
+                    </div>
+                    <div>
+                        <input name="direccion" type="text" class="input" id="inputDouble" @isset($datosContactoEdit) value="{{ $datosContactoEdit->direccion }}"@endisset placeholder=" " autocomplete="off" required="required">
+                        <label for="" class="label"  id="secondLabel">Direccion</label>
+                    </div>
                 </div>
-            
-                <div class="inputContainer">
-                    <input name="email" type="email" class="input" @isset($datosContactoEdit) value="{{ $datosContactoEdit->email }}"@endisset placeholder=" " autocomplete="off" required="required">
-                    <label for="" class="label">Email</label>
+
+                <div class="inputContainerDouble">
+                    <div>
+                        <input name="email" type="email" class="input" id="inputDouble" @isset($datosContactoEdit) value="{{ $datosContactoEdit->email }}"@endisset placeholder=" " autocomplete="off" required="required">
+                        <label for="" class="label">Email</label>
+                    </div>
+                    <div>
+                        <input name="telefono" type="text" class="input" id="inputDouble" @isset($datosContactoEdit) value="{{ $datosContactoEdit->telefono }}"@endisset placeholder=" " autocomplete="off" required="required">
+                        <label for="" class="label" id="secondLabel">Telefono</label>
+                    </div>
                 </div>
 
                 <div class="inputContainer">

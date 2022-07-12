@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
-use App\Models\Administrador;
-use App\Models\Empleado;
 use App\Models\Usuario;
 use App\Models\Perfil;
 use App\Models\DatosContacto;
@@ -176,6 +174,12 @@ class ClienteController extends Controller
             $data['clientesEdit'] = Cliente::findOrFail($idCliente);
             $usuario = Usuario::findOrFail($data['clientesEdit']->perfil_usuario_idUsuario);
 
+            $table = "";
+            if($userData['rol'] == 1){$table = "cliente";}
+            if($userData['rol'] == 2){$table = "administrador";}
+            if($userData['rol'] == 3){$table = "empleado";}
+            if($userData['rol'] == 4){$table = "proveedor";}
+
             // Actualizacion de Datos De Contacto
             $datosContacto = DatosContacto::where('idContacto', '=', $usuario->datos_contacto_idContacto)->update([
                 'telefono' => $userData['telefono'],
@@ -195,17 +199,9 @@ class ClienteController extends Controller
                 'nombrePerfil' => $userData['nombreUsuario'],
                 'rol_idRol' => $userData['rol']]);
 
-            if ($userData['rol'] == 2){
+            if($userData['rol'] != 1){
                 Cliente::destroy($idCliente);
-                DB::table('administrador')->insertGetId([
-                    'perfil_idPerfil' => $data['clientesEdit']->perfil_idPerfil,
-                    'perfil_usuario_idUsuario' => $data['clientesEdit']->perfil_usuario_idUsuario
-                ]);
-            }
-            
-            if ($userData['rol'] == 3){
-                Cliente::destroy($idCliente);
-                DB::table('empleado')->insertGetId([
+                DB::table($table)->insertGetId([
                     'perfil_idPerfil' => $data['clientesEdit']->perfil_idPerfil,
                     'perfil_usuario_idUsuario' => $data['clientesEdit']->perfil_usuario_idUsuario
                 ]);

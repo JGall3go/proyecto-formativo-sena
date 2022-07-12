@@ -5,6 +5,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\AdministradorController;
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\ProveedorController;
 
 
 /*
@@ -30,6 +31,8 @@ Route::resource('dashboard/administrador', AdministradorController::class);
 Route::resource('dashboard/empleado', EmpleadoController::class);
 
 Route::resource('dashboard/cliente', ClienteController::class);
+
+Route::resource('dashboard/proveedor', ProveedorController::class);
 
 Route::get('/producto', function () {
     return view('producto/index');
