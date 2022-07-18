@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Reporte;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\DB;
 
 class ReporteController extends Controller
@@ -16,7 +15,7 @@ class ReporteController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
