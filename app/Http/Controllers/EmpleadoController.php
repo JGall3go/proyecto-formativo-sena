@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Empleado;
 use App\Models\Usuario;
 use App\Models\Perfil;
 use App\Models\DatosContacto;
@@ -35,22 +34,21 @@ class EmpleadoController extends Controller
 
         function busquedaDB($busqueda){
             // $data['usuarios'] = Usuario::paginate(5);
-            $data['empleados'] = DB::table('empleado')
-            ->orderByRaw('idEmpleado')
-            ->join('perfil', 'perfil_idPerfil', '=', 'idPerfil') // Tabla de Perfil // change
+            $data['perfiles'] = DB::table('perfil')
+            ->orderByRaw('idPerfil')
             ->join('usuario', 'usuario_idUsuario', '=', 'idUsuario') // Tabla de Datos de Contacto
             ->join('datos_contacto', 'datos_contacto_idContacto', '=', 'idContacto') // Tabla de Datos de Contacto
             ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
-            ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('permisos_idPermiso', '=', '1');})
             ->join('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
             ->join('ciudad', 'ciudad_idCiudad', 'idCiudad')
-            ->select('idEmpleado', 'nombres', 'apellidos', 'nombreUsuario', 'fechaNacimiento', 'contrasena', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')
-            ->where('idEmpleado', 'Like','%'.$busqueda.'%')
+            ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Empleado');})
+            ->select('idPerfil', 'nombres', 'apellidos', 'nombreUsuario', 'fechaNacimiento', 'contrasena', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')
+            ->where('idPerfil', 'Like','%'.$busqueda.'%')
             ->orwhere('nombreUsuario', 'Like','%'.$busqueda.'%')
             ->orwhere('fechaNacimiento', 'Like','%'.$busqueda.'%')
             ->orwhere('contrasena', 'Like','%'.$busqueda.'%')->paginate(session('paginate'));
 
-            $data['empleadosTotales'] = DB::table('empleado')->get();
+            $data['perfilesTotales'] = DB::table('perfil')->get();
             $data['rolesTotales'] = DB::table('rol')->get();
             $data['estadosTotales'] = DB::table('estado')->get();
             $data['ciudadesTotales'] = DB::table('ciudad')->get();
@@ -70,7 +68,7 @@ class EmpleadoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    {   
         //
     }
 
@@ -109,20 +107,15 @@ class EmpleadoController extends Controller
             'rol_idRol' => '3' // Rol Automatico (3 = Empleado)
         ]);
 
-        $empleadoInsertado = DB::table('empleado')->insertGetId([
-            'perfil_idPerfil' => $perfilInsertado,
-        ]);
-
         return redirect('dashboard/empleado');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Empleado  $empleado
      * @return \Illuminate\Http\Response
      */
-    public function show(Empleado $empleado)
+    public function show()
     {
         //
     }
@@ -130,33 +123,31 @@ class EmpleadoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Empleado  $empleado
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $idEmpleado)
+    public function edit(Request $request, $idPerfil)
     {   
         $page = trim($request->get('page'));
         $params = ['page' => $page];
+        $formDisplay = true;
 
-        function busquedaDB($idEmpleado){
+        function busquedaDB($idPerfil){
             // $data['usuarios'] = Usuario::paginate(5);
-            $data['empleados'] = DB::table('empleado')
-            ->orderByRaw('idEmpleado')
-            ->join('perfil', 'perfil_idPerfil', '=', 'idPerfil') // Tabla de Perfil // change
+            $data['perfiles'] = DB::table('perfil')
+            ->orderByRaw('idPerfil')
             ->join('usuario', 'usuario_idUsuario', '=', 'idUsuario') // Tabla de Datos de Contacto
             ->join('datos_contacto', 'datos_contacto_idContacto', '=', 'idContacto') // Tabla de Datos de Contacto
             ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
-            ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('permisos_idPermiso', '=', '1');})
             ->join('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
             ->join('ciudad', 'ciudad_idCiudad', 'idCiudad')
-            ->select('idEmpleado', 'nombres', 'apellidos', 'nombreUsuario', 'fechaNacimiento', 'contrasena', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')->paginate(session('paginate'));
+            ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Empleado');})
+            ->select('idPerfil', 'nombres', 'apellidos', 'nombreUsuario', 'fechaNacimiento', 'contrasena', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')->paginate(session('paginate'));
 
-            $data['empleadosEdit'] = Empleado::findOrFail($idEmpleado);
-            $perfil = Perfil::findOrFail($data['empleadosEdit']->perfil_idPerfil); // change
-            $data['usuariosEdit'] = Usuario::findOrFail($perfil->usuario_idUsuario);
+            $data['perfilesEdit'] = Perfil::findOrFail($idPerfil); // change
+            $data['usuariosEdit'] = Usuario::findOrFail($data['perfilesEdit']->usuario_idUsuario);
             $data['datosContactoEdit'] = DatosContacto::where('idContacto', $data['usuariosEdit']->datos_contacto_idContacto)->firstOrFail();
             
-            $data['empleadosTotales'] = DB::table('empleado')->get();
+            $data['perfilesTotales'] = DB::table('perfil')->get();
             $data['rolesTotales'] = DB::table('rol')->get();
             $data['estadosTotales'] = DB::table('estado')->get();
             $data['ciudadesTotales'] = DB::table('ciudad')->get();
@@ -165,62 +156,52 @@ class EmpleadoController extends Controller
             return $data;
         }
 
-        $data = busquedaDB($idEmpleado);
+        $data = busquedaDB($idPerfil);
 
-        return view('empleado.index', $data, compact('params', 'page'));
+        return view('empleado.index', $data, compact('params', 'page', 'formDisplay'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Empleado  $empleado
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $idEmpleado)
+    public function update(Request $request, $idPerfil)
     {
         $userData = request()->except(['_token', '_method']);
 
-        function actualizarDB($idEmpleado, $userData){
+        function actualizarDB($idPerfil, $userData){
 
-            $empleado = Empleado::findOrFail($idEmpleado);
-            $perfil = Perfil::findOrFail($empleado->perfil_idPerfil); // change
+            $perfil = Perfil::findOrFail($idPerfil); // change
             $usuario = Usuario::findOrFail($perfil->usuario_idUsuario);
-
-            $table = "";
-            if($userData['rol'] == 1){$table = "cliente";}
-            if($userData['rol'] == 2){$table = "administrador";}
-            if($userData['rol'] == 3){$table = "empleado";}
-            if($userData['rol'] == 4){$table = "proveedor";}
 
             // Actualizacion de Datos De Contacto
             $datosContacto = DatosContacto::where('idContacto', '=', $usuario->datos_contacto_idContacto)->update([
                 'telefono' => $userData['telefono'],
-                'ciudadResidencia' => $userData['ciudadResidencia'],
+                'ciudad_idCiudad' => $userData['ciudad'],
                 'direccion' => $userData['direccion'],
                 'email' => $userData['email']]);
 
             // Actualizacion de Usuarios
             $datosUsuario = Usuario::where('idUsuario', '=', $perfil->usuario_idUsuario)->update([
+                'nombres' => $userData['nombres'],
+                'apellidos' => $userData['apellidos'],
                 'nombreUsuario' => $userData['nombreUsuario'],
                 'fechaNacimiento' => $userData['fechaNacimiento'],
                 'contrasena' => $userData['contrasena'],
-                'estado_idEstado' => $userData['estado_idEstado']]);
+                'estado_idEstado' => $userData['estado_idEstado'],
+                'tipo_documento_idDocumento' => $userData['tipoDocumento'],
+                'documento' => $userData['documento']
+            ]);
 
             // Actualizacion de Usuarios
             $datosPerfil = Perfil::where('usuario_idUsuario', '=', $perfil->usuario_idUsuario)->update([
                 'nombrePerfil' => $userData['nombreUsuario'],
                 'rol_idRol' => $userData['rol']]);
-
-            if($userData['rol'] != 3){
-                Empleado::destroy($idEmpleado);
-                DB::table($table)->insertGetId([
-                    'perfil_idPerfil' => $empleado->perfil_idPerfil,
-                ]);
-            }
         }
         
-        actualizarDB($idEmpleado, $userData);
+        actualizarDB($idPerfil, $userData);
 
         return redirect('/dashboard/empleado/');
     }
@@ -228,17 +209,14 @@ class EmpleadoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Empleado  $empleado
      * @return \Illuminate\Http\Response
      */
-    public function destroy($idEmpleado)
+    public function destroy($idPerfil)
     {
-        $empleado = Empleado::findOrFail($idEmpleado);
-        $perfil = Perfil::findOrFail($empleado->perfil_idPerfil);
+        $perfil = Perfil::findOrFail($idPerfil);
         $usuario = Usuario::findOrFail($perfil->usuario_idUsuario);
 
-        Empleado::destroy($idEmpleado);
-        Perfil::destroy($empleado->perfil_idPerfil);
+        Perfil::destroy($idPerfil);
         Usuario::destroy($perfil->usuario_idUsuario);
         DatosContacto::destroy($usuario->datos_contacto_idContacto);
 

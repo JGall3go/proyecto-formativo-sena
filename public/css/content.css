@@ -7,25 +7,30 @@
 
 /* Forms */
 .forms{
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
+  display: none;
+  position: absolute;
+  justify-content: center;
   width: 100%;
-  height: max-content;
+  height: 700px;
+  min-height: 100%;
+  background-color: #3f3f3f85;
 }
 
 /* Create Form */
 .createForm {
-  display: flex;
-  height: auto;
-  width: 350px;
+  display: none;
+  height: max-content;
+  width: 400px;
+  left: 35%;
+  top: 5%;
 }
 
 .updateForm {
-  display: flex;
+  display: none;
   height: max-content;
-  width: 350px;
-  margin-left: 30px;
+  width: 400px;
+  left: 35%;
+  top: 5%;
 }
 
 .form {
@@ -47,192 +52,136 @@
   color: #696969;
   margin-top: -40px;
   font-size: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 
-.inputContainer {
-  position: relative;
-  height: 30px;
-  width: 92.07%;
-  margin-bottom: 17px;
-  display: flex;
-  flex-direction: row;
-}
+/* Form Inputs */
 
-.inputContainerSelect {
-  position: relative;
-  height: 30px;
-  width: 100%;
-  margin-bottom: 17px;
-}
-
-.inputContainerDouble{
-  position: relative;
-  height: 30px;
-  width: 96%;
-  margin-bottom: 17px;
+.containerDouble {
+  color: #686666;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  height: 65px;
 }
 
-.inputContainerDouble div{
-  width: 46%;
+.containerDouble div {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
 }
 
-/* Style the inputs */
-
-input{
+.container {
   color: #686666;
+  display: flex;
+  flex-direction: column;
+  height: 65px;
+}
+
+.container input{
+  width: 94%;
+}
+
+.container select{
+  width: 100%;
+}
+
+.firstInput {
+  margin-right: 15px;
 }
 
 .input {
-  position: absolute;
-  top: 0px;
-  left: 0px;
+  width: 160px;
   height: 30px;
-  width: 100%;
+  padding: 0 10px 0 10px;
   border: 1px solid #c7c6c6;
   border-radius: 5px;
   font-size: 12px;
-  padding: 0 0 0 8%;
   outline: none;
   background: none;
   z-index: 1;
-}
-
-#inputDouble{
-  position: relative;
-  width: 100%;
-}
-
-#inputDoubleSelect {
-  width: 50%;
-  height: 32px;
-  text-align: left;
-  color: #b8b8b9;
-}
-
-#inputDate{
+  -webkit-appearance: none;
   color: #686666;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator{
+.inputSelect{
+  height: 30px;
+  color: #DADCE0;
+  padding: 0 10px 0 10px;
+  border: 1px solid #c7c6c6;
+  border-radius: 5px;
+  font-size: 12px;
+  outline: none;
   background: none;
-  width: 75%;
+  z-index: 1;
+  -webkit-appearance: none;
 }
 
-.input:focus {
-  border: 2px solid #5e72e4;
-}
-
-#inputSelect{
-  width: 100%;
-  height: 32px;
-  color: #b8b8b9;
-}
-
-.input option{
+option {
   color: #686666;
 }
 
-/* Styling text labels */
+
+#inputDate[value=""] {
+  color: #DADCE0;
+}
 
 .label {
-  position: absolute;
-  top: 8px;
-  left: 15px;
-  padding: 0 4px;
+  font-size: 12px;
+  font-weight: bold;
   width: max-content;
-  background-color: white;
-  color: #b8b8b9;
-  font-size: 13px;
-  transition: 0.3s;
-  z-index: 0;
 }
 
-#secondLabel {
-  left: 185px;
+.errorLabel {
+  display: none;
+  font-size: 10px;
+  font-style: italic;
+  font-weight: bold;
+  width: max-content;
 }
 
-/* Hide the placeholder texts */
-
-::placeholder {
-  color: transparent;
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
 }
 
-.input:focus + .label{
-  top: -7px;
-  left: 3px;
-  z-index: 10;
-  font-size: 12px;
-  font-weight: 600;
-  color: #5e72e4;
-}
-
-/* Second Label */
-.input:focus + #secondLabel{
-  top: -7px;
-  left: 175px;
-  z-index: 10;
-  font-size: 12px;
-  font-weight: 600;
-  color: #5e72e4;
-}
-
-.input:not(:placeholder-shown) + .label{
-  top: -7px;
-  left: 3px;
-  z-index: 10;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.input:not(:placeholder-shown) + #secondLabel{
-  top: -7px;
-  left: 175px;
-  z-index: 10;
-  font-size: 12px;
-  font-weight: 600;
+.createButton, .cancelButton, .updateButton {
+  margin-top: 15px;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Update and Create Form Buttons*/
 
 .createButton {
   display: block;
-  padding: 10px 20px;
+  padding: 5px 15px;
   border: none;
   background-color: #5e72e4;
   color: white;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 15px;
   margin-top: 30px;
+  font-size: 13px;
 }
 
 .createButton:hover {
   background-color: #7182e4;
 }
 
-
-.updateButtonContainer{
-  display: flex;
-  flex-direction: row;
-  margin-top: 30px;
-}
-
 .cancelButton{
   display: block;
-  padding: 10px 20px;
+  padding: 10px 15px;
   border: none;
   color: white;
   border-radius: 5px;
   width: max-content;
   cursor: pointer;
-  font-size: 15px;
   margin-left: 10px;
   background-color: #cc3d3d;
   text-decoration: none;
+  margin-top: 30px;
+  cursor: pointer;
+  font-size: 13px;
 }
 
 .cancelButton:hover{
@@ -241,23 +190,19 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 
 .updateButton {
   display: block;
-  padding: 10px 20px;
+  padding: 5px 15px;
   border: none;
   background-color: #5e72e4;
   color: white;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 15px;
+  margin-top: 30px;
+  font-size: 12px;
 }
 
 .updateButton:hover {
   background-color: #7182e4;
 }
-
-#inputDate[value=""] {
-  color: #DADCE0;
-}
-
 
 /* Table */
 
@@ -265,7 +210,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: max-content;
   max-width: 100%;
 }
 
@@ -277,7 +222,7 @@ table{
 }
 
 table tr td{
-  width: 10%;
+  width: max-content;
 }
 
 .table {
@@ -285,8 +230,8 @@ table tr td{
   color: #686666;
   border-collapse: collapse;
   margin: 15px 0 0 0;
-  font-size: 0.9em;
-  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 11px;
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   /* Radius Top */
@@ -306,7 +251,6 @@ table tr td{
 
 .table th, .table td {
   padding: 12px 15px;
-  font-size: 12px;
 }
 
 .table tbody tr {
@@ -381,6 +325,13 @@ table tr td{
   flex-direction: row;
 }
 
+.actionButton form{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
 .botonEditar{
   margin-right: 10px;
   border: none;
@@ -421,13 +372,94 @@ table tr td{
 
 /* Header Select Form */
 
+.formSelect {
+  height: 100%;
+}
+
 .formSelect select{
   border: 1px solid #DADCE0;
   border-radius: 5px;
   background-color: #FFFFFF;
-  width: 70px;
+  width: 75px;
   height: 100%;
   outline: none;
+}
+
+.firstSection {
+  display: flex;
+  flex-direction: row;
+}
+
+.registersSelect {
+  color: #686666;
+  font-size: 13px;
+  padding: 0 0 0 10px;
+}
+
+.createLink {
+  font-size: 13px;
+  text-align: center;
+  color: #F5F5F5;
+  background-color: #5e72e4;
+  border-radius: 5px;
+  text-decoration: none;
+  padding: 7px;
+  margin-left: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+
+.createLink:hover {
+  background-color: #7182e4;
+}
+
+.addIcon {
+  height: 13px;
+  width: 13px;
+  margin-right: 3px;
+}
+
+.searchBar{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.searchForm{
+  display: flex;
+  flex-direction: row;
+}
+
+.searchInput{
+  border-radius: 5px 0 0 5px;
+  border: 1px solid #DADCE0;
+  height: 18px;
+  margin: 0;
+  padding: 7px;
+  width: 250px;
+}
+
+.searchInput::placeholder{
+  color: #DADCE0;
+}
+
+.searchInput:focus{
+  outline: none;
+}
+
+.searchButton{
+  background-color: #5e72e4;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  padding: 0 15px 0 15px;
+  margin-left: -1px;
+  height: 100%;
+}
+
+.searchButton:hover{
+  cursor: pointer;
+  background-color: #7182e4;
 }
 
 /* Table Paginator */
@@ -456,35 +488,6 @@ table tr td{
   height: 25px;
 }
 
-/*
-.numberPaginator{
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #b8b8b8;
-  border-radius: 5px;
-  border: 1px solid #b8b8b8;
-  margin-left: 5px;
-  width: 25px;
-  height: 25px;
-}
-
-.numberLastPaginator{
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #b8b8b8;
-  border-radius: 5px;
-  border: 1px solid #b8b8b8;
-  margin-right: 5px;
-  margin-left: 5px;
-  width: 25px;
-  height: 25px;
-}
-*/
-
 #Active svg{
   stroke: #3f3e3e;
 }
@@ -494,51 +497,6 @@ table tr td{
   font-size: 13px;
   padding-top: 5px;
   margin-right: 10px;
-}
-
-/* Search Bar */
-.searchBar{
-  display: flex;
-  justify-content: flex-end;
-}
-
-.searchForm{
-  display: flex;
-  flex-direction: row;
-}
-
-.searchInput{
-  border-radius: 5px 0 0 5px;
-  border: 1px solid #DADCE0;
-  height: max-content;
-  margin: 0;
-  height: 26px;
-  padding-left: 10px;
-  padding-right: 10px;
-  width: 200px;
-}
-
-.searchInput::placeholder{
-  color: #DADCE0;
-}
-
-.searchInput:focus{
-  outline: none;
-}
-
-.searchButton{
-  background-color: #5e72e4;
-  border: none;
-  border-radius: 0 5px 5px 0;
-  height: max-content;
-  padding: 0 15px 0 15px;
-  margin-left: -1px;
-  height: 30px;
-}
-
-.searchButton:hover{
-  cursor: pointer;
-  background-color: #7182e4;
 }
 
 /* Responsive Content */
@@ -559,6 +517,7 @@ table tr td{
 }
 
 /* Personalizacion de Scrollbar para (Chrome, Safari, Opera) */
+
 ::-webkit-scrollbar {
   -webkit-appearance: none;
 }

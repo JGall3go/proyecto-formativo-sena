@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
 * {
   top: 0;
   left: 0;
@@ -5,7 +8,7 @@
 }
 
 body{
-  font-family: helvetica;
+  font-family: 'Poppins', sans-serif;
   background-color: #F5F5F5;
 }
 
@@ -66,7 +69,7 @@ h6 {
 
 /* Sidebar links */ 
 .sidebar a{
-  font-size: 15px;
+  font-size: 14px;
   border-radius: 5px;
   height: 40px;
   display: flex;
@@ -193,7 +196,7 @@ h6 {
 }
 
 #spanCollect{
-  margin-left: 25px;
+  margin-left: 15px;
 }
 
 /* Active/current link */
@@ -335,6 +338,9 @@ h6 {
   font-size: 35px;
   border-radius: 5px;
   height: 35px;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-bottom: 10px;
 }
 
 #menuIconResponsive:hover{
@@ -379,6 +385,11 @@ h6 {
 
 #closeIconResponsive:hover {
   background-color: #323232;
+}
+
+::selection {
+  background-color: #7182e4d0;
+  color: #F5F5F5;
 }
 
 /* Responsive Content */
