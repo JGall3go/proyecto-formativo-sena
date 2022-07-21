@@ -1,8 +1,8 @@
 //capturar en un constante para el contenedor del ID MyChart
 //Fon size para el Cambio de TODO el TAMAÑO de la Letra del GRAFICO
 Chart.defaults.font.size = 14;
-const ctx= document.getElementById('MyChart')
-const ctx2= document.getElementById('MyChart2')
+const ctx= document.getElementById('graficaVentas');
+const ctx2= document.getElementById('MyChart2');
 //Se coloca en una constante para luego se llamada en la DATA
 const mes = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
 //La grafica esta por Porcentaje, lo que significa que x sera lo que vale por cada Mes

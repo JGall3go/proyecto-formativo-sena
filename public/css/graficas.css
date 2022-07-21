@@ -1,6 +1,8 @@
 
 h1 {
-    margin-bottom: 2rem;
+    margin-bottom: 5px;
+    font-size: 25px;
+    color: #4d4d4d;
 }
 
 .graficas {
@@ -10,12 +12,42 @@ h1 {
 }
 
 .canvas {
-    margin-left: 15px;
-    margin-top: 15px;
-    width: max-content;
-    height: max-content;
+    margin: 35px 15px 15px 0;
+    height: 50%;
+    width: 50%;
     background-color: #ffffff;
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
     padding: 15px;
+}
+
+.formSelectTime {
+    font-size: 13px;
+    height: 30px;
+    margin-bottom: 20px;
+}
+
+.formSelectTime label {
+    margin-right: 5px;
+    font-weight: bold;
+    color: #686666;
+}
+  
+.formSelectTime select{
+    border: 1px solid #DADCE0;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    width: 75px;
+    height: 100%;
+    outline: none;
+}
+
+.annualSelect, .monthlySelect {
+    color: #686666;
+    font-size: 13px;
+    padding: 0 0 0 10px;
+}
+
+.annualSelect {
+    margin-right: 15px;
 }

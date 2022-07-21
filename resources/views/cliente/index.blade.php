@@ -17,10 +17,10 @@
 
             <div class="firstSection">
                 <form class="formSelect" action="{{ route('cliente.index') }}" method="GET">
-                    <select onchange="this.form.submit()" name='registros' id="select">
-                        <option value='5'>5</option>
-                        <option value='10'>10</option>
-                        <option value='15'>15</option>
+                    <select onchange="this.form.submit()" name='registros'  class="registersSelect">
+                        <option value='5'>5 Reg</option>
+                        <option value='10'>10 Reg</option>
+                        <option value='15'>15 Reg</option>
                     </select>
                 </form>
 

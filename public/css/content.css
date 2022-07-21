@@ -227,10 +227,10 @@ table tr td{
 
 .table {
   overflow-x: auto;
-  color: #686666;
+  color: #7e7e7e;
   border-collapse: collapse;
   margin: 15px 0 0 0;
-  font-weight: bold;
+  font-weight: bolder;
   font-size: 11px;
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
