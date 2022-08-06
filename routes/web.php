@@ -7,6 +7,7 @@ use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\ProductoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +24,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Route::resource('dashboard/usuario', UsuarioController::class);
 
 Route::resource('dashboard/administrador', AdministradorController::class);
@@ -36,37 +36,4 @@ Route::resource('dashboard/proveedor', ProveedorController::class);
 
 Route::resource('dashboard/reporte', ReporteController::class);
 
-
-Route::get('/producto', function () {
-    return view('producto/index');
-})->name('producto');
-
-Route::get('/venta', function () {
-    return view('venta/index');
-})->name('venta');
-
-Route::get('/proveedor', function () {
-    return view('proveedor/index');
-})->name('proveedor');
-
-Route::get('/reporte', function () {
-    return view('reporte/index');
-})->name('reporte');
-
-Route::get('/categoria', function () {
-    return view('categoria/index');
-})->name('categoria');
-
-Route::get('/clasificacion', function () {
-    return view('clasificacion/index');
-})->name('clasificacion');
-
-Route::get('/metodoDePago', function () {
-    return view('metodo/index');
-})->name('metodo');
-
-Route::get('/estado', function () {
-    return view('estado/index');
-})->name('estado');
-
-/*Route::resource('usuario', EmpleadoController::class);*/
+Route::resource('dashboard/producto', ProductoController::class);

@@ -1,4 +1,4 @@
-@extends('platillas/sidebar')
+@extends('plantillas/sidebar')
 
 @section('content')
 
@@ -9,9 +9,13 @@
         <script src="{{ asset('js/content.js') }}"></script>
         <script src="{{ asset('js/content.js') }}"></script>
 
-        <div class="breadCrumbs">
-            Dashboard <span style="color: #858383">/ Reporte</span>
-            <div><h3 style="margin-top: 5px; color: #858383">Reportes</h3></div>
+        <div class="topBar" id="topBar">
+            <div class="breadCrumbs">
+                <span style="color: #b9b9b9; font-size: 12px; font-weight: 600;">Dashboard</span> <span style="color: #818181; font-size: 12px; font-weight: 600;">/ Reporte</span>
+                <div><h3 style="margin-top: 0px; color: #707070">Reportes</h3></div>
+            </div>
+    
+            <a id="profileAncla"><img src="https://hastane.ksu.edu.tr/depo/kullanici/resim/no-avatar.png" id='imageProfile'></a>
         </div>
 
         <div class="graficas">
@@ -21,14 +25,21 @@
 
                 <form class="formSelectTime" action="{{ route('reporte.index') }}" method="GET">
                     <label>Año</label>
-                    <select onchange="this.form.submit()" name='año' class="annualSelect">
-                        <!-- Hacer que automaticamente aparezcan los años con ventas registradas -->
-                        <option value='2019'>2019</option>
-                        <option value='2020'>2020</option>
-                        <option value='2021'>2021</option>
+                    <select onchange="this.form.submit()" name='año' class="annualSelect" id="select">
+                        <!-- Automaticamente aparecen los años con ventas registradas -->
+                        @foreach ($añosRegistrados as $año)
+                            <option value="{{ $año }}">{{ $año }}</option>
+                        @endforeach
                     </select>
-
                 </form>
+
+                <!-- Se cambia la opcion seleccionada dependiendo de la variable "año" -->
+                <script type="text/javascript">
+                    var añoNuevo = "<?= session('año'); ?>";
+                    if(añoNuevo != "") {document.getElementById('select').value = añoNuevo;} else {
+                        document.getElementById('select').value = '<?php date("Y") ?>';
+                    }
+                </script>
 
                 <canvas id="graficaVentas"></canvas>
                 
@@ -43,7 +54,7 @@
                             labels: mes,
                             datasets: [{
                                 barThickness: 30,
-                                label: 'Ventas por Mes del Año 2022',
+                                label: @isset($año)'Ventas año <?php echo $año; ?>' @else 'Ventas año <?php echo date("Y"); ?>'@endisset,
                                 data: @json($y), // Se llama a la variable $y que se paso mediante el controlador.
                                 backgroundClor: ['#7182e4'],
                                 borderColor: ['#7182e4'],

@@ -15,7 +15,7 @@ class ReporteController extends Controller
      */
     public function index(Request $request)
     {
-        $añoNuevo = trim($request->get('año')); // Dato necesario (cuando el usuario quiere ver las ventas de un año)
+        $data['año'] = trim($request->get('año')); // Dato necesario (cuando el usuario quiere ver las ventas de un año)
         $añoActual = date("Y");
 
         /* Se comprueba si se requiere cambiar la variable de session o no */
@@ -27,7 +27,7 @@ class ReporteController extends Controller
                 session([$session => $defaultValue]);}
         }
 
-        actualizarSession($añoNuevo, 'año', $añoActual);
+        actualizarSession($data['año'], 'año', $añoActual);
         
         function busquedaDB(){
 
@@ -39,11 +39,13 @@ class ReporteController extends Controller
 
             // Se obtienen las fechas en el rango especifico, en este caso es del 2019 al 2020.
             $data['ventas'] = DB::table('venta')->select('fecha')->where('fecha', '>=', date_format($fechaRequerida,"Y/m/d"))->where('fecha', '<', date_format($fechaSiguiente,"Y/m/d"))->get(); 
-
+            $ventasTotales = DB::table('venta')->select('fecha')->get();
+        
             $data['y'] = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0); // Son 12 ceros ya que son 12 meses en total.
 
             foreach($data['ventas'] as $venta) {
                 $mes = date('m', strtotime($venta->fecha));
+
                 // Se verifica se el mes esta repetido para asi aumentar 1 a la cantidad de la venta de ese mes.
                 if($mes == '01') {$data['y'][0]++;}
                 if($mes == '02') {$data['y'][1]++;}
@@ -57,7 +59,17 @@ class ReporteController extends Controller
                 if($mes == '10') {$data['y'][9]++;}
                 if($mes == '11') {$data['y'][10]++;}
                 if($mes == '12') {$data['y'][11]++;}
+                                
             }
+
+            $data['añosRegistrados'] = array(); // En esta variable se registran todos los años que tienen ventas.
+
+            foreach($ventasTotales as $venta) {
+                $año = date('Y', strtotime($venta->fecha));
+
+                if(!in_array($año, $data['añosRegistrados'])) {array_push($data['añosRegistrados'], $año);}
+            } 
+            array_push($data['añosRegistrados'], date('Y')); // Se añade el año actual para tener una vista predeterminada en la grafica.
 
             return $data;
         }

@@ -6,9 +6,13 @@
 
     <script src="{{ asset('js/content.js') }}"></script>
 
-    <div class="breadCrumbs">
-        Dashboard <span style="color: #858383">/ Cliente</span>
-        <div><h3 style="margin-top: 5px; color: #858383">Clientes</h3></div>
+    <div class="topBar" id="topBar">
+        <div class="breadCrumbs">
+            <span style="color: #b9b9b9; font-size: 12px; font-weight: 600;">Dashboard</span> <span style="color: #818181; font-size: 12px; font-weight: 600;">/ Cliente</span>
+            <div><h3 style="margin-top: 0px; color: #707070">Clientes</h3></div>
+        </div>
+
+        <a id="profileAncla"><img src="https://hastane.ksu.edu.tr/depo/kullanici/resim/no-avatar.png" id='imageProfile'></a>
     </div>
 
     <div class="tableContent">
@@ -17,7 +21,7 @@
 
             <div class="firstSection">
                 <form class="formSelect" action="{{ route('cliente.index') }}" method="GET">
-                    <select onchange="this.form.submit()" name='registros'  class="registersSelect">
+                    <select onchange="this.form.submit()" name='registros'  class="registersSelect" id="select">
                         <option value='5'>5 Reg</option>
                         <option value='10'>10 Reg</option>
                         <option value='15'>15 Reg</option>
@@ -128,11 +132,15 @@
                 // Si la pagina actual es menor a la cantidad de paginas totales se podra avanzar en el paginador.
                 if($page < $paginasTotales){$textForward = 'Active'; $paginaSiguiente = $page + 1;}               
                 
+                // Si la pagina siguiente es igual a 0 entonces la pagina actual sera 0;
+                $paginaActual = $page;
+                if($paginasTotales == 0){ $paginaActual = 0; }
+
                 echo "<p class='paginatorText'>Mostrando $perfilesActuales de $registrosTotales registros</p>";
 
                 echo "
                 <div class='paginatorArrows'>
-                    <p class='paginatorText'>Pagina $page de $paginasTotales</p>
+                    <p class='paginatorText'>Pagina $paginaActual de $paginasTotales</p>
                     <a href='?page=$paginaAnterior' class='backForwardPaginator' id=$textBack><svg xmlns='http://www.w3.org/2000/svg' class='paginatorSvg' viewBox='0 0 512 512'><title>Atras</title><path fill='none' stroke-linecap='round' stroke-linejoin='round' stroke-width='48' d='M328 112L184 256l144 144'/></svg></a>
                     <a href='?page=$paginaSiguiente' class='backForwardPaginator' id=$textForward><svg xmlns='http://www.w3.org/2000/svg' class='paginatorSvg' viewBox='0 0 512 512'><title>Adelante</title><path fill='none' stroke-linecap='round' stroke-linejoin='round' stroke-width='48' d='M184 112l144 144-144 144'/></svg></a>
                 </div>";

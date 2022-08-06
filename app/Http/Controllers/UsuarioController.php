@@ -44,9 +44,19 @@ class UsuarioController extends Controller
             ->join('rol', 'rol_idRol', '=', 'idRol')
             ->select('idPerfil', 'nombres', 'apellidos', 'nombreUsuario', 'fechaNacimiento', 'contrasena', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')
             ->where('idPerfil', 'Like','%'.$busqueda.'%')
+            ->orwhere('nombres', 'Like','%'.$busqueda.'%')
+            ->orwhere('apellidos', 'Like','%'.$busqueda.'%')
             ->orwhere('nombreUsuario', 'Like','%'.$busqueda.'%')
             ->orwhere('fechaNacimiento', 'Like','%'.$busqueda.'%')
-            ->orwhere('contrasena', 'Like','%'.$busqueda.'%')->paginate(session('paginate'));
+            ->orwhere('estado', 'Like','%'.$busqueda.'%')
+            ->orwhere('telefono', 'Like','%'.$busqueda.'%')
+            ->orwhere('tipoDocumento', 'Like','%'.$busqueda.'%')
+            ->orwhere('documento', 'Like','%'.$busqueda.'%')
+            ->orwhere('ciudad', 'Like','%'.$busqueda.'%')
+            ->orwhere('direccion', 'Like','%'.$busqueda.'%')
+            ->orwhere('email', 'Like','%'.$busqueda.'%')
+            ->orwhere('rol', 'Like','%'.$busqueda.'%')
+            ->paginate(session('paginate'));
 
             $data['perfilesTotales'] = DB::table('perfil')->get();
             $data['rolesTotales'] = DB::table('rol')->get();

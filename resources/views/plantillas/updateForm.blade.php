@@ -3,33 +3,33 @@
     <div class="containerDouble">
         <div class="firstInput">
             <label for="" class="label">Nombres</label>
-            <input name="nombres" type="text" class="input" @isset($usuariosEdit) value="{{ $usuariosEdit->nombres }}"@endisset placeholder=" " autocomplete="off" required="required">
+            <input name="nombres" type="text" class="input" @isset($usuariosEdit) value="{{ $usuariosEdit->nombres }}"@endisset placeholder=" " autocomplete="off">
         </div>
         <div>
             <label for="" class="label" id="secondLabel">Apellidos</label>
-            <input name="apellidos" type="text" class="input" @isset($usuariosEdit) value="{{ $usuariosEdit->apellidos }}"@endisset placeholder=" " autocomplete="off" required="required">
+            <input name="apellidos" type="text" class="input" @isset($usuariosEdit) value="{{ $usuariosEdit->apellidos }}"@endisset placeholder=" " autocomplete="off">
         </div>
     </div>
 
     <div class="containerDouble">
         <div class="firstInput">
             <label for="" class="label">Nombre de Usuario</label>
-            <input name="nombreUsuario" type="text" class="input" @isset($usuariosEdit) value="{{ $usuariosEdit->nombreUsuario }}"@endisset placeholder=" " autocomplete="off" required="required">
+            <input name="nombreUsuario" type="text" class="input" @isset($usuariosEdit) value="{{ $usuariosEdit->nombreUsuario }}"@endisset placeholder=" " autocomplete="off">
         </div>
         <div>
             <label for="" class="label" id="secondLabel">Contraseña</label>
-            <input name="contrasena" type="text" class="input" @isset($usuariosEdit) value="{{ $usuariosEdit->contrasena }}"@endisset placeholder=" " autocomplete="off" required="required">
+            <input name="contrasena" type="text" class="input" @isset($usuariosEdit) value="{{ $usuariosEdit->contrasena }}"@endisset placeholder=" " autocomplete="off">
         </div>
     </div>
 
     <div class="containerDouble">
         <div class="firstInput">
             <label for="" class="label">Email</label>
-            <input name="email" type="email" class="input" @isset($datosContactoEdit) value="{{ $datosContactoEdit->email }}"@endisset placeholder=" " autocomplete="off" required="required">
+            <input name="email" type="email" class="input" @isset($datosContactoEdit) value="{{ $datosContactoEdit->email }}"@endisset placeholder=" " autocomplete="off">
         </div>
         <div>
             <label for="" class="label" id="secondLabel">Telefono</label>
-            <input name="telefono" type="text" class="input" @isset($datosContactoEdit) value="{{ $datosContactoEdit->telefono }}"@endisset placeholder=" " autocomplete="off" required="required">
+            <input name="telefono" type="text" class="input" @isset($datosContactoEdit) value="{{ $datosContactoEdit->telefono }}"@endisset placeholder=" " autocomplete="off">
         </div>
     </div>
 
@@ -55,7 +55,7 @@
         </div>
         <div>
             <label for="" class="label" id="secondLabel">Documento</label>
-            <input name="documento" type="text" class="input" id="inputDouble" @isset($usuariosEdit) value="{{ $usuariosEdit->documento }}"@endisset placeholder=" " autocomplete="off" required="required">
+            <input name="documento" type="text" class="input" id="inputDouble" @isset($usuariosEdit) value="{{ $usuariosEdit->documento }}"@endisset placeholder=" " autocomplete="off">
         </div>
     </div>
 
@@ -81,13 +81,32 @@
         </div>
         <div>
             <label for="" class="label"  id="secondLabel">Direccion</label>
-            <input name="direccion" type="text" class="input" id="inputDouble" @isset($datosContactoEdit) value="{{ $datosContactoEdit->direccion }}"@endisset placeholder=" " autocomplete="off" required="required">            
+            <input name="direccion" type="text" class="input" id="inputDouble" @isset($datosContactoEdit) value="{{ $datosContactoEdit->direccion }}"@endisset placeholder=" " autocomplete="off">            
         </div>
     </div>
 
     <div class="container">
         <label for="" class="label">Fecha de Nacimiento</label>
-        <input type="date" name="fechaNacimiento" class="input" id="inputDate" @isset($usuariosEdit) value="{{ $usuariosEdit->fechaNacimiento }}"@endisset onchange="resetValue(this, this.value)" value="" min="1900-01-01" max="2022-12-31" placeholder=" " required="required">
+        <input type="date" name="fechaNacimiento" class="input" id="inputDate" @isset($usuariosEdit) value="{{ $usuariosEdit->fechaNacimiento }}"@endisset onchange="resetValue(this, this.value)" value="" min="1900-01-01" max="2022-12-31" placeholder=" ">
+    </div>
+
+    <div class="container">
+        <label for="" class="label">Estado</label>
+        <select class="inputSelect" name='estado_idEstado' onchange="selectColor(this)" style="color: #686666">
+            @php
+                foreach ($estadosTotales as $estado) {
+                    if(isset($usuariosEdit)){
+                        if($usuariosEdit->estado_idEstado == $estado->idEstado){
+                            echo "<option value='$estado->idEstado' selected>$estado->estado</option>";
+                        } else {
+                            echo "<option value='$estado->idEstado'>$estado->estado</option>";
+                        }
+                    }  else {
+                        echo "<option value='$estado->idEstado'>$estado->estado</option>";
+                    }   
+                }
+            @endphp
+        </select>
     </div>
 
     <div class="container">
@@ -109,25 +128,6 @@
                 }
             @endphp
         </select>
-    </div>
-
-    <div class="container">
-            <label for="" class="label">Estado</label>
-            <select class="inputSelect" name='estado_idEstado' onchange="selectColor(this)" style="color: #686666">
-                @php
-                    foreach ($estadosTotales as $estado) {
-                        if(isset($usuariosEdit)){
-                            if($usuariosEdit->estado_idEstado == $estado->idEstado){
-                                echo "<option value='$estado->idEstado' selected>$estado->estado</option>";
-                            } else {
-                                echo "<option value='$estado->idEstado'>$estado->estado</option>";
-                            }
-                        }  else {
-                            echo "<option value='$estado->idEstado'>$estado->estado</option>";
-                        }   
-                    }
-                @endphp
-            </select>
     </div>
 
     <div class="buttonContainer">

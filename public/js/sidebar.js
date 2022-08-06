@@ -16,10 +16,8 @@ function collectSidebar(element){
     var sidebar_header = document.getElementById('sidebarHeader');
     var menu_icon = document.getElementById('menuIcon');
     var menu_icon_back = document.getElementById('menuIconBack');
-    var titulo_profile = document.getElementById('tituloProfile');
-    var profile_sidebar = document.getElementById('profileSidebar');
-    var profile_ancla = document.getElementById('profileAncla');
     var content = document.getElementById('content');
+    var topBar = document.getElementById('topBar');
 
     let timeline = gsap.timeline(); // Timeline de GSAP ( Para animaciones )
 
@@ -32,6 +30,8 @@ function collectSidebar(element){
         sidebar_header.classList.add('sidebarHeaderCollect');
         content.classList.remove('content');
         content.classList.add('contentCollect');
+        topBar.classList.remove('topBar');
+        topBar.classList.add('topBarCollected');
 
         /* Adding Element Styles */
         dropbox.style.display = "none";
@@ -41,10 +41,6 @@ function collectSidebar(element){
         sidebar_header.style.width = "60px";
         menu_icon.style.display = "none";
         menu_icon_back.style.display = "flex";
-        titulo_profile.style.display = "none";
-        profile_sidebar.style.width = "60px";
-        profile_sidebar.style.justifyContent = "center";
-        profile_ancla.style.marginRight = "10px";
 
         for(var i = 0; i < span_deployed.length; i++) {
             span_deployed[i].classList.remove('textElementMenu');
@@ -65,6 +61,8 @@ function collectSidebar(element){
             sidebar_header.classList.add('sidebarHeader');
             content.classList.remove('contentCollect');
             content.classList.add('content');
+            topBar.classList.remove('topBarCollected');
+            topBar.classList.add('topBar');
 
             /* Adding Element Styles */
             dropbox.style.display = "flex";
@@ -74,9 +72,6 @@ function collectSidebar(element){
             sidebar_header.style.width = "200px";
             menu_icon.style.display = "flex";
             menu_icon_back.style.display = "none";
-            titulo_profile.style.display = "flex";
-            profile_sidebar.style.width = "200px";
-            profile_sidebar.style.justifyContent = "flex-start";
             
             timeline.to("#sidebar", {duration: 0, width: "60px"}) // Sequence start
                 .to("#sidebar", {duration: 0, width: "200px"})
@@ -124,16 +119,18 @@ function dropMenu(element){
     let timeline = gsap.timeline(); // GSAP Timeline ( To animations )
 
     if(state == "collect"){
-        timeline.to("#complementarios", {duration: 0, maxHeight: "0px"}) // Sequence start
-            .to(element, {duration: 0, backgroundColor: "#323232"})
-            .to("#complementarios", {duration: 0.30, maxHeight: "200px"}) 
+        timeline.to("#complementarios", {duration: 0, maxHeight: "0px"}, 0) // Sequence start
+            .to(".rotateArrow", {duration: 0.3, rotation: 180}, 0)    
+            .to(element, {duration: 0, backgroundColor: "#323232"}, 0)        
+            .to("#complementarios", {duration: 0.30, maxHeight: "200px"}, 0) 
         state = "dropped";
     }
 
     else {
-        timeline.to("#complementarios", {duration: 0, maxHeight: "200px"}) // Sequence start
-            .to(element, {duration: 0, background: "#1A1A1A"})
-            .to("#complementarios", {duration: 0.30, maxHeight: "0px"})
+        timeline.to("#complementarios", {duration: 0, maxHeight: "200px"}, 0) // Sequence start
+            .to(".rotateArrow", {duration: 0.3, rotation: 360}, 0)  
+            .to(element, {duration: 0, background: "#1A1A1A"}, 0)
+            .to("#complementarios", {duration: 0.30, maxHeight: "0px"}, 0)
         state = "collect";
     }
 }
@@ -142,7 +139,8 @@ function dropMenu(element){
 
 function reportWindowSize() {
 
-    /* Getting the variables */
+    // Getting the variables
+    var content = document.getElementById('content');
     var dropbox = document.querySelector('dropbox');
     var sidebar = document.getElementById('sidebar');
     var span_deployed = document.querySelectorAll('[id=spanCollect]');
@@ -155,40 +153,39 @@ function reportWindowSize() {
     var menu_icon_back = document.getElementById('menuIconBack');
     var titulo_profile = document.getElementById('tituloProfile');
     var profile_sidebar = document.getElementById('profileSidebar');
+    var topBar = document.getElementById('topBar');
 
     var w = window.innerWidth;
 
-    for(var i = 0; i < span_deployed.length; i++) {
-        span_deployed[i].classList.remove('textElementMenuCollected');
-        span_deployed[i].classList.add('textElementMenu');
-    }
-
     if(w >= 1024) {
-        var sidebar = document.getElementById('sidebar');
-        var sidebar_header = document.getElementById('sidebarHeader');
-        sidebar.style.left = "0px";
-        sidebar.style.width = "200px";
-        sidebar_header.style.left = "0px";
-        sidebar_header.style.width = "200px";
-        sidebar.classList.remove('sidebarResponsive');
-        sidebar_header.classList.remove('sidebarHeader');
-        sidebar_header.classList.add('sidebarHeader');
-        sidebar.classList.remove('sidebarCollected');
-            
-        /* Adding Element Styles */
-        dropbox.style.display = "flex";
-        complementarios.style.display = "block";
-        complementario_hidden.style.display = "none";
-        company_title.style.display = "block";
-        sidebar_header.style.width = "200px";
-        menu_icon.style.display = "flex";
-        menu_icon_back.style.display = "none";
-        titulo_profile.style.display = "flex";
-        profile_sidebar.style.width = "200px";
-        profile_sidebar.style.justifyContent = "flex-start";
+        
+        sidebar.style.left = "0";
+        sidebar_header.style.left = "0";
+        content.classList.remove('contentCollect');
+        content.classList.add('content');
+
+        if(sidebar.classList.contains('sidebarCollected')) {
+            content.classList.remove('content');
+            content.classList.add('contentCollect');
+        }
+
+        if(!sidebar.classList.contains('sidebarCollected')){
+            sidebar.style.width = "200px";
+            sidebar_header.style.width = "200px";
+            content.classList.remove('contentCollect');
+            content.classList.add('content');
+            topBar.classList.remove('topBarCollected')
+            topBar.classList.add('topBar')
+        }
+
     }
 
     if(w < 1024){
+
+        for(var i = 0; i < span_deployed.length; i++) {
+            span_deployed[i].classList.remove('textElementMenuCollected');
+            span_deployed[i].classList.add('textElementMenu');
+        }
 
         var sidebar = document.getElementById('sidebar');
         var sidebar_header = document.getElementById('sidebarHeader');
@@ -200,7 +197,7 @@ function reportWindowSize() {
         sidebar_header.classList.add('sidebarHeader');
         sidebar.classList.remove('sidebarCollected');
 
-        /* Adding Element Styles */
+        // Adding Element Styles
         dropbox.style.display = "flex";
         complementarios.style.display = "block";
         complementario_hidden.style.display = "none";

@@ -3,11 +3,11 @@
     <div class="containerDouble">
         <div class="firstInput">
             <label for="" class="label">Nombres</label>
-            <input name="nombres" type="text" class="input" placeholder=" " autocomplete="off" required="required">
+            <input name="nombres" type="text" class="input" placeholder=" " autocomplete="off">
         </div>
         <div>
             <label for="" class="label" >Apellidos</label>
-            <input name="apellidos" type="text" class="input" placeholder=" " autocomplete="off" required="required">
+            <input name="apellidos" type="text" class="input" placeholder=" " autocomplete="off">
             <label class="errorLabel">No colocaste el apellido.</label>
         </div>
     </div>
@@ -15,22 +15,22 @@
     <div class="containerDouble">
         <div class="firstInput">
             <label for="" class="label">Nombre de Usuario</label>
-            <input name="nombreUsuario" type="text" class="input" placeholder=" " autocomplete="off" required="required">
+            <input name="nombrePerfil" type="text" class="input" placeholder=" " autocomplete="off">
         </div>
         <div>
             <label for="" class="label">Contraseña</label>
-            <input name="contrasena" type="text" class="input" placeholder=" " autocomplete="off" required="required">
+            <input name="contrasena" type="text" class="input" placeholder=" " autocomplete="off">
         </div>
     </div>
 
     <div class="containerDouble">
         <div class="firstInput">
             <label for="" class="label">Email</label>
-            <input name="email" type="email" class="input" placeholder=" " autocomplete="off" required="required">
+            <input name="email" type="email" class="input" placeholder=" " autocomplete="off">
         </div>
         <div>
             <label for="" class="label">Telefono</label>
-            <input name="telefono" type="text" class="input" placeholder=" " autocomplete="off" required="required">
+            <input name="telefono" type="text" class="input" placeholder=" " autocomplete="off">
         </div>
     </div>
 
@@ -48,7 +48,7 @@
         </div>
         <div>
             <label for="" class="label" id="secondLabel">Documento</label>
-            <input name="documento" type="text" class="input" id="inputDouble" placeholder=" " autocomplete="off" required="required">
+            <input name="documento" type="text" class="input" id="inputDouble" placeholder=" " autocomplete="off">
         </div>
     </div>
 
@@ -66,13 +66,13 @@
         </div>
         <div>
             <label for="" class="label">Direccion</label>
-            <input name="direccion" type="text" class="input" placeholder=" " autocomplete="off" required="required">            
+            <input name="direccion" type="text" class="input" placeholder=" " autocomplete="off">            
         </div>
     </div>
 
     <div class="container">
         <label for="" class="label">Fecha de Nacimiento</label>
-        <input type="date" name="fechaNacimiento" class="input" id="inputDate" onchange="resetValue(this, this.value)" value="" min="1900-01-01" max="2022-12-31" placeholder=" " required="required">
+        <input type="date" name="fechaNacimiento" class="input" id="inputDate" onchange="resetValue(this, this.value)" value="" min="1900-01-01" max="2022-12-31" placeholder=" ">
     </div>
 
     <div class="container">
