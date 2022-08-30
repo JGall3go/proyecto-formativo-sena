@@ -1,13 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UsuarioController;
-use App\Http\Controllers\AdministradorController;
-use App\Http\Controllers\EmpleadoController;
-use App\Http\Controllers\ClienteController;
-use App\Http\Controllers\ProveedorController;
-use App\Http\Controllers\ReporteController;
-use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\Dashboard\UsuarioController;
+use App\Http\Controllers\Dashboard\AdministradorController;
+use App\Http\Controllers\Dashboard\EmpleadoController;
+use App\Http\Controllers\Dashboard\ClienteController;
+use App\Http\Controllers\Dashboard\ProveedorController;
+use App\Http\Controllers\Dashboard\ReporteController;
+use App\Http\Controllers\Dashboard\ProductoController;
 
 /*
 |--------------------------------------------------------------------------

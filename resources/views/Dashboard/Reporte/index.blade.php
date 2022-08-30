@@ -1,4 +1,4 @@
-@extends('plantillas/sidebar')
+@extends('Dashboard/Plantillas/sidebar')
 
 @section('content')
 

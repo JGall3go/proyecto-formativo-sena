@@ -1,16 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
 use App\Models\Producto;
 use App\Models\Linea;
 use App\Models\Sublinea;
 use App\Models\Perfil;
 use App\Models\DescripcionProducto;
+use App\Models\Keys;
+use App\Models\KeyDetalle;
+
+// Laravel Modules
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
-class ProductoController extends Controller
+class ProductoController
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +23,7 @@ class ProductoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {   
+    {
         // Variables obtenidas mediante un Request a la URL
         $busqueda = trim($request->get('busqueda'));
         $page = trim($request->get('page'));
@@ -39,11 +44,11 @@ class ProductoController extends Controller
 
             $data['productos'] = DB::table('producto')
             ->orderByRaw('idProducto')
-            ->join('linea', 'sublinea_idSubLinea', '=', 'idLinea')
-            ->join('sublinea', 'sublinea_idSubLinea', '=', 'idSubLinea')
+            ->join('linea', 'linea_idLinea', '=', 'idLinea')
+            ->join('sublinea', 'sublinea_idSublinea', '=', 'idSublinea')
             ->join('perfil', 'perfil_idPerfil', '=', 'idPerfil')
             ->join('descripcion_producto', 'descripcion_producto_idDescripcion', '=', 'idDescripcion')
-            ->select('idProducto', 'imagen', 'titulo', 'descripcion', 'requisitosMinimos', 'requisitosRecomendados', 'valor', 'cantidad', 'linea', 'subLinea', 'nombrePerfil')
+            ->select('idProducto', 'imagen', 'titulo', 'descripcion', 'requisitosMinimos', 'requisitosRecomendados', 'valor', 'cantidad', 'linea', 'sublinea', 'nombrePerfil')
             // Busqueda por url
             ->where('idProducto', 'Like','%'.$busqueda.'%')
             ->orwhere('titulo', 'Like','%'.$busqueda.'%')
@@ -51,7 +56,7 @@ class ProductoController extends Controller
             ->orwhere('valor', 'Like','%'.$busqueda.'%')
             ->orwhere('cantidad', 'Like','%'.$busqueda.'%')
             ->orwhere('linea', 'Like','%'.$busqueda.'%')
-            ->orwhere('subLinea', 'Like','%'.$busqueda.'%')
+            ->orwhere('sublinea', 'Like','%'.$busqueda.'%')
             ->orwhere('nombrePerfil', 'Like','%'.$busqueda.'%')
             ->orwhere('requisitosMinimos', 'Like','%'.$busqueda.'%')
             ->orwhere('requisitosRecomendados', 'Like','%'.$busqueda.'%')
@@ -73,7 +78,7 @@ class ProductoController extends Controller
 
         $data = busquedaDB($busqueda);
 
-        return view('producto.index', $data, compact('busqueda', 'page'));
+        return view('Dashboard.Producto.index', $data, compact('busqueda', 'page'));
     }
 
     /**
@@ -112,7 +117,7 @@ class ProductoController extends Controller
             'valor' => $productData['valor'],
             'cantidad' => $productData['cantidad'],
             'linea_idLinea' => $productData['linea'],
-            'sublinea_idSubLinea' => $productData['sublinea'],
+            'sublinea_idSublinea' => $productData['sublinea'],
             'perfil_idPerfil' => $productData['proveedor'],
             'descripcion_producto_idDescripcion' => $descripcionInsertada,
         ]);
@@ -129,7 +134,7 @@ class ProductoController extends Controller
             ]);   
         };
 
-        return redirect('dashboard/producto');
+        return redirect('/dashboard/producto');
     }
 
     /**
@@ -155,27 +160,53 @@ class ProductoController extends Controller
 
         function busquedaDB($idProducto){
 
+            // Optimizar
             $data['productos'] = DB::table('producto')
             ->orderByRaw('idProducto')
-            ->join('linea', 'sublinea_idSubLinea', '=', 'idLinea')
-            ->join('sublinea', 'sublinea_idSubLinea', '=', 'idSubLinea')
+            ->join('linea', 'linea_idLinea', '=', 'idLinea')
+            ->join('sublinea', 'sublinea_idSublinea', '=', 'idSublinea')
             ->join('perfil', 'perfil_idPerfil', '=', 'idPerfil')
             ->join('descripcion_producto', 'descripcion_producto_idDescripcion', '=', 'idDescripcion')
-            ->select('idProducto', 'imagen', 'titulo', 'descripcion', 'requisitosMinimos', 'requisitosRecomendados', 'valor', 'cantidad', 'linea', 'subLinea', 'nombrePerfil')
+            ->select('idProducto', 'imagen', 'titulo', 'descripcion', 'requisitosMinimos', 'requisitosRecomendados', 'valor', 'cantidad', 'linea', 'sublinea', 'nombrePerfil')
             ->paginate(session('paginate')); // Cantidad de registros que se van a mostrar
 
-            $data['productosEdit'] = Producto::findOrFail($idProducto); // change
+            $data['productosEdit'] = Producto::findOrFail($idProducto);
+            $data['lineasEdit'] = Linea::findOrFail($data['productosEdit']->linea_idLinea);
+            $data['sublineasEdit'] = Sublinea::findOrFail($data['productosEdit']->sublinea_idSublinea);
+            $data['proveedoresEdit'] = Perfil::findOrFail($data['productosEdit']->perfil_idPerfil);
+            $data['descripcionesEdit'] = DescripcionProducto::findOrFail($data['productosEdit']->descripcion_producto_idDescripcion);
+
+            // Optimizar
             $data['productosTotales'] = DB::table('producto')->get();
-            
             $data['lineasTotales'] = DB::table('linea')->get();
             $data['sublineasTotales'] = DB::table('sublinea')->get();
+            
+            // Seleccion de proveedores
+            $data['proveedoresTotales'] = DB::table('perfil')
+            ->orderByRaw('nombrePerfil')
+            ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Proveedor');})
+            ->select('idPerfil', 'nombrePerfil')
+            ->get();
+
+            // Seleccionar Tags
+            $keys = Keys::where('producto_idProducto', '=', $idProducto)->get();
+            $keyDetalle = KeyDetalle::where('keys_idKey', '=', $keys[0]->idKey)->get();
+            $data['keys'] = [];
+            $data['keysParsed'] = '';
+
+            for ($key = 0; $key < count($keyDetalle); $key++) { // Se elimina cada Key
+                array_push($data['keys'], $keyDetalle[$key]->key);
+                $data['keysParsed'] = $data['keysParsed'].'/'.$keyDetalle[$key]->key;
+            }
+
+            $data['keysEncoded'] = json_encode($data['keys']);
 
             return $data;
         }
 
         $data = busquedaDB($idProducto);
 
-        return view('producto.index', $data, compact('params', 'page', 'formDisplay'));
+        return view('Dashboard.Producto.index', $data, compact('params', 'page', 'formDisplay'));
     }
 
     /**
@@ -188,11 +219,22 @@ class ProductoController extends Controller
     {
         $productData = request()->except(['_token', '_method']);
 
+        // Si hay una imagen diferente se elimina la anterior y se pone la nueva.
+        $producto = Producto::where('idProducto', '=', $idProducto)->first();
+        if($request->hasFile('imagen')){
+            Storage::disk('public')->delete($producto->imagen);
+            $productData['imagen'] = $request->file('imagen')->store('productos', 'public');
+        } else {
+            $productData['imagen'] = $producto->imagen;
+        }
+
         function actualizarDB($idProducto, $productData){
+
+            // Optimizar
 
             $producto = Producto::findOrFail($idProducto);
 
-            $descripcionProducto = DescripcionProducto::where($producto->descripcion_producto_idDescripcion)->update([
+            $descripcionProducto = DescripcionProducto::where('idDescripcion', '=', $producto->descripcion_producto_idDescripcion)->update([
                 'titulo' => $productData['titulo'],
                 'descripcion' => $productData['descripcion'],
                 'requisitosMinimos' => $productData['requisitosMinimos'],
@@ -205,10 +247,26 @@ class ProductoController extends Controller
                 'valor' => $productData['valor'],
                 'cantidad' => $productData['cantidad'],
                 'linea_idLinea' => $productData['linea'],
-                'sublinea_idSubLinea' => $productData['sublinea'],
+                'sublinea_idSublinea' => $productData['sublinea'],
                 'perfil_idPerfil' => $productData['proveedor'],
             ]);
 
+            $keys = Keys::where('producto_idProducto', '=', $idProducto)->first();
+            $keyDetalle = KeyDetalle::where('keys_idKey', '=', $keys->idKey)->get();
+
+            // Se eliminan todas las keys viejas
+            for ($key = 0; $key < count($keyDetalle); $key++) { // Se elimina cada Key
+                KeyDetalle::destroy($keyDetalle[$key]->idDetalle);
+            }
+
+            // Se agregan las nuevas keys junto a las viejas
+            $allKeys = explode('/', $productData['keys']);
+            for ($i=1; $i < count($allKeys); $i++) { 
+                DB::table('key_detalle')->insert([
+                    'keys_idKey' => $keys->idKey,
+                    'key' => $allKeys[$i]
+                ]);
+            };
         }
         
         actualizarDB($idProducto, $productData);
@@ -222,8 +280,23 @@ class ProductoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($idProducto)
-    {        
-        $producto = Producto::findOrFail($idProducto);
+    {   
+        $producto = Producto::where('idProducto', '=', $idProducto)->first();
+        $keys = Keys::where('producto_idProducto', '=', $idProducto)->first();
+
+        if(count($keys) > 0){
+
+            $keyDetalle = KeyDetalle::where('keys_idKey', '=', $keys->idKey)->get();
+
+            for ($key = 0; $key < count($keyDetalle); $key++) { // Se elimina cada Key
+                KeyDetalle::destroy($keyDetalle[$key]->idDetalle);
+            }
+
+            Keys::destroy($keys->idKey);
+        }
+
+        // Se elimina la imagen del producto y el producto
+        Storage::disk('public')->delete($producto->imagen);
         Producto::destroy($idProducto);
         DescripcionProducto::destroy($producto->descripcion_producto_idDescripcion);
 

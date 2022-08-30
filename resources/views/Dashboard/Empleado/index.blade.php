@@ -1,4 +1,4 @@
-@extends('plantillas/sidebar')
+@extends('Dashboard/Plantillas/sidebar')
 
 @section('content')
 
@@ -8,8 +8,8 @@
 
     <div class="topBar" id="topBar">
         <div class="breadCrumbs">
-            <span style="color: #b9b9b9; font-size: 12px; font-weight: 600;">Dashboard</span> <span style="color: #818181; font-size: 12px; font-weight: 600;">/ Administrador</span>
-            <div><h3 style="margin-top: 0px; color: #707070">Administradores</h3></div>
+            <span style="color: #b9b9b9; font-size: 12px; font-weight: 600;">Dashboard</span> <span style="color: #818181; font-size: 12px; font-weight: 600;">/ Empleado</span>
+            <div><h3 style="margin-top: 0px; color: #707070">Empleados</h3></div>
         </div>
 
         <a id="profileAncla"><img src="https://hastane.ksu.edu.tr/depo/kullanici/resim/no-avatar.png" id='imageProfile'></a>
@@ -20,15 +20,15 @@
         <div class="tableHeaderContent">
 
             <div class="firstSection">
-                <form class="formSelect" action="{{ route('administrador.index') }}" method="GET">
-                    <select onchange="this.form.submit()" name='registros'  class="registersSelect" id="select">
+                <form class="formSelect" action="{{ route('empleado.index') }}" method="GET">
+                    <select onchange="this.form.submit()" name='registros' class="registersSelect" id="select">
                         <option value='5'>5 Reg</option>
                         <option value='10'>10 Reg</option>
                         <option value='15'>15 Reg</option>
                     </select>
                 </form>
 
-                <a onclick="showForm()" class="createLink"><svg xmlns="http://www.w3.org/2000/svg" class="addIcon" viewBox="0 0 512 512"><title>Add</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="64" d="M256 112v288M400 256H112"/></svg><span>Administrador</span></a>
+                <a onclick="showForm()" class="createLink"><svg xmlns="http://www.w3.org/2000/svg" class="addIcon" viewBox="0 0 512 512"><title>Add</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="64" d="M256 112v288M400 256H112"/></svg><span>Empleado</span></a>
             </div>
 
             <!-- Se cambia la opcion seleccionada dependiendo de la variable "paginate"-->
@@ -38,7 +38,7 @@
             </script>
 
             <div class="searchBar">
-                <form action="{{ route('administrador.index') }}" method="GET" class="searchForm">
+                <form action="{{ route('empleado.index') }}" method="GET" class="searchForm">
                     <input type="text" name="busqueda" class="searchInput"  @isset($busqueda)value="{{$busqueda}}"@endisset  placeholder="Buscar..." autocomplete="off">
                     <button type="submit" class="searchButton">
                         <img src="{{ asset('svg/search.svg') }}" id="ionIconElement">
@@ -65,7 +65,7 @@
                 </tr>
             </thead>
             <tbody>
-                @if(count($perfiles) <= 0)
+                @if(count($perfiles)<=0)
                     <tr><td colspan="100%">No se encontraron resultados.</td></tr>
                 @else
 
@@ -84,19 +84,22 @@
                     <td>{{ $perfil->rol}}</td>
                     <td class="actionButton">
 
-                        <form action="{{ url('dashboard/administrador/'.$perfil->idPerfil.'/edit') }}">
-                            <button type="submit" class="botonEditar">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="pencilSvg" viewBox="0 0 24 24"><path d="M14.078 4.232l-12.64 12.639-1.438 7.129 7.127-1.438 12.641-12.64-5.69-5.69zm-10.369 14.893l-.85-.85 11.141-11.125.849.849-11.14 11.126zm2.008 2.008l-.85-.85 11.141-11.125.85.85-11.141 11.125zm18.283-15.444l-2.816 2.818-5.691-5.691 2.816-2.816 5.691 5.689z"/></svg>
-                            </button>
-                        </form>
-
-                        <form action="{{ url('dashboard/administrador/'.$perfil->idPerfil) }}" method="POST">
-                            {{ method_field('DELETE')}}
-                            {{ csrf_field() }}
-                            <button type="submit" class="botonEliminar" onclick="return confirm('Quieres borrar este registro?')">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="trashSvg" viewBox="0 0 512 512" ><title>Trash</title><path d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 112h352"/><path d="M192 112V72h0a23.93 23.93 0 0124-24h80a23.93 23.93 0 0124 24h0v40M256 176v224M184 176l8 224M328 176l-8 224" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
-                            </button>
-                        </form> 
+                        <div>
+                            <form action="{{ url('dashboard/empleado/'.$perfil->idPerfil.'/edit') }}">
+                                <button type="submit" class="botonEditar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="pencilSvg" viewBox="0 0 24 24"><path d="M14.078 4.232l-12.64 12.639-1.438 7.129 7.127-1.438 12.641-12.64-5.69-5.69zm-10.369 14.893l-.85-.85 11.141-11.125.849.849-11.14 11.126zm2.008 2.008l-.85-.85 11.141-11.125.85.85-11.141 11.125zm18.283-15.444l-2.816 2.818-5.691-5.691 2.816-2.816 5.691 5.689z"/></svg>
+                                </button>
+                            </form>
+    
+                            <form action="{{ url('dashboard/empleado/'.$perfil->idPerfil) }}" method="POST">
+                                {{ method_field('DELETE')}}
+                                {{ csrf_field() }}
+                                <button type="submit" class="botonEliminar" onclick="return confirm('Quieres borrar este registro?')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="trashSvg" viewBox="0 0 512 512" ><title>Trash</title><path d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 112h352"/><path d="M192 112V72h0a23.93 23.93 0 0124-24h80a23.93 23.93 0 0124 24h0v40M256 176v224M184 176l8 224M328 176l-8 224" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
+                                </button>
+                            </form> 
+                        </div>
+                        
                     </td>
                 </tr>
                 @endforeach
@@ -127,11 +130,11 @@
                 $paginaSiguiente = $paginasTotales;
                     
                 // Si la pagina actual es mayor a 1 se podra volver a atras en el paginador.
-                if($page > 1){$textBack = 'Active'; $paginaAnterior = $page - 1;}
+                if($page > 1){ $textBack = 'Active'; $paginaAnterior = $page - 1; }
 
                 // Si la pagina actual es menor a la cantidad de paginas totales se podra avanzar en el paginador.
-                if($page < $paginasTotales){$textForward = 'Active'; $paginaSiguiente = $page + 1;}       
-                        
+                if($page < $paginasTotales){ $textForward = 'Active'; $paginaSiguiente = $page + 1; }
+
                 // Si la pagina siguiente es igual a 0 entonces la pagina actual sera 0;
                 $paginaActual = $page;
                 if($paginasTotales == 0){ $paginaActual = 0; }
@@ -148,34 +151,39 @@
         </div>
     </div>
 
+    <!-- CREATE FORM -->
+
     <div class="forms" @isset($formDisplay)style="display: flex"@endisset>
         <div class="createForm">
-
-            <form action="{{url('/dashboard/administrador')}}" method="POST" enctype="multipart/form-data" class="form">
+            <form action="{{url('/dashboard/empleado')}}" method="POST" enctype="multipart/form-data" class="form">
     
                 @csrf
-                @include('plantillas/createForm', ['usuario' => 'Administrador'])
     
+                @include('dboardPlantillas/createForm', ['usuario' => 'Empleado'])
+
             </form>
-    
         </div>
-    
+        
+
+        <!-- UPDATE FORM -->
+ 
         <div class="updateForm" @isset($formDisplay)style="display: flex" @endisset>
-    
-            <form @isset($perfilesEdit) action="{{ url('dashboard/administrador/'.$perfilesEdit->idPerfil) }}" method="POST" @endisset enctype="multipart/form-data" class="form" id="secondForm">
+
+            <form @isset($perfilesEdit) action="{{ url('dashboard/empleado/'.$perfilesEdit->idPerfil) }}" method="POST" @endisset enctype="multipart/form-data" class="form" id="secondForm">
                 
                 @csrf
                 {{ method_field('PATCH') }}
-    
+
                 @php
                     if(isset($perfilesEdit)){$perfilesEdit = $perfilesEdit;} else { $perfilesEdit = null;}
                 @endphp
     
-                @include('plantillas/updateForm', ['usuario' => 'Administrador', 'edit' => $perfilesEdit])
-    
+                @include('dboardPlantillas/updateForm', ['usuario' => 'Empleado', 'edit' => $perfilesEdit])
             </form>
+
         </div>
     </div>
+
 
 </section>
 

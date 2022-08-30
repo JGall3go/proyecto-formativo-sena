@@ -47,7 +47,7 @@ h6 {
 }
 
 /* The side navigation menu */
-.sidebar{
+.sidebar {
   left: 0;
   top: 0;
   color: #f5f5f5;
@@ -61,13 +61,13 @@ h6 {
   z-index: 2;
 }
 
-#sidebarItems{
+#sidebarItems {
   margin-top: 80px;
   overflow: hidden;
 }
 
 /* Sidebar links */ 
-.sidebar a{
+.sidebar a {
   font-size: 14px;
   border-radius: 5px;
   height: 40px;
@@ -83,11 +83,11 @@ h6 {
 }
 
 
-.sidebar a #ionIconElement{
+.sidebar a #ionIconElement {
   margin-left: 7%;
 }
 
-.sidebarCollected a #ionIconElement{
+.sidebarCollected a #ionIconElement {
   margin-left: 0%;
 }
 
@@ -95,11 +95,11 @@ h6 {
   padding-left: 7%;
 }
 
-#initialItem{
+#initialItem {
   margin-top: 7px;
 }
 
-.sidebarHeader{
+.sidebarHeader {
   width: 200px;
   height: 80px;
   display: flex;
@@ -110,7 +110,7 @@ h6 {
   background-color: #141414;
 }
 
-.sidebarHeaderCollect{
+.sidebarHeaderCollect {
   width: 60px;
   height: 80px;
   display: flex;
@@ -121,7 +121,7 @@ h6 {
   background-color: #141414;
 }
 
-#menuIcon{
+#menuIcon {
   margin-right: 10px;
   display: flex;
   padding: 2px;
@@ -140,13 +140,13 @@ h6 {
   height: 35px;
 }
 
-#menuIcon:hover{
+#menuIcon:hover {
   cursor: pointer;
   background-color: #323232;
   transition-duration: 0.3s;
 }
 
-#menuIconBack:hover{
+#menuIconBack:hover {
   cursor: pointer;
   background-color: #323232;
   transition-duration: 0.3s;
@@ -164,7 +164,7 @@ h6 {
   margin-right: 10px;
 }
 
-#complementarios a{
+#complementarios a {
   margin-right: 0;
   margin-left: 0;
   height: 40px;
@@ -175,11 +175,11 @@ h6 {
   transition-duration: 0.3s;
 }
 
-#tituloProfile{
+#tituloProfile {
   margin-left: 10px;
 }
 
-#profileSidebar{
+#profileSidebar {
   top: 85%;
   display: flex;
   align-items: center;
@@ -190,7 +190,7 @@ h6 {
   background-color: #141414;
 }
 
-#spanCollect{
+#spanCollect {
   margin-left: 15px;
 }
 
@@ -300,14 +300,15 @@ h6 {
   margin-top: 80px;
   margin-left: 200px;
   padding: 1px 20px;
-  height: 100%;
+  height: max-content;
+  max-width: 2000px;
 }
 
 .contentCollect{
   margin-top: 80px;
   margin-left: 60px;
   padding: 1px 20px;
-  height: 100%;
+  height: max-content;
 }
 
 /* Responsive Header */

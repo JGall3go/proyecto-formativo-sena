@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
 use App\Models\Venta;
+
+// Laravel Modules
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
-class ReporteController extends Controller
+class ReporteController
 {
     /**
      * Display a listing of the resource.
@@ -76,7 +79,7 @@ class ReporteController extends Controller
 
         $data = busquedaDB();
 
-        return view('reporte.index', $data);
+        return view('Dashboard.Reporte.index', $data);
     }
 
     /**

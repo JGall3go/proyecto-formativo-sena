@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
 use App\Models\Usuario;
 use App\Models\Perfil;
 use App\Models\DatosContacto;
+
+// Laravel Modules
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
-class ClienteController extends Controller
+class AdministradorController
 {
     /**
      * Display a listing of the resource.
@@ -41,12 +44,12 @@ class ClienteController extends Controller
             ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
             ->join('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
             ->join('ciudad', 'ciudad_idCiudad', 'idCiudad')
-            ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Cliente');})
-            ->select('idPerfil', 'nombres', 'apellidos', 'nombreUsuario', 'fechaNacimiento', 'contrasena', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')
+            ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Administrador');})
+            ->select('idPerfil', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'contrasena', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')
             ->where('idPerfil', 'Like','%'.$busqueda.'%')
             ->orwhere('nombres', 'Like','%'.$busqueda.'%')
             ->orwhere('apellidos', 'Like','%'.$busqueda.'%')
-            ->orwhere('nombreUsuario', 'Like','%'.$busqueda.'%')
+            ->orwhere('nombrePerfil', 'Like','%'.$busqueda.'%')
             ->orwhere('fechaNacimiento', 'Like','%'.$busqueda.'%')
             ->orwhere('estado', 'Like','%'.$busqueda.'%')
             ->orwhere('telefono', 'Like','%'.$busqueda.'%')
@@ -58,7 +61,7 @@ class ClienteController extends Controller
             ->orwhere('rol', 'Like','%'.$busqueda.'%')
             ->paginate(session('paginate'));
 
-            $data['perfilesTotales'] = DB::table('perfil')->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Cliente');})->get();
+            $data['perfilesTotales'] = DB::table('perfil')->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Administrador');})->get();
             $data['rolesTotales'] = DB::table('rol')->get();
             $data['estadosTotales'] = DB::table('estado')->get();
             $data['ciudadesTotales'] = DB::table('ciudad')->get();
@@ -69,7 +72,7 @@ class ClienteController extends Controller
 
         $data = busquedaDB($busqueda);
 
-        return view('cliente.index', $data, compact('busqueda', 'page'));
+        return view('Dashboard.Administrador.index', $data, compact('busqueda', 'page'));
     }
 
     /**
@@ -100,9 +103,9 @@ class ClienteController extends Controller
         ]);
 
         $usuarioInsertado = DB::table('usuario')->insertGetId([ // Tabla de usuarios
+            'imagen' => asset(), // Imagen predeterminada
             'nombres' => $userData['nombres'],
             'apellidos' => $userData['apellidos'],
-            'nombreUsuario' => $userData['nombreUsuario'],
             'fechaNacimiento' => $userData['fechaNacimiento'],
             'contrasena' => $userData['contrasena'],
             'estado_idEstado' => $userData['estado_idEstado'],
@@ -112,12 +115,12 @@ class ClienteController extends Controller
         ]);
         
         $perfilInsertado = DB::table('perfil')->insertGetId([
-            'nombrePerfil' => $userData['nombreUsuario'],
+            'nombrePerfil' => $userData['nombrePerfil'],
             'usuario_idUsuario' => $usuarioInsertado,
-            'rol_idRol' => '1' // Rol Automatico (1 = Cliente)
+            'rol_idRol' => '2' // Rol Automatico (2 = Admin)
         ]);
 
-        return redirect('dashboard/cliente');
+        return redirect('/dashboard/administrador');
     }
 
     /**
@@ -150,14 +153,14 @@ class ClienteController extends Controller
             ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
             ->join('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
             ->join('ciudad', 'ciudad_idCiudad', 'idCiudad')
-            ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Cliente');})
-            ->select('idPerfil', 'nombres', 'apellidos', 'nombreUsuario', 'fechaNacimiento', 'contrasena', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')->paginate(session('paginate'));
+            ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Administrador');})
+            ->select('idPerfil', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'contrasena', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')->paginate(session('paginate'));
 
             $data['perfilesEdit'] = Perfil::findOrFail($idPerfil); // change
             $data['usuariosEdit'] = Usuario::findOrFail($data['perfilesEdit']->usuario_idUsuario);
             $data['datosContactoEdit'] = DatosContacto::where('idContacto', $data['usuariosEdit']->datos_contacto_idContacto)->firstOrFail();
             
-            $data['perfilesTotales'] = DB::table('perfil')->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Cliente');})->get();
+            $data['perfilesTotales'] = DB::table('perfil')->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Administrador');})->get();
             $data['rolesTotales'] = DB::table('rol')->get();
             $data['estadosTotales'] = DB::table('estado')->get();
             $data['ciudadesTotales'] = DB::table('ciudad')->get();
@@ -168,7 +171,7 @@ class ClienteController extends Controller
 
         $data = busquedaDB($idPerfil);
 
-        return view('empleado.index', $data, compact('params', 'page', 'formDisplay'));
+        return view('Dashbord.Administrador.index', $data, compact('params', 'page', 'formDisplay'));
     }
 
     /**
@@ -197,7 +200,6 @@ class ClienteController extends Controller
             $datosUsuario = Usuario::where('idUsuario', '=', $perfil->usuario_idUsuario)->update([
                 'nombres' => $userData['nombres'],
                 'apellidos' => $userData['apellidos'],
-                'nombreUsuario' => $userData['nombreUsuario'],
                 'fechaNacimiento' => $userData['fechaNacimiento'],
                 'contrasena' => $userData['contrasena'],
                 'estado_idEstado' => $userData['estado_idEstado'],
@@ -207,13 +209,13 @@ class ClienteController extends Controller
 
             // Actualizacion de Usuarios
             $datosPerfil = Perfil::where('usuario_idUsuario', '=', $perfil->usuario_idUsuario)->update([
-                'nombrePerfil' => $userData['nombreUsuario'],
+                'nombrePerfil' => $userData['nombrePerfil'],
                 'rol_idRol' => $userData['rol']]);
         }
         
         actualizarDB($idPerfil, $userData);
 
-        return redirect('/dashboard/cliente/');
+        return redirect('/dashboard/administrador/');
     }
 
     /**
@@ -230,6 +232,6 @@ class ClienteController extends Controller
         Usuario::destroy($perfil->usuario_idUsuario);
         DatosContacto::destroy($usuario->datos_contacto_idContacto);
 
-        return redirect('/dashboard/cliente');
+        return redirect('/dashboard/administrador');
     }
 }

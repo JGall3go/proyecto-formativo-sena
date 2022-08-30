@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
 use App\Models\Usuario;
 use App\Models\Perfil;
 use App\Models\DatosContacto;
+
+// Laravel Modules
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
-class ProveedorController extends Controller
+class EmpleadoController
 {
     /**
      * Display a listing of the resource.
@@ -41,13 +44,12 @@ class ProveedorController extends Controller
             ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
             ->join('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
             ->join('ciudad', 'ciudad_idCiudad', 'idCiudad')
-            ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Proveedor');})
-            ->select('idPerfil', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'contrasena', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')
-            // Sistema de busqueda
+            ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Empleado');})
+            ->select('idPerfil', 'nombres', 'apellidos', 'nombreUsuario', 'fechaNacimiento', 'contrasena', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')
             ->where('idPerfil', 'Like','%'.$busqueda.'%')
             ->orwhere('nombres', 'Like','%'.$busqueda.'%')
             ->orwhere('apellidos', 'Like','%'.$busqueda.'%')
-            ->orwhere('nombrePerfil', 'Like','%'.$busqueda.'%')
+            ->orwhere('nombreUsuario', 'Like','%'.$busqueda.'%')
             ->orwhere('fechaNacimiento', 'Like','%'.$busqueda.'%')
             ->orwhere('estado', 'Like','%'.$busqueda.'%')
             ->orwhere('telefono', 'Like','%'.$busqueda.'%')
@@ -59,7 +61,7 @@ class ProveedorController extends Controller
             ->orwhere('rol', 'Like','%'.$busqueda.'%')
             ->paginate(session('paginate'));
 
-            $data['perfilesTotales'] = DB::table('perfil')->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Proveedor');})->get();
+            $data['perfilesTotales'] = DB::table('perfil')->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Empleado');})->get();
             $data['rolesTotales'] = DB::table('rol')->get();
             $data['estadosTotales'] = DB::table('estado')->get();
             $data['ciudadesTotales'] = DB::table('ciudad')->get();
@@ -70,7 +72,7 @@ class ProveedorController extends Controller
 
         $data = busquedaDB($busqueda);
 
-        return view('proveedor.index', $data, compact('busqueda', 'page'));
+        return view('Dashboard.Empleado.index', $data, compact('busqueda', 'page'));
     }
 
     /**
@@ -101,9 +103,9 @@ class ProveedorController extends Controller
         ]);
 
         $usuarioInsertado = DB::table('usuario')->insertGetId([ // Tabla de usuarios
-            'imagen' => "imagen",
             'nombres' => $userData['nombres'],
             'apellidos' => $userData['apellidos'],
+            'nombreUsuario' => $userData['nombreUsuario'],
             'fechaNacimiento' => $userData['fechaNacimiento'],
             'contrasena' => $userData['contrasena'],
             'estado_idEstado' => $userData['estado_idEstado'],
@@ -113,12 +115,12 @@ class ProveedorController extends Controller
         ]);
         
         $perfilInsertado = DB::table('perfil')->insertGetId([
-            'nombrePerfil' => $userData['nombrePerfil'],
+            'nombrePerfil' => $userData['nombreUsuario'],
             'usuario_idUsuario' => $usuarioInsertado,
-            'rol_idRol' => '4' // Rol Automatico (4 = Proveedor)
+            'rol_idRol' => '3' // Rol Automatico (3 = Empleado)
         ]);
 
-        return redirect('dashboard/proveedor');
+        return redirect('/dashboard/empleado');
     }
 
     /**
@@ -151,14 +153,14 @@ class ProveedorController extends Controller
             ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
             ->join('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
             ->join('ciudad', 'ciudad_idCiudad', 'idCiudad')
-            ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Proveedor');})
-            ->select('idPerfil', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'contrasena', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')->paginate(session('paginate'));
+            ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Empleado');})
+            ->select('idPerfil', 'nombres', 'apellidos', 'nombreUsuario', 'fechaNacimiento', 'contrasena', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')->paginate(session('paginate'));
 
             $data['perfilesEdit'] = Perfil::findOrFail($idPerfil); // change
             $data['usuariosEdit'] = Usuario::findOrFail($data['perfilesEdit']->usuario_idUsuario);
             $data['datosContactoEdit'] = DatosContacto::where('idContacto', $data['usuariosEdit']->datos_contacto_idContacto)->firstOrFail();
             
-            $data['perfilesTotales'] = DB::table('perfil')->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Proveedor');})->get();
+            $data['perfilesTotales'] = DB::table('perfil')->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Empleado');})->get();
             $data['rolesTotales'] = DB::table('rol')->get();
             $data['estadosTotales'] = DB::table('estado')->get();
             $data['ciudadesTotales'] = DB::table('ciudad')->get();
@@ -169,7 +171,7 @@ class ProveedorController extends Controller
 
         $data = busquedaDB($idPerfil);
 
-        return view('proveedor.index', $data, compact('params', 'page', 'formDisplay'));
+        return view('Dashboard.Empleado.index', $data, compact('params', 'page', 'formDisplay'));
     }
 
     /**
@@ -214,7 +216,7 @@ class ProveedorController extends Controller
         
         actualizarDB($idPerfil, $userData);
 
-        return redirect('/dashboard/proveedor/');
+        return redirect('/dashboard/empleado/');
     }
 
     /**
@@ -231,6 +233,6 @@ class ProveedorController extends Controller
         Usuario::destroy($perfil->usuario_idUsuario);
         DatosContacto::destroy($usuario->datos_contacto_idContacto);
 
-        return redirect('/dashboard/proveedor');
+        return redirect('/dashboard/empleado');
     }
 }

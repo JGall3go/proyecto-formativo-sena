@@ -30,50 +30,53 @@ function showForm(){
 
 function selectColor(element) {
     element.style.color = '#686666'
+    console.log(element.value)
 }
 
 // Arrastrar y soltar imagenes
 const initApp = () => {
 
-    const dropArea = document.querySelector('.dropArea');
-    const inputElement = dropArea.querySelector('.dropAreaInput');
+    for(i = 1; i < 2; i++){
 
-    // Clase con estilos que se le aplicara al elemento cuando haya algo arriba.
-    const active = () => dropArea.classList.add("dropAreaOver");
-    const inactive = () => dropArea.classList.remove("dropAreaOver");
+        const dropArea = document.querySelector(`.dropArea-${i}`);
+        const inputElement = dropArea.querySelector('.dropAreaInput');
 
-    const prevents = (e) => e.preventDefault();
+        // Clase con estilos que se le aplicara al elemento cuando haya algo arriba.
+        const active = () => dropArea.classList.add("dropAreaOver");
+        const inactive = () => dropArea.classList.remove("dropAreaOver");
 
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
-        dropArea.addEventListener(evt, prevents);
-    });
+        const prevents = (e) => e.preventDefault();
 
-    ['dragenter', 'dragover'].forEach(evt => {
-        dropArea.addEventListener(evt, active);
-    });
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
+            dropArea.addEventListener(evt, prevents);
+        });
 
-    ['dragleave', 'drop'].forEach(evt => {
-        dropArea.addEventListener(evt, inactive);
-    });
+        ['dragenter', 'dragover'].forEach(evt => {
+            dropArea.addEventListener(evt, active);
+        });
 
-    // Cuando se suelte un archivo en el contenedor se pondra de fondo
-    dropArea.addEventListener("drop", (e) => {
-        if (e.dataTransfer.files.length) {
-          handleDrop(e.dataTransfer.files[0]);
-        }
-    });
+        ['dragleave', 'drop'].forEach(evt => {
+            dropArea.addEventListener(evt, inactive);
+        });
 
-    // Cuando se haga click en el contenedor se pondra la ventana para buscar la imagen
-    const inputClick = () => inputElement.click();
-    dropArea.addEventListener("click", inputClick);
+        // Cuando se suelte un archivo en el contenedor se pondra de fondo
+        dropArea.addEventListener("drop", (e) => {
+            if (e.dataTransfer.files.length) {
+            handleDrop(e.dataTransfer.files[0]);
+            }
+        });
 
-    // Cuando se seleccione la imagen se pondra de fondo
-    inputElement.addEventListener("change", (e) => {
-        if (inputElement.files.length) {
-          handleDrop(inputElement.files[0]);
-        }
-        console.log(inputElement.value);
-    });
+        // Cuando se haga click en el contenedor se pondra la ventana para buscar la imagen
+        const inputClick = () => inputElement.click();
+        dropArea.addEventListener("click", inputClick);
+
+        // Cuando se seleccione la imagen se pondra de fondo
+        inputElement.addEventListener("change", (e) => {
+            if (inputElement.files.length) {
+                handleDrop(inputElement.files[0]);
+            }
+        });
+    }
 }
 
 document.addEventListener("DOMContentLoaded", initApp);
@@ -81,35 +84,45 @@ document.addEventListener("DOMContentLoaded", initApp);
 function handleDrop(e) {
 
     const file = e;
-    
-    const dropArea = document.querySelector('.dropArea');
-    let thumbnail = dropArea.querySelector('.dropAreaImage');
 
-    // Se retira el texto
-    if(dropArea.querySelector('.dropTextArea')) {
-        dropArea.querySelector('.dropTextArea').remove();
-    }
+    for(i = 1; i < 2; i++){
 
-    // Se añade el espacio para poner la imagen
-    if(!thumbnail) {
-        thumbnail = document.createElement('div');
-        image = document.createElement('img');
-        thumbnail.classList.add('dropAreaImage');
-        thumbnail.appendChild(image)
-        dropArea.appendChild(thumbnail);
-    }
+        const dropArea = document.querySelector(`.dropArea-${i}`);
+        let thumbnail = dropArea.querySelector('.dropAreaImage');
+        let updateDefaultImage = document.querySelector('.updateDefaultImage');
 
-    // Si el archivo ingresado es una imagen
-    if(file.type.startsWith('image/')){
-        const reader = new FileReader();
+        // Se retira el texto
+        if(dropArea.querySelector('.dropTextArea')) {
+            dropArea.querySelector('.dropTextArea').remove();
+        }
 
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-            // thumbnail.style.backgroundImage = `url('${ reader.result }')`;
-            image.setAttribute('src', reader.result);
-        };
-    } else {
-        thumbnail.style.backgroundImage = null;
+        // Se añade el espacio para poner la imagen
+        if(!thumbnail) {
+            thumbnail = document.createElement('div');
+            image = document.createElement('img');
+            thumbnail.classList.add('dropAreaImage');
+            thumbnail.appendChild(image)
+            dropArea.appendChild(thumbnail);
+        }
+
+        // Si la imagen ya existe
+        if(updateDefaultImage) {
+            updateDefaultImage.remove();
+            image = document.createElement('img');
+            thumbnail.appendChild(image)
+        }
+
+        // Si el archivo ingresado es una imagen
+        if(file.type.startsWith('image/')){
+            const reader = new FileReader();
+
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                image.setAttribute('src', reader.result);
+            };
+        } else {
+            thumbnail.style.backgroundImage = null;
+        }
     }
 }
 
@@ -127,21 +140,21 @@ function restartErrorLabel(label, display) {
 
         document.getElementById('repeatedKey').style.display = display;
         document.getElementById('addTagSection').style.borderColor = color;
-        tagger.style.borderBottomColor = color;
+        document.getElementById('tagger').style.borderBottomColor = color;
     }
 }
 
 // Tagger para guardar las keys de los productos
 var keysArray = new Array(); // Array que contiene todas las keys
-function createTag(event) {
+function createTag(event, form) {
 
-    const input = document.getElementById('addTagInput');
-    input.value = input.value.replace(/\s/g, '-');
+    const input = document.getElementsByClassName('addTagInput');
+    input[0].value = input[0].value.replace(/\s/g, '-');
 
-    const tagger = document.getElementById('tagger');
+    const tagger = document.getElementsByClassName('tagger');
     const tags = document.getElementsByClassName('tag');
     const count = document.getElementsByClassName('opaqueLabelText');
-    const inputAllTags = document.getElementById('inputAllTags');
+    const inputAllTags = document.getElementsByClassName('inputAllTags');
     const inputAmount = document.getElementById('inputAmount');
 
     // Si la tecla presionada es Enter entonces se creara el div
@@ -149,42 +162,90 @@ function createTag(event) {
 
         restartErrorLabel("repeatedKey", "none");
 
-        if(input.value != "" && keysArray.indexOf(input.value) === -1) {
+        if(form == "create") {
+            
+            if(input[0].value != "" && keysArray.indexOf(input[0].value) === -1) {
 
-            inputAllTags.value += `/${ input.value }`;
-            tagger.innerHTML += `<div class="tag"><div class="tagNumber">${ tags.length + 1 }</div><div class="tagText">${ input.value }</div><div onclick="deleteTag(this)" class="tagButton"><svg xmlns="http://www.w3.org/2000/svg" class="deleteIcon" viewBox="0 0 512 512"><title>Eliminar</title><path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 368L144 144M368 144L144 368"/></svg></div></div>`;
-            count[0].innerHTML = `- Cantidad ${ tags.length }`; // Se cambia la cantidad de tags que hay en total
-            keysArray.push(input.value);
-            inputAmount.value = tags.length;
-            input.value = ""; 
+                inputAllTags[0].value += `/${ input[0].value }`;
+                tagger[0].innerHTML += `<div class="tag"><div class="tagNumber">${ tags.length + 1 }</div><div class="tagText">${ input[0].value }</div><div onclick="deleteTag(this, 'create')" class="tagButton"><svg xmlns="http://www.w3.org/2000/svg" class="deleteIcon" viewBox="0 0 512 512"><title>Eliminar</title><path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 368L144 144M368 144L144 368"/></svg></div></div>`;
+                count[0].innerHTML = `- Cantidad ${ tags.length }`; // Se cambia la cantidad de tags que hay en total
+                keysArray.push(input[0].value);
+                inputAmount.value = tags.length;
+                input[0].value = "";
+            }
+            
+            if(keysArray.indexOf(input[0].value) !== -1){
+                restartErrorLabel("repeatedKey", "flex");
+            }
         }
-        
-        if(keysArray.indexOf(input.value) !== -1){
 
-            restartErrorLabel("repeatedKey", "flex");
-        } 
+        if(form == "edit") {
+
+            if(input[1].value != "" && keysArray.indexOf(input[1].value) === -1) {
+
+                console.log(inputAllTags[1].value);
+
+                inputAllTags[1].value += `/${ input[1].value }`;
+                tagger[1].innerHTML += `<div class="tag"><div class="tagNumber">${ tags.length + 1 }</div><div class="tagText">${ input[1].value }</div><div onclick="deleteTag(this, 'edit')" class="tagButton"><svg xmlns="http://www.w3.org/2000/svg" class="deleteIcon" viewBox="0 0 512 512"><title>Eliminar</title><path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 368L144 144M368 144L144 368"/></svg></div></div>`;
+                count[1].innerHTML = `- Cantidad ${ tags.length }`; // Se cambia la cantidad de tags que hay en total
+                keysArray.push(input[1].value);
+                inputAmount.value = tags.length;
+                input[1].value = "";
+            }
+            
+            if(keysArray.indexOf(input[1].value) !== -1){
+                restartErrorLabel("repeatedKey", "flex");
+            }
+        }
     }
 }
 
-function deleteTag(element) {
+function deleteTag(element, form) {
 
-    // Se elimina la key del valor del input (inputAllTags)
-    const tagText = element.parentNode.querySelector('.tagText');
-    const inputAllTags = document.getElementById('inputAllTags');
-    inputAllTags.value = inputAllTags.value.replace(`/${tagText.innerHTML}`, '');
-    keysArray = keysArray.filter(e => e !== tagText.innerHTML); // Se elimina el Key del Array
+    const tagText = element.parentNode.getElementsByClassName('tagText');
+    const inputAllTags = document.getElementsByClassName('inputAllTags');
 
-    // Se eliminan los elementos con la misma Id
-    element.parentNode.remove();
+    if(form == "create") {
 
-    const tagNumber = document.getElementsByClassName('tagNumber');
-    const count = document.getElementsByClassName('opaqueLabelText');
-    const inputAmount = document.getElementById('inputAmount');
-    inputAmount.value = tagNumber.length;
-    count[0].innerHTML = `- Cantidad ${ tagNumber.length }`; // Se cambia la cantidad de tags que hay en total
+        console.log("delete")
 
-    // Se reorganizan los numeros de las tags con respecto a la cantidad
-    for(i = 0; i < tagNumber.length; i++) {
-        tagNumber[i].innerHTML = i+1;
+        // Se elimina la key del valor del input (inputAllTags)
+        inputAllTags[0].value = inputAllTags[0].value.replace(`/${tagText.innerHTML}`, '');
+        keysArray = keysArray.filter(e => e !== tagText.innerHTML); // Se elimina el Key del Array
+
+        // Se eliminan los elementos con la misma Id
+        element.parentNode.remove();
+
+        const tagNumber = document.getElementsByClassName('tagNumber');
+        const count = document.getElementsByClassName('opaqueLabelText');
+        const inputAmount = document.getElementById('inputAmount');
+        inputAmount.value = tagNumber.length;
+        count[0].innerHTML = `- Cantidad ${ tagNumber.length }`; // Se cambia la cantidad de tags que hay en total
+
+        // Se reorganizan los numeros de las tags con respecto a la cantidad
+        for(i = 0; i < tagNumber.length; i++) {
+            tagNumber[i].innerHTML = i+1;
+        }
+    }
+
+    if(form == "edit") {
+
+        // Se elimina la key del valor del input (inputAllTags)
+        inputAllTags[1].value = inputAllTags[1].value.replace(`/${tagText.innerHTML}`, '');
+        keysArray = keysArray.filter(e => e !== tagText.innerHTML); // Se elimina el Key del Array
+
+        // Se eliminan los elementos con la misma Id
+        element.parentNode.remove();
+
+        const tagNumber = document.getElementsByClassName('tagNumber');
+        const count = document.getElementsByClassName('opaqueLabelText');
+        const inputAmount = document.getElementById('inputAmount');
+        inputAmount.value = tagNumber.length;
+        count[1].innerHTML = `- Cantidad ${ tagNumber.length }`; // Se cambia la cantidad de tags que hay en total
+
+        // Se reorganizan los numeros de las tags con respecto a la cantidad
+        for(i = 0; i < tagNumber.length; i++) {
+            tagNumber[i].innerHTML = i+1;
+        }
     }
 }

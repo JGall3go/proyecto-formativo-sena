@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sublinea extends Model
+class KeyDetalle extends Model
 {
     use HasFactory;
 
-    protected $table = "sublinea";
-    protected $primaryKey = "idSubLinea";
+    protected $table = "key_detalle";
+    protected $primaryKey = "idDetalle";
 
     public $timestamps = false;
 }
