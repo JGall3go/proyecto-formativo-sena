@@ -45,11 +45,11 @@ class EmpleadoController
             ->join('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
             ->join('ciudad', 'ciudad_idCiudad', 'idCiudad')
             ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Empleado');})
-            ->select('idPerfil', 'nombres', 'apellidos', 'nombreUsuario', 'fechaNacimiento', 'contrasena', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')
+            ->select('idPerfil', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'contrasena', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')
             ->where('idPerfil', 'Like','%'.$busqueda.'%')
             ->orwhere('nombres', 'Like','%'.$busqueda.'%')
             ->orwhere('apellidos', 'Like','%'.$busqueda.'%')
-            ->orwhere('nombreUsuario', 'Like','%'.$busqueda.'%')
+            ->orwhere('nombrePerfil', 'Like','%'.$busqueda.'%')
             ->orwhere('fechaNacimiento', 'Like','%'.$busqueda.'%')
             ->orwhere('estado', 'Like','%'.$busqueda.'%')
             ->orwhere('telefono', 'Like','%'.$busqueda.'%')
@@ -105,7 +105,6 @@ class EmpleadoController
         $usuarioInsertado = DB::table('usuario')->insertGetId([ // Tabla de usuarios
             'nombres' => $userData['nombres'],
             'apellidos' => $userData['apellidos'],
-            'nombreUsuario' => $userData['nombreUsuario'],
             'fechaNacimiento' => $userData['fechaNacimiento'],
             'contrasena' => $userData['contrasena'],
             'estado_idEstado' => $userData['estado_idEstado'],
@@ -115,7 +114,7 @@ class EmpleadoController
         ]);
         
         $perfilInsertado = DB::table('perfil')->insertGetId([
-            'nombrePerfil' => $userData['nombreUsuario'],
+            'nombrePerfil' => $userData['nombrePerfil'],
             'usuario_idUsuario' => $usuarioInsertado,
             'rol_idRol' => '3' // Rol Automatico (3 = Empleado)
         ]);
@@ -154,7 +153,7 @@ class EmpleadoController
             ->join('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
             ->join('ciudad', 'ciudad_idCiudad', 'idCiudad')
             ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Empleado');})
-            ->select('idPerfil', 'nombres', 'apellidos', 'nombreUsuario', 'fechaNacimiento', 'contrasena', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')->paginate(session('paginate'));
+            ->select('idPerfil', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'contrasena', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')->paginate(session('paginate'));
 
             $data['perfilesEdit'] = Perfil::findOrFail($idPerfil); // change
             $data['usuariosEdit'] = Usuario::findOrFail($data['perfilesEdit']->usuario_idUsuario);
@@ -200,7 +199,6 @@ class EmpleadoController
             $datosUsuario = Usuario::where('idUsuario', '=', $perfil->usuario_idUsuario)->update([
                 'nombres' => $userData['nombres'],
                 'apellidos' => $userData['apellidos'],
-                'nombreUsuario' => $userData['nombreUsuario'],
                 'fechaNacimiento' => $userData['fechaNacimiento'],
                 'contrasena' => $userData['contrasena'],
                 'estado_idEstado' => $userData['estado_idEstado'],
@@ -210,7 +208,7 @@ class EmpleadoController
 
             // Actualizacion de Usuarios
             $datosPerfil = Perfil::where('usuario_idUsuario', '=', $perfil->usuario_idUsuario)->update([
-                'nombrePerfil' => $userData['nombreUsuario'],
+                'nombrePerfil' => $userData['nombrePerfil'],
                 'rol_idRol' => $userData['rol']]);
         }
         

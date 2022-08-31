@@ -52,7 +52,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
-                    <th>Usuario</th>
+                    <th>pERnombrePerfil</th>
                     <th>Fecha de nacimiento</th>
                     <th>Contraseña</th>
                     <th>Estado</th>
@@ -73,7 +73,7 @@
                 <tr>
                     <td>{{ $perfil->idPerfil}}</td>
                     <td>{{$perfil->nombres}} {{$perfil->apellidos}}</td>
-                    <td>{{ $perfil->nombreUsuario}}</td>
+                    <td>{{ $perfil->nombrePerfil}}</td>
                     <td>{{ $perfil->fechaNacimiento}}</td>
                     <td>{{ $perfil->contrasena}}</td>
                     <td><span @if($perfil->estado == "Activo")class="activeState"@else class="inactiveState" @endif>{{ $perfil->estado}}<span></td>
@@ -83,7 +83,6 @@
                     <td>{{ $perfil->email}}</td>
                     <td>{{ $perfil->rol}}</td>
                     <td class="actionButton">
-
                         <div>
                             <form action="{{ url('dashboard/administrador/'.$perfil->idPerfil.'/edit') }}">
                                 <button type="submit" class="botonEditar">
@@ -151,12 +150,15 @@
     </div>
 
     <div class="forms" @isset($formDisplay)style="display: flex"@endisset>
+
+        <a class="formBackground" @isset($perfilesEdit) href="/dashboard/administrador" @else onclick="showForm('create')" @endisset></a>
+
         <div class="createForm">
 
             <form action="{{url('/dashboard/administrador')}}" method="POST" enctype="multipart/form-data" class="form">
     
                 @csrf
-                @include('dboardPlantillas/createForm', ['usuario' => 'Administrador'])
+                @include('Dashboard/Plantillas/createForm', ['usuario' => 'Administrador'])
     
             </form>
     
@@ -173,7 +175,7 @@
                     if(isset($perfilesEdit)){$perfilesEdit = $perfilesEdit;} else { $perfilesEdit = null;}
                 @endphp
     
-                @include('dboardPlantillas/updateForm', ['usuario' => 'Administrador', 'edit' => $perfilesEdit])
+                @include('Dashboard/Plantillas/updateForm', ['usuario' => 'Administrador', 'edit' => $perfilesEdit, 'url' => '/dashboard/administrador'])
     
             </form>
         </div>

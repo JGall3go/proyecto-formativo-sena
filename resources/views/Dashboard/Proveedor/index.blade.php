@@ -24,7 +24,8 @@
                     <select onchange="this.form.submit()" name='registros'  class="registersSelect" id="select">
                         <option value='5'>5 Reg</option>
                         <option value='10'>10 Reg</option>
-                        <option value='15'>15 Reg</option>
+                        <option value='20'>20 Reg</option>
+                        <option value='30'>30 Reg</option>
                     </select>
                 </form>
 
@@ -152,6 +153,9 @@
     </div>
 
     <div class="forms" @isset($formDisplay)style="display: flex"@endisset>
+
+        <a class="formBackground" @isset($perfilesEdit) href="/dashboard/proveedor" @else onclick="showForm('create')" @endisset></a>
+
         <div class="createForm">
 
             <form action="{{url('/dashboard/proveedor')}}" method="POST" enctype="multipart/form-data" class="form">
@@ -174,7 +178,7 @@
                     if(isset($perfilesEdit)){$perfilesEdit = $perfilesEdit;} else { $perfilesEdit = null;}
                 @endphp
     
-                @include('Dashboard/Plantillas/updateForm', ['usuario' => 'Proveedor', 'edit' => $perfilesEdit])
+                @include('Dashboard/Plantillas/updateForm', ['usuario' => 'Proveedor', 'edit' => $perfilesEdit, 'url' => '/dashboard/proveedor'])
     
             </form>
         </div>

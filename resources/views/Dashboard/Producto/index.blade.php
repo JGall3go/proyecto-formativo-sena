@@ -24,9 +24,7 @@
                     <select onchange="this.form.submit()" name='registros'  class="registersSelect">
                         <option value='5'>5 Reg</option>
                         <option value='10'>10 Reg</option>
-                        <option value='15'>15 Reg</option>
                         <option value='20'>20 Reg</option>
-                        <option value='25'>25 Reg</option>
                         <option value='30'>30 Reg</option>
                     </select>
                 </form>

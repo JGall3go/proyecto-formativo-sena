@@ -201,7 +201,6 @@ class ProveedorController
             $datosUsuario = Usuario::where('idUsuario', '=', $perfil->usuario_idUsuario)->update([
                 'nombres' => $userData['nombres'],
                 'apellidos' => $userData['apellidos'],
-                'nombreUsuario' => $userData['nombreUsuario'],
                 'fechaNacimiento' => $userData['fechaNacimiento'],
                 'contrasena' => $userData['contrasena'],
                 'estado_idEstado' => $userData['estado_idEstado'],
@@ -211,7 +210,7 @@ class ProveedorController
 
             // Actualizacion de Usuarios
             $datosPerfil = Perfil::where('usuario_idUsuario', '=', $perfil->usuario_idUsuario)->update([
-                'nombrePerfil' => $userData['nombreUsuario'],
+                'nombrePerfil' => $userData['nombrePerfil'],
                 'rol_idRol' => $userData['rol']]);
         }
         

@@ -44,8 +44,8 @@
         </div>
 
         <div id="sidebarItems">
-            <a href="/dashboard/usuario" id="initialItem" @if(str_contains(url()->current(), '/dashboard/usuario'))class="active"@else class="a"@endif> <img src="{{ asset('svg/person-circle-outline.svg') }}" id="ionIconElement"> <span class="textElementMenu" id="spanCollect">Usuarios</span></a>
-            <a href="/dashboard/administrador" @if(str_contains(url()->current(), '/dashboard/administrador'))class="active"@else class="a"@endif> <img src="{{ asset('svg/build-outline.svg') }}" id="ionIconElement"> <span class="textElementMenu" id="spanCollect">Administradores</span></a>
+            <!--<a href="/dashboard/usuario" id="initialItem" @if(str_contains(url()->current(), '/dashboard/usuario'))class="active"@else class="a"@endif> <img src="{{ asset('svg/person-circle-outline.svg') }}" id="ionIconElement"> <span class="textElementMenu" id="spanCollect">Usuarios</span></a>-->
+            <a href="/dashboard/administrador" id="initialItem" @if(str_contains(url()->current(), '/dashboard/administrador'))class="active"@else class="a"@endif> <img src="{{ asset('svg/build-outline.svg') }}" id="ionIconElement"> <span class="textElementMenu" id="spanCollect">Administradores</span></a>
             <a href="/dashboard/empleado" @if(str_contains(url()->current(), '/dashboard/empleado'))class="active"@else class="a"@endif> <img src="{{ asset('svg/person-outline.svg') }}" id="ionIconElement"> <span class="textElementMenu" id="spanCollect">Empleados</span></a>
             <a href="/dashboard/cliente" @if(str_contains(url()->current(), '/dashboard/cliente'))class="active"@else class="a"@endif> <img src="{{ asset('svg/people-outline.svg') }}" id="ionIconElement"> <span class="textElementMenu" id="spanCollect">Clientes</span></a>
             <a href="/dashboard/proveedor" @if(str_contains(url()->current(), '/dashboard/proveedor'))class="active"@else class="a"@endif> <img src="{{ asset('svg/storefront-outline.svg') }}" id="ionIconElement"> <span class="textElementMenu" id="spanCollect">Proveedores</span></a>

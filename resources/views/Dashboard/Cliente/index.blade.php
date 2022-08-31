@@ -73,7 +73,7 @@
                 <tr>
                     <td>{{ $perfil->idPerfil}}</td>
                     <td>{{$perfil->nombres}} {{$perfil->apellidos}}</td>
-                    <td>{{ $perfil->nombreUsuario}}</td>
+                    <td>{{ $perfil->nombrePerfil}}</td>
                     <td>{{ $perfil->fechaNacimiento}}</td>
                     <td>{{ $perfil->contrasena}}</td>
                     <td><span @if($perfil->estado == "Activo")class="activeState"@else class="inactiveState" @endif>{{ $perfil->estado}}<span></td>
@@ -151,12 +151,15 @@
     </div>
 
     <div class="forms" @isset($formDisplay)style="display: flex"@endisset>
+
+        <a class="formBackground" @isset($perfilesEdit) href="/dashboard/cliente" @else onclick="showForm('create')" @endisset></a>
+
         <div class="createForm">
 
             <form action="{{url('/dashboard/cliente')}}" method="POST" enctype="multipart/form-data" class="form">
     
                 @csrf
-                @include('dboardPlantillas/createForm', ['usuario' => 'Cliente'])
+                @include('Dashboard/Plantillas/createForm', ['usuario' => 'Cliente'])
     
             </form>
     
@@ -173,7 +176,7 @@
                     if(isset($perfilesEdit)){$perfilesEdit = $perfilesEdit;} else { $perfilesEdit = null;}
                 @endphp
     
-                @include('dboardPlantillas/updateForm', ['usuario' => 'Cliente', 'edit' => $perfilesEdit])
+                @include('Dashboard/Plantillas/updateForm', ['usuario' => 'Cliente', 'edit' => $perfilesEdit, 'url' => '/dashboard/cliente'])
     
             </form>
         </div>
