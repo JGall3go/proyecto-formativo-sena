@@ -103,7 +103,7 @@ class AdministradorController
         ]);
 
         $usuarioInsertado = DB::table('usuario')->insertGetId([ // Tabla de usuarios
-            'imagen' => asset(), // Imagen predeterminada
+            'imagen' => 'usuarios/default01.png', // Imagen predeterminada
             'nombres' => $userData['nombres'],
             'apellidos' => $userData['apellidos'],
             'fechaNacimiento' => $userData['fechaNacimiento'],
@@ -171,7 +171,7 @@ class AdministradorController
 
         $data = busquedaDB($idPerfil);
 
-        return view('Dashbord.Administrador.index', $data, compact('params', 'page', 'formDisplay'));
+        return view('Dashboard.Administrador.index', $data, compact('params', 'page', 'formDisplay'));
     }
 
     /**

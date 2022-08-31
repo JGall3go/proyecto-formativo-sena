@@ -25,8 +25,9 @@
     <div class="sidebar" id="sidebar">
 
         <div class="sidebarHeader" id="sidebarHeader">
+            
             <span id="companyTitle">
-                <h2>Company</h2>
+                <h2>InstantGaming</h2>
                 <h6>Dashboard</h6>
             </span>
 
@@ -85,7 +86,7 @@
                 <ion-icon name="menu-outline" onclick="collectSidebarResponsive(this)"></ion-icon>
             </span>
 
-            <a id="profileAnclaResponsive"><img src="https://www.trecebits.com/wp-content/uploads/2019/02/Persona-1-445x445.jpg">
+            <a id="profileAnclaResponsive"><img src="https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.webp">
             <h4>Normal Person</h4></a>
 
         </header>

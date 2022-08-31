@@ -12,7 +12,7 @@
             <div><h3 style="margin-top: 0px; color: #707070">Administradores</h3></div>
         </div>
 
-        <a id="profileAncla"><img src="https://hastane.ksu.edu.tr/depo/kullanici/resim/no-avatar.png" id='imageProfile'></a>
+        <a id="profileAncla"><img src="https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.webp" id='imageProfile'></a>
     </div>
 
     <div class="tableContent">
@@ -52,7 +52,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
-                    <th>pERnombrePerfil</th>
+                    <th>Usuario</th>
                     <th>Fecha de nacimiento</th>
                     <th>Contraseña</th>
                     <th>Estado</th>

@@ -104,7 +104,7 @@ class ProveedorController
         ]);
 
         $usuarioInsertado = DB::table('usuario')->insertGetId([ // Tabla de usuarios
-            'imagen' => "imagen",
+            'imagen' => 'usuarios/default01.png',
             'nombres' => $userData['nombres'],
             'apellidos' => $userData['apellidos'],
             'fechaNacimiento' => $userData['fechaNacimiento'],
