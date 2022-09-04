@@ -24,7 +24,8 @@
                     <select onchange="this.form.submit()" name='registros'  class="registersSelect" id="select">
                         <option value='5'>5 Reg</option>
                         <option value='10'>10 Reg</option>
-                        <option value='15'>15 Reg</option>
+                        <option value='20'>20 Reg</option>
+                        <option value='30'>30 Reg</option>
                     </select>
                 </form>
 
@@ -54,7 +55,6 @@
                     <th>Nombre</th>
                     <th>Usuario</th>
                     <th>Fecha de nacimiento</th>
-                    <th>Contraseña</th>
                     <th>Estado</th>
                     <th>Telefono</th>
                     <th>Documento</th>
@@ -75,7 +75,6 @@
                     <td>{{$perfil->nombres}} {{$perfil->apellidos}}</td>
                     <td>{{ $perfil->nombrePerfil}}</td>
                     <td>{{ $perfil->fechaNacimiento}}</td>
-                    <td>{{ $perfil->contrasena}}</td>
                     <td><span @if($perfil->estado == "Activo")class="activeState"@else class="inactiveState" @endif>{{ $perfil->estado}}<span></td>
                     <td>{{ $perfil->telefono}}</td>
                     <td>{{ $perfil->tipoDocumento }} - {{ $perfil->documento }}</td>

@@ -5,11 +5,27 @@ p {
   color: transparent;
 }
 
-/* Content */
-
 .contentDashboard {
   width: 100%;
   max-width: 100%;
+}
+
+/* Phones */
+@media screen and (max-width: 767px) {
+  .contentDashboard {
+    margin-top: 100px;
+    padding: 0 15px 15px 15px;
+    width: calc(100% - 30px);
+  }
+}
+
+/* Tablets */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .contentDashboard {
+    margin-top: 100px;
+    padding: 0 15px 15px 15px;
+    width: calc(100% - 30px);
+  }
 }
 
 /* Forms */
@@ -624,7 +640,7 @@ table tr td {
 .topBar, .topBarCollected {
   font-size: 13px;
   backdrop-filter: blur(7px);
-  background-color: rgba(255, 255, 255, 0.5); 
+  background-color: rgba(255, 255, 255, 0.5);
   color: #DADCE0;
   left: 200px;
   width: calc(100% - 200px);
@@ -638,6 +654,48 @@ table tr td {
   z-index: 2;
 }
 
+.iconMenu svg {
+  width: 40px;
+  margin-right: 10px;
+  display: none;
+}
+
+/* Phones */
+@media screen and (max-width: 767px) {
+
+  #menuIconBack {
+    display: none;
+  }
+
+  .topBar {
+    width: 100%;
+    left: 0px;
+    z-index: 1;
+  }
+
+  .iconMenu svg {
+    display: flex;
+  }
+}
+
+/* Tablets */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+
+  #menuIconBack {
+    display: none;
+  }
+
+  .topBar {
+    width: 100%;
+    left: 0px;
+    z-index: 1;
+  }
+
+  .iconMenu svg {
+    display: flex;
+  }
+}
+
 .topBarCollected {
   left: 60px;
   width: calc(100% - 60px);
@@ -646,6 +704,7 @@ table tr td {
 .breadCrumbs {
   margin-top: 15px;
   margin-left: 20px;
+  display: flex;
 }
 
 #imageProfile { 
@@ -760,6 +819,49 @@ table tr td {
 .searchButton:hover {
   cursor: pointer;
   background-color: #7182e4;
+}
+
+/* Phones */
+@media screen and (max-width: 767px) {
+  
+  .createLink {
+    margin-right: 15px
+  }
+
+  .createLink span {
+    display: none;
+  }
+
+  .addIcon {
+    height: 13px;
+    width: 20px;
+    margin-right: 0px;
+  }
+
+  .searchInput {
+    width: 70%;
+  }
+}
+
+/* Tablets */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .createLink {
+    margin-right: 15px
+  }
+
+  .createLink span {
+    display: none;
+  }
+
+  .addIcon {
+    height: 13px;
+    width: 20px;
+    margin-right: 0px;
+  }
+
+  .searchInput {
+    width: 70%;
+  }
 }
 
 /* Table Paginator */

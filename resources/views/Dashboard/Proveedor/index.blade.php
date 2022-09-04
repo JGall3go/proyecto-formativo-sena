@@ -55,7 +55,6 @@
                     <th>Nombre</th>
                     <th>Usuario</th>
                     <th>Fecha de nacimiento</th>
-                    <th>Contraseña</th>
                     <th>Estado</th>
                     <th>Telefono</th>
                     <th>Documento</th>
@@ -76,7 +75,6 @@
                     <td>{{$perfil->nombres}} {{$perfil->apellidos}}</td>
                     <td>{{ $perfil->nombrePerfil}}</td>
                     <td>{{ $perfil->fechaNacimiento}}</td>
-                    <td>{{ $perfil->contrasena}}</td>
                     <td><span @if($perfil->estado == "Activo")class="activeState"@else class="inactiveState" @endif>{{ $perfil->estado}}<span></td>
                     <td>{{ $perfil->telefono}}</td>
                     <td>{{ $perfil->tipoDocumento }} - {{ $perfil->documento }}</td>
