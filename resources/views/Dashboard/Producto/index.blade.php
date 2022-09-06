@@ -53,59 +53,62 @@
             </div>
         </div>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Imagen</th>
-                    <th>Titulo</th>
-                    <th>Descripcion</th>
-                    <th>Valor</th>
-                    <th>Cantidad</th>
-                    <th>Linea y Sublinea</th>
-                    <th>Proveedor</th>
-                    <th class="actionButtonContainer">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if(count($productos) <= 0)
-                    <tr><td colspan="100%">No se encontraron resultados.</td></tr>
-                @else
+        <div class="tableContainer">
 
-                @foreach($productos as $producto)
-                <tr>
-                    <td>{{ $producto->idProducto}}</td>
-                    <td><img src="{{asset('storage').'/'.$producto->imagen}}" class="productImage"></td>
-                    <td>{{$producto->titulo}}</td>
-                    <td>{{ $producto->descripcion}}</td>
-                    <td>{{ $producto->valor}}</td>
-                    <td>{{ $producto->cantidad}}</td>
-                    <td>{{ $producto->linea}} - {{ $producto->sublinea}}</td>
-                    <td>{{ $producto->nombrePerfil}}</td>
-                    <td class="actionButton" id="productActionButton">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Imagen</th>
+                        <th>Titulo</th>
+                        <th>Descripcion</th>
+                        <th>Valor</th>
+                        <th>Cantidad</th>
+                        <th>Linea y Sublinea</th>
+                        <th>Proveedor</th>
+                        <th class="actionButtonContainer">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if(count($productos) <= 0)
+                        <tr><td colspan="100%">No se encontraron resultados.</td></tr>
+                    @else
 
-                        <div>
-                            <form action="{{ url('dashboard/producto/'.$producto->idProducto.'/edit') }}">
-                                <button type="submit" class="botonEditar">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="pencilSvg" viewBox="0 0 24 24"><path d="M14.078 4.232l-12.64 12.639-1.438 7.129 7.127-1.438 12.641-12.64-5.69-5.69zm-10.369 14.893l-.85-.85 11.141-11.125.849.849-11.14 11.126zm2.008 2.008l-.85-.85 11.141-11.125.85.85-11.141 11.125zm18.283-15.444l-2.816 2.818-5.691-5.691 2.816-2.816 5.691 5.689z"/></svg>
-                                </button>
-                            </form>
-    
-                            <form action="{{ url('dashboard/producto/'.$producto->idProducto) }}" method="POST">
-                                {{ method_field('DELETE')}}
-                                {{ csrf_field() }}
-                                <button type="submit" class="botonEliminar" onclick="return confirm('Quieres borrar este registro?')">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="trashSvg" viewBox="0 0 512 512" ><title>Eliminar</title><path d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 112h352"/><path d="M192 112V72h0a23.93 23.93 0 0124-24h80a23.93 23.93 0 0124 24h0v40M256 176v224M184 176l8 224M328 176l-8 224" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
-                                </button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-                @endforeach
-                @endif  
-            </tbody>
-        </table>
+                    @foreach($productos as $producto)
+                    <tr>
+                        <td>{{ $producto->idProducto}}</td>
+                        <td><img src="{{asset('storage').'/'.$producto->imagen}}" class="productImage"></td>
+                        <td>{{$producto->titulo}}</td>
+                        <td>{{ $producto->descripcion}}</td>
+                        <td>{{ $producto->valor}}</td>
+                        <td>{{ $producto->cantidad}}</td>
+                        <td>{{ $producto->linea}} - {{ $producto->sublinea}}</td>
+                        <td>{{ $producto->nombrePerfil}}</td>
+                        <td class="actionButton" id="productActionButton">
 
+                            <div>
+                                <form action="{{ url('dashboard/producto/'.$producto->idProducto.'/edit') }}">
+                                    <button type="submit" class="botonEditar">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="pencilSvg" viewBox="0 0 24 24"><path d="M14.078 4.232l-12.64 12.639-1.438 7.129 7.127-1.438 12.641-12.64-5.69-5.69zm-10.369 14.893l-.85-.85 11.141-11.125.849.849-11.14 11.126zm2.008 2.008l-.85-.85 11.141-11.125.85.85-11.141 11.125zm18.283-15.444l-2.816 2.818-5.691-5.691 2.816-2.816 5.691 5.689z"/></svg>
+                                    </button>
+                                </form>
+        
+                                <form action="{{ url('dashboard/producto/'.$producto->idProducto) }}" method="POST">
+                                    {{ method_field('DELETE')}}
+                                    {{ csrf_field() }}
+                                    <button type="submit" class="botonEliminar" onclick="return confirm('Quieres borrar este registro?')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="trashSvg" viewBox="0 0 512 512" ><title>Eliminar</title><path d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 112h352"/><path d="M192 112V72h0a23.93 23.93 0 0124-24h80a23.93 23.93 0 0124 24h0v40M256 176v224M184 176l8 224M328 176l-8 224" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                    @endif  
+                </tbody>
+            </table>
+        </div>
+        
         <div class="paginatorButtons">
 
             <!-- Paginator Section -->

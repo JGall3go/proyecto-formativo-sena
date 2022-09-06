@@ -290,30 +290,28 @@ h6 {
   color: white;
 }
 
-.textElementMenuCollected{
+.textElementMenuCollected {
   display: none;
 }
 
 /* Responsive Design */
 
-.content{
-  margin-top: 80px;
+.content {
   margin-left: 200px;
-  padding: 1px 20px;
-  height: max-content;
+  padding: 0px 20px;
+  height: 100%;
   max-width: 2000px;
 }
 
-.contentCollect{
-  margin-top: 80px;
+.contentCollect {
   margin-left: 60px;
+  height: 100%;
   padding: 1px 20px;
-  height: max-content;
 }
 
 /* Responsive Header */
 
-.headerContentResponsive{
+.headerContentResponsive {
   display: none;
   width: 100%;
   height: max-content;

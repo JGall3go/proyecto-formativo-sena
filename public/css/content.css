@@ -6,8 +6,10 @@ p {
 }
 
 .contentDashboard {
+  margin-top: 100px;
   width: 100%;
   max-width: 100%;
+  height: calc(100vh - 220px);
 }
 
 /* Phones */
@@ -489,10 +491,14 @@ option {
 }
 
 table {
-  overflow: hidden;
-  height: 100%;
   width: 100%;
+  max-height: calc(100vh - 200px);
   display: block;
+}
+
+tbody {
+  max-height: calc(100vh - 200px);
+  overflow: auto;
 }
 
 table tr td {
@@ -526,9 +532,16 @@ table tr td {
   padding: 12px 15px;
 }
 
+.table th {
+  background-color: #e9e9e9;
+
+  position: sticky;
+}
+
 .table tbody tr {
   background-color: #ffffff;
   border-bottom: 1px solid #dddddd;
+  table-layout: fixed;
 }
 
 /*
@@ -560,8 +573,8 @@ table tr td {
 }
 
 .productImage {
-  width: 150px;
-  height: 100px;
+  width: 100px;
+  height: 50px;
   border-radius: 5px;
 }
 
@@ -602,11 +615,9 @@ table tr td {
 .actionButtonContainer {
   background-color: #e9e9e9;
   position: sticky;
-  right: 0;
 }
 
 .actionButton {
-  position: sticky;
   right: 0;
   background-color: #ffffff;
 }
@@ -616,8 +627,8 @@ table tr td {
   flex-direction: row;
 }
 
-.actionButton form {
-  display: flex;
+.actionButton form 
+{  display: flex;
   justify-content: center;
   align-items: center;
   width: max-content;
@@ -719,13 +730,12 @@ table tr td {
   color: #5e72e4;
 }
 
-/* Table Header Content */
+/* Header Content */
 
 .tableHeaderContent {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 15px;
 }
 
 /* Header Select Form */
