@@ -8,8 +8,13 @@
 
     <div class="topBar" id="topBar">
         <div class="breadCrumbs">
-            <span style="color: #b9b9b9; font-size: 12px; font-weight: 600;">Dashboard</span> <span style="color: #818181; font-size: 12px; font-weight: 600;">/ Cliente</span>
-            <div><h3 style="margin-top: 0px; color: #707070">Clientes</h3></div>
+            <span class="iconMenu" onclick="collectSidebarResponsive(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><title>Menu</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 160h352M80 256h352M80 352h352"/></svg>
+            </span>
+            <div>
+                <span style="color: #b9b9b9; font-size: 12px; font-weight: 600;">Dashboard</span> <span style="color: #818181; font-size: 12px; font-weight: 600;">/ Cliente</span>
+                <div><h3 style="margin-top: 0px; color: #707070">Clientes</h3></div>
+            </div>
         </div>
 
         <a id="profileAncla"><img src="https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.webp" id='imageProfile'></a>

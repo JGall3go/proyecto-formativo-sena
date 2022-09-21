@@ -2,20 +2,14 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Models\Producto;
-use App\Models\Linea;
-use App\Models\Sublinea;
-use App\Models\Perfil;
-use App\Models\DescripcionProducto;
-use App\Models\Keys;
-use App\Models\KeyDetalle;
+use App\Models\Venta;
 
 // Laravel Modules
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class ProductoController
+class VentaController
 {
     /**
      * Display a listing of the resource.
@@ -42,35 +36,23 @@ class ProductoController
 
         function busquedaDB($busqueda){
 
-            $data['productos'] = DB::table('producto')
-            ->orderByRaw('idProducto')
-            ->join('linea', 'linea_idLinea', '=', 'idLinea')
-            ->join('sublinea', 'sublinea_idSublinea', '=', 'idSublinea')
+            $data['ventas'] = DB::table('venta')
+            ->orderByRaw('idVenta')
+            ->join('metodo_pago', 'metodo_pago_idMetodo', '=', 'idMetodo')
             ->join('perfil', 'perfil_idPerfil', '=', 'idPerfil')
-            ->join('descripcion_producto', 'descripcion_producto_idDescripcion', '=', 'idDescripcion')
-            ->select('idProducto', 'imagen', 'titulo', 'descripcion', 'requisitosMinimos', 'requisitosRecomendados', 'valor', 'cantidad', 'linea', 'sublinea', 'nombrePerfil')
+            ->select('idVenta', 'fecha', 'total', 'metodo', 'nombrePerfil')
             // Busqueda por url
-            ->where('idProducto', 'Like','%'.$busqueda.'%')
-            ->orwhere('titulo', 'Like','%'.$busqueda.'%')
-            ->orwhere('descripcion', 'Like','%'.$busqueda.'%')
-            ->orwhere('valor', 'Like','%'.$busqueda.'%')
-            ->orwhere('cantidad', 'Like','%'.$busqueda.'%')
-            ->orwhere('linea', 'Like','%'.$busqueda.'%')
-            ->orwhere('sublinea', 'Like','%'.$busqueda.'%')
+            ->where('idVenta', 'Like','%'.$busqueda.'%')
+            ->orwhere('fecha', 'Like','%'.$busqueda.'%')
+            ->orwhere('total', 'Like','%'.$busqueda.'%')
+            ->orwhere('metodo', 'Like','%'.$busqueda.'%')
             ->orwhere('nombrePerfil', 'Like','%'.$busqueda.'%')
-            ->orwhere('requisitosMinimos', 'Like','%'.$busqueda.'%')
-            ->orwhere('requisitosRecomendados', 'Like','%'.$busqueda.'%')
-            ->paginate(session('paginate')); // Cantidad de registros que se van a mostrar
-
-            $data['productosTotales'] = DB::table('producto')->get();
-            $data['lineasTotales'] = DB::table('linea')->get();
-            $data['sublineasTotales'] = DB::table('sublinea')->get();
+            ->paginate(session('paginate')); // Cantidad de registros que se van a mostrar;
 
             // Seleccion de proveedores
-            $data['proveedoresTotales'] = DB::table('perfil')
-            ->orderByRaw('nombrePerfil')
-            ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Proveedor');})
-            ->select('idPerfil', 'nombrePerfil')
+            $data['ventasTotales'] = DB::table('venta')
+            ->orderByRaw('idVenta')
+            ->select('idVenta')
             ->get();
 
             return $data;
@@ -78,7 +60,7 @@ class ProductoController
 
         $data = busquedaDB($busqueda);
 
-        return view('Dashboard.Producto.index', $data, compact('busqueda', 'page'));
+        return view('Dashboard.Venta.index', $data, compact('busqueda', 'page'));
     }
 
     /**

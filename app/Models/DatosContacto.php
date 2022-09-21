@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Auth\Authenticatable;
 
-class DatosContacto extends Model
-{
-    use HasFactory;
+class DatosContacto extends Model implements AuthenticatableContract {
+
+    use Authenticatable;
 
     protected $table = "datos_contacto";
     protected $primaryKey = "idContacto";
@@ -16,7 +17,8 @@ class DatosContacto extends Model
         'telefono',
         'ciudadResidencia',
         'direccion',
-        'email'
+        'email',
+        'password'
     ];
 
     public $timestamps = false;

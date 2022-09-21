@@ -79,7 +79,14 @@
                         <td>{{ $producto->idProducto}}</td>
                         <td><img src="{{asset('storage').'/'.$producto->imagen}}" class="productImage"></td>
                         <td>{{$producto->titulo}}</td>
-                        <td>{{ $producto->descripcion}}</td>
+                        <td>
+                            <form action="{{ url('dashboard/producto/'.$producto->idProducto) }}" method="GET">
+                                <button type="submit" class="showDescriptionButton">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="eyeIcon" viewBox="0 0 512 512"><title>Eye</title><path d="M255.66 112c-77.94 0-157.89 45.11-220.83 135.33a16 16 0 00-.27 17.77C82.92 340.8 161.8 400 255.66 400c92.84 0 173.34-59.38 221.79-135.25a16.14 16.14 0 000-17.47C428.89 172.28 347.8 112 255.66 112z" fill="none" stroke="gray" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><circle cx="256" cy="256" r="80" fill="none" stroke="gray" stroke-miterlimit="10" stroke-width="32"/></svg>
+                                </button>
+                            </form>
+                            
+                        </td>
                         <td>{{ $producto->valor}}</td>
                         <td>{{ $producto->cantidad}}</td>
                         <td>{{ $producto->linea}} - {{ $producto->sublinea}}</td>
@@ -148,7 +155,27 @@
                     <a href='?page=$paginaSiguiente' class='backForwardPaginator' id=$textForward><svg xmlns='http://www.w3.org/2000/svg' class='paginatorSvg' viewBox='0 0 512 512'><title>Adelante</title><path fill='none' stroke-linecap='round' stroke-linejoin='round' stroke-width='48' d='M184 112l144 144-144 144'/></svg></a>
                 </div>";
             @endphp
+        </div>
+    </div>
 
+    <div class="descripcionContainer" @isset($descripcion)style="display: flex"@else style="display: none" @endisset>
+        <a class="descriptionBackground" href="/dashboard/producto"></a>
+
+        <div class="descriptionContent">
+            <div class="descriptionText" >
+                <div>
+                    <h3>Descripcion</h3>
+                    <span>@isset($descripcion){{ $descripcion->descripcion }}@endisset</span>
+                </div>
+                <div>
+                    <h3>Requisitos Minimos</h3>    
+                    <span>@isset($descripcion){{ $descripcion->requisitosMinimos }}@endisset</span>
+                </div>
+                <div>
+                    <h3>Requisitos Recomendados</h3>
+                    <span>@isset($descripcion){{ $descripcion->requisitosRecomendados }}@endisset</span>
+                </div>
+            </div>
         </div>
     </div>
 

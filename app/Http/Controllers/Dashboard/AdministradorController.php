@@ -10,6 +10,7 @@ use App\Models\DatosContacto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 
 class AdministradorController
 {
@@ -94,12 +95,14 @@ class AdministradorController
     public function store(Request $request)
     {
         $userData = request()->except('_token');
+        $password = Hash::make($userData['contrasena']);
 
         $datosContactoInsertado = DB::table('datos_contacto')->insertGetId([ // Tabla de datos de contacto
             'telefono' => $userData['telefono'],
             'direccion' => $userData['direccion'],
             'email' => $userData['email'],
-            'ciudad_idCiudad' => $userData['ciudad']
+            'ciudad_idCiudad' => $userData['ciudad'],
+            'contrasena' => $password // Password Hashed
         ]);
 
         $usuarioInsertado = DB::table('usuario')->insertGetId([ // Tabla de usuarios
@@ -107,7 +110,6 @@ class AdministradorController
             'nombres' => $userData['nombres'],
             'apellidos' => $userData['apellidos'],
             'fechaNacimiento' => $userData['fechaNacimiento'],
-            'contrasena' => $userData['contrasena'],
             'estado_idEstado' => $userData['estado_idEstado'],
             'datos_contacto_idContacto' => $datosContactoInsertado,
             'tipo_documento_idDocumento' => $userData['tipoDocumento'],
@@ -158,6 +160,7 @@ class AdministradorController
 
             $data['perfilesEdit'] = Perfil::findOrFail($idPerfil); // change
             $data['usuariosEdit'] = Usuario::findOrFail($data['perfilesEdit']->usuario_idUsuario);
+
             $data['datosContactoEdit'] = DatosContacto::where('idContacto', $data['usuariosEdit']->datos_contacto_idContacto)->firstOrFail();
             
             $data['perfilesTotales'] = DB::table('perfil')->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Administrador');})->get();
@@ -183,6 +186,7 @@ class AdministradorController
     public function update(Request $request, $idPerfil)
     {
         $userData = request()->except(['_token', '_method']);
+        $password = Hash::make($userData['contrasena']);
 
         function actualizarDB($idPerfil, $userData){
 
@@ -194,14 +198,15 @@ class AdministradorController
                 'telefono' => $userData['telefono'],
                 'ciudad_idCiudad' => $userData['ciudad'],
                 'direccion' => $userData['direccion'],
-                'email' => $userData['email']]);
+                'email' => $userData['email'],
+                'contrasena' => $password
+            ]);
 
             // Actualizacion de Usuarios
             $datosUsuario = Usuario::where('idUsuario', '=', $perfil->usuario_idUsuario)->update([
                 'nombres' => $userData['nombres'],
                 'apellidos' => $userData['apellidos'],
                 'fechaNacimiento' => $userData['fechaNacimiento'],
-                'contrasena' => $userData['contrasena'],
                 'estado_idEstado' => $userData['estado_idEstado'],
                 'tipo_documento_idDocumento' => $userData['tipoDocumento'],
                 'documento' => $userData['documento']

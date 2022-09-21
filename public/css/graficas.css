@@ -5,20 +5,92 @@ h1 {
     color: #4d4d4d;
 }
 
-.graficas {
+
+/* Reportes Iniciales */
+.reportes {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    width: 100%;
+    height: 100px;
 }
 
-.canvas {
-    margin: 35px 15px 15px 0;
-    height: 50%;
+/* Phones */
+@media screen and (max-width: 767px) {
+  .reportes {
+    flex-direction: column;
+  }
+}
+
+/* Tablets */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .reportes {
+    flex-direction: column;
+  }
+}
+
+.reporteDiario {
+    margin: 0px 15px 15px 0;
     width: 50%;
     background-color: #ffffff;
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
     padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.reporteMensual {
+    margin: 0px 15px 15px 0;
+    width: 50%;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.reporteVentas {
+    margin: 0px 0px 15px 0;
+    width: 50%;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.gananciaReporte {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.textoReporte {
+    font-size: 14px;
+}
+
+/* Graficas */
+.graficas {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.canvas, .canvasUsuarios {
+    margin: 0px 15px 15px 0;
+    height: 50%;
+    width: calc(50% - 15px);
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    padding: 15px;
+}
+
+.canvasUsuarios {
+    margin: 0px 0px 15px 0;
 }
 
 .formSelectTime {
