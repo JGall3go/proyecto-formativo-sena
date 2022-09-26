@@ -269,3 +269,11 @@ label {
     width: 24px;
     height: 24px;
 }
+
+/* Error Alerts */
+
+.alert-danger {
+    color: #F35454;
+    font-style: italic;
+    font-size: 14px;
+}

@@ -7,19 +7,21 @@
         <span class="iconMenu" onclick="collectSidebarResponsive(this)">
             <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><title>Menu</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 160h352M80 256h352M80 352h352"/></svg>
         </span>
-        <div>
+        <div class="breadCrumbsText">
             <span style="color: #b9b9b9; font-size: 12px; font-weight: 600;">Dashboard</span> <span style="color: #818181; font-size: 12px; font-weight: 600;">/ Producto</span>
             <div><h3 style="margin-top: 0px; color: #707070">Productos</h3></div>
         </div>
     </div>
 
-    <a id="profileAncla"><img src="https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.webp" id='imageProfile'></a>
+    <span id="profileAncla"><span class="usernameText">{{ session('username') }}</span><img src="https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.webp" id='imageProfile'>
+        <a href="/dashboard/logout"><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><title>Log Out</title><path d="M304 336v40a40 40 0 01-40 40H104a40 40 0 01-40-40V136a40 40 0 0140-40h152c22.09 0 48 17.91 48 40v40M368 336l80-80-80-80M176 256h256" fill="none" stroke="gray" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg></a></span>
 </div>
 
 <section class="contentDashboard">
 
     <script src="{{ asset('js/content.js') }}"></script>
 
+    @if($puedeVer == 1)
     <div class="tableContent">
 
         <div class="tableHeaderContent">
@@ -34,7 +36,9 @@
                     </select>
                 </form>
 
+                @if($puedeCrear == 1)
                 <a onclick="showForm('create')" class="createLink"><svg xmlns="http://www.w3.org/2000/svg" class="addIcon" viewBox="0 0 512 512"><title>Add</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="64" d="M256 112v288M400 256H112"/></svg><span>Producto</span></a>
+                @endif
             </div>
 
             <!-- Se cambia la opcion seleccionada dependiendo de la variable "paginate"-->
@@ -94,12 +98,15 @@
                         <td class="actionButton" id="productActionButton">
 
                             <div>
+                                @if($puedeEditar == 1)
                                 <form action="{{ url('dashboard/producto/'.$producto->idProducto.'/edit') }}">
                                     <button type="submit" class="botonEditar">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="pencilSvg" viewBox="0 0 24 24"><path d="M14.078 4.232l-12.64 12.639-1.438 7.129 7.127-1.438 12.641-12.64-5.69-5.69zm-10.369 14.893l-.85-.85 11.141-11.125.849.849-11.14 11.126zm2.008 2.008l-.85-.85 11.141-11.125.85.85-11.141 11.125zm18.283-15.444l-2.816 2.818-5.691-5.691 2.816-2.816 5.691 5.689z"/></svg>
                                     </button>
                                 </form>
-        
+                                @endif
+            
+                                @if($puedeBorrar == 1)
                                 <form action="{{ url('dashboard/producto/'.$producto->idProducto) }}" method="POST">
                                     {{ method_field('DELETE')}}
                                     {{ csrf_field() }}
@@ -107,6 +114,7 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" class="trashSvg" viewBox="0 0 512 512" ><title>Eliminar</title><path d="M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 112h352"/><path d="M192 112V72h0a23.93 23.93 0 0124-24h80a23.93 23.93 0 0124 24h0v40M256 176v224M184 176l8 224M328 176l-8 224" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>
                                     </button>
                                 </form>
+                                @endif
                             </div>
                         </td>
                     </tr>
@@ -158,6 +166,12 @@
         </div>
     </div>
 
+    @else
+        <div class="errorMessage">
+            <h2>No tienes acceso a esta pagina.</h2>
+        </div>
+    @endif
+
     <div class="descripcionContainer" @isset($descripcion)style="display: flex"@else style="display: none" @endisset>
         <a class="descriptionBackground" href="/dashboard/producto"></a>
 
@@ -179,11 +193,19 @@
         </div>
     </div>
 
-    <div class="forms" @isset($formDisplay)style="display: flex"@endisset>
+    @php
+
+        if($errors->any()) {
+            $formError = true;
+        }
+
+    @endphp
+
+    <div class="forms" @isset($formDisplay)style="display: flex"@endisset @isset($formError)style="display: flex"@endisset>
 
         <a class="formBackground" @isset($productosEdit) href="/dashboard/producto" @else onclick="showForm('create')" @endisset></a>
 
-        <div class="createForm" id="product">
+        <div class="createForm" id="product" @if(isset($formError) && !isset($perfilesEdit))style="display: flex" @endisset>
 
             <form action="{{url('/dashboard/producto')}}" method="POST" enctype="multipart/form-data" class="form" onkeydown="return event.key != 'Enter';">
     
@@ -204,17 +226,19 @@
                         <input type="file" name="imagen" class="dropAreaInput" accept="image/png, image/jpeg">
                     </div>
                 </div>
+                @error('imagen')<div class="alert-danger">{{ $message }}</div>@enderror
 
                 <div class="container">
                     <label for="" class="label">Titulo</label>
                     <input name="titulo" type="text" class="input" placeholder=" " autocomplete="off">
-                    <label class="errorLabel">No colocaste el titulo.</label>
                 </div>
+                @error('titulo')<div class="alert-danger">{{ $message }}</div>@enderror
 
                 <div class="container">
                     <label for="" class="label">Valor</label>
                     <input name="valor" type="number" class="input" placeholder=" " autocomplete="off"> 
                 </div>
+                @error('valor')<div class="alert-danger">{{ $message }}</div>@enderror
 
                 <div class="tagsContainer">
                     <input name="keys" type="text" class="inputAllTags" autocomplete="off">
@@ -233,6 +257,7 @@
                     <label class="errorLabel" id="repeatedKey">No puedes añadir Keys repetidas</label>
 
                 </div>
+                @error('keys')<div class="alert-danger">{{ $message }}</div>@enderror
                 
                 <div class="containerSelect">
                     <label for="" class="label">Linea</label>
@@ -245,6 +270,7 @@
                         @endphp 
                     </select>
                 </div>
+                @error('linea')<div class="alert-danger">{{ $message }}</div>@enderror
 
                 <div class="containerSelect">
                     <label for="" class="label">Sublinea</label>
@@ -257,6 +283,7 @@
                         @endphp 
                     </select>
                 </div>
+                @error('sublinea')<div class="alert-danger">{{ $message }}</div>@enderror
 
                 <div class="containerSelect">
                     <label for="" class="label">Proveedor</label>
@@ -269,21 +296,25 @@
                         @endphp 
                     </select>
                 </div>
+                @error('proveedor')<div class="alert-danger">{{ $message }}</div>@enderror
 
                 <div class="textareaContainer">
                     <label for="" class="label">Descripcion</label>
                     <textarea name="descripcion"></textarea>                    
                 </div>
+                @error('descripcion')<div class="alert-danger">{{ $message }}</div>@enderror
 
                 <div class="textareaContainer">
                     <label for="" class="label">Requisitos minimos</label>
                     <textarea name="requisitosMinimos"></textarea>                    
                 </div>
+                @error('requisitosMinimos')<div class="alert-danger">{{ $message }}</div>@enderror
 
                 <div class="textareaContainer">
                     <label for="" class="label">Requisitos recomendados</label>
                     <textarea name="requisitosRecomendados"></textarea>                    
                 </div>
+                @error('requisitosRecomendados')<div class="alert-danger">{{ $message }}</div>@enderror
 
                 <div class="buttonContainer">
                     <input type="submit" class="createButton" value="Crear"> <a class="cancelButton" onclick="showForm('create')">Cancelar</a>
@@ -302,7 +333,7 @@
                 @csrf
                 {{ method_field('PATCH') }}
 
-                <h1 class="title">Actualizar Producto</h1>
+                <h1 class="title">Editar</h1>
 
                 <div class="imageContainer">
                     <label for="" class="label">Imagen</label>
@@ -436,7 +467,7 @@
                 </div>
 
                 <div class="buttonContainer">
-                    <input type="submit" class="createButton" value="Actualizar"> <a class="cancelButton" href="{{ url('dashboard/producto/') }}">Cancelar</a>
+                    <input type="submit" class="createButton" value="Editar"> <a class="cancelButton" href="{{ url('dashboard/producto/') }}">Cancelar</a>
                 </div>
 
             </form>
@@ -444,5 +475,4 @@
         </div>
     </div>
 </section>
-
 @endsection

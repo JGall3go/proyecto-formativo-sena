@@ -6,12 +6,8 @@ window.onload = function load(){
 function collectSidebar(element){
 
     /* Getting the variables */
-    var dropbox = document.querySelector('dropbox');
     var sidebar = document.getElementById('sidebar');
     var span_deployed = document.querySelectorAll('[id=spanCollect]');
-    var complementarios = document.getElementById('complementarios');
-    var complementario_hidden = document.getElementById('complementariosHidden');
-    var dropbox = document.getElementById('dropbox');
     var company_title = document.getElementById('companyTitle');
     var sidebar_header = document.getElementById('sidebarHeader');
     var menu_icon = document.getElementById('menuIcon');
@@ -34,9 +30,6 @@ function collectSidebar(element){
         topBar.classList.add('topBarCollected');
 
         /* Adding Element Styles */
-        dropbox.style.display = "none";
-        complementarios.style.display = "none";
-        complementario_hidden.style.display = "block";
         company_title.style.display = "none";
         sidebar_header.style.width = "60px";
         menu_icon.style.display = "none";
@@ -65,9 +58,6 @@ function collectSidebar(element){
             topBar.classList.add('topBar');
 
             /* Adding Element Styles */
-            dropbox.style.display = "flex";
-            complementarios.style.display = "block";
-            complementario_hidden.style.display = "none";
             company_title.style.display = "block";
             sidebar_header.style.width = "200px";
             menu_icon.style.display = "flex";
@@ -141,12 +131,8 @@ function reportWindowSize() {
 
     // Getting the variables
     var content = document.getElementById('content');
-    var dropbox = document.querySelector('dropbox');
     var sidebar = document.getElementById('sidebar');
     var span_deployed = document.querySelectorAll('[id=spanCollect]');
-    var complementarios = document.getElementById('complementarios');
-    var complementario_hidden = document.getElementById('complementariosHidden');
-    var dropbox = document.getElementById('dropbox');
     var company_title = document.getElementById('companyTitle');
     var sidebar_header = document.getElementById('sidebarHeader');
     var menu_icon = document.getElementById('menuIcon');
@@ -198,9 +184,6 @@ function reportWindowSize() {
         sidebar.classList.remove('sidebarCollected');
 
         // Adding Element Styles
-        dropbox.style.display = "flex";
-        complementarios.style.display = "block";
-        complementario_hidden.style.display = "none";
         company_title.style.display = "block";
         menu_icon.style.display = "flex";
         menu_icon_back.style.display = "none";

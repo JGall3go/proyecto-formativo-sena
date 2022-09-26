@@ -15,27 +15,48 @@ class LoginController
     {
         return view('Dashboard.Login.index');
     }
-    
+
     public function store(Request $request)
     {
-        /*$credentials = request()->validate([
+        $credentials = request()->validate([
             'email'=>'required',
             'password'=>'required'
         ],
         [
             'email.required'=>'Ingrese un email',
             'password.required'=>'Ingrese una contraseña'
-        ]);*/
-
-        //['email' => $credentials['email'], 'password' => $credentials['contrasena']
-
-        $credentials = request()->only('email', 'password');
+        ]);
 
         if (Auth::attempt($credentials)) {
+
             request()->session()->regenerate();
-            return Auth::user();
+            
+            $datosContacto = Auth::user();
+
+            $rol = DB::table('perfil')
+            ->join('usuario', 'usuario_idUsuario', '=', 'idUsuario') // Tabla de Datos de Contacto
+            ->join('datos_contacto', 'datos_contacto_idContacto', '=', 'idContacto') // Tabla de Datos de Contacto
+            ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
+            ->join('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
+            ->join('ciudad', 'ciudad_idCiudad', 'idCiudad')
+            ->join('rol', 'rol_idRol', 'idRol')
+            ->select('idPerfil', 'imagen', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'password', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')
+            ->where('idContacto', $datosContacto['idContacto'])
+            ->first();
+
+            if ($rol->rol == "Administrador" || $rol->rol == "Empleado" || $rol->rol == "Proveedor") {
+                
+                session(['username' => $rol->nombrePerfil]);
+                session(['userImage' => $rol->imagen]);
+                
+                return redirect('/dashboard/home/');
+            } else {
+                Auth::logout();
+                return redirect('/dashboard/login');
+            }
+            
         } else {
-            return "No tas logiado pa";
+            return redirect('/dashboard/login');
         }
     }
 }

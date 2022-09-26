@@ -2,14 +2,6 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Models\Producto;
-use App\Models\Linea;
-use App\Models\Sublinea;
-use App\Models\Perfil;
-use App\Models\DescripcionProducto;
-use App\Models\Keys;
-use App\Models\KeyDetalle;
-
 // Laravel Modules
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

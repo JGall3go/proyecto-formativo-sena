@@ -8,6 +8,7 @@ use App\Models\Venta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class ReporteController
 {
@@ -41,7 +42,12 @@ class ReporteController
             $fechaSiguiente = date_create("$añoSiguiente-01-01");
 
             // Se obtienen las fechas en el rango especifico, en este caso es del 2019 al 2020.
-            $data['ventas'] = DB::table('venta')->select('fecha')->where('fecha', '>=', date_format($fechaRequerida,"Y/m/d"))->where('fecha', '<', date_format($fechaSiguiente,"Y/m/d"))->get(); 
+            $data['ventas'] = DB::table('venta')
+            ->select('fecha')
+            ->where('fecha', '>=', date_format($fechaRequerida,"Y/m/d"))
+            ->where('fecha', '<', date_format($fechaSiguiente,"Y/m/d"))
+            ->get(); 
+            
             $ventasTotales = DB::table('venta')->select('fecha')->get();
         
             $data['y'] = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0); // Son 12 ceros ya que son 12 meses en total.
@@ -71,13 +77,78 @@ class ReporteController
                 $año = date('Y', strtotime($venta->fecha));
 
                 if(!in_array($año, $data['añosRegistrados'])) {array_push($data['añosRegistrados'], $año);}
-            } 
-            array_push($data['añosRegistrados'], date('Y')); // Se añade el año actual para tener una vista predeterminada en la grafica.
+            }
+            // array_push($data['añosRegistrados'], date('Y')); // Se añade el año actual para tener una vista predeterminada en la grafica.
+
+            $nuevafecha = strtotime('-1 months', strtotime(date("y-m-d")));
+            $nuevafecha = date('Y-m-d' , $nuevafecha);
+
+            $totalesHoy = DB::table('venta')
+            ->select('total')
+            ->where('fecha', '=', date("y-m-d"))
+            ->get();
+
+            $totalesMensual = DB::table('venta')
+            ->select('total')
+            ->where('fecha', '>=', $nuevafecha)
+            ->where('fecha', '<=', date("y-m-d"))
+            ->get();
+
+            // Ganancias del dia
+            $data['gananciasHoy'] = 0;
+
+            foreach($totalesHoy as $total) {
+                $data['gananciasHoy'] = $data['gananciasHoy'] + intval($total->total);
+            }
+
+            // Ganancias del Mes y ventas
+            $data['gananciasMes'] = 0;
+            $data['ventasMes'] = count($totalesMensual);
+
+            foreach($totalesMensual as $total) {
+                $data['gananciasMes'] = $data['gananciasMes'] + intval($total->total);
+            }
+
+            // Producto mas vendido
+            $productosVendidos = DB::table('venta_detalle')
+            ->select('producto_idProducto', 'cantidad')
+            ->get();
+
+            $productos = [];
+
+            foreach($productosVendidos as $producto) {
+
+                if (array_key_exists($producto->producto_idProducto, $productos)) {
+                    $productos[$producto->producto_idProducto] = $productos[$producto->producto_idProducto] + 1*$producto->cantidad;
+                } else {
+                    $productos[$producto->producto_idProducto] = 1*$producto->cantidad;
+                }
+            }
+
+            $numeroMayor = 0;
+            $idProductoPreferido = 0;
+            foreach ($productos as $key => $value) {
+                if ($value > $numeroMayor) {
+                    $numeroMayor = $value;
+                    $idProductoPreferido = $key;
+                }
+            }
+
+            $data['productoPreferido'] = DB::table('producto')
+            ->select('imagen', 'descripcion_producto_idDescripcion')
+            ->where('idProducto', '=', $idProductoPreferido)
+            ->first();
+
+            $data['productoPreferidoTitulo'] = DB::table('descripcion_producto')
+            ->select('titulo')
+            ->where('idDescripcion', '=', $data['productoPreferido']->descripcion_producto_idDescripcion)
+            ->first();
 
             return $data;
         }
 
         $data = busquedaDB();
+
 
         return view('Dashboard.Reporte.index', $data);
     }

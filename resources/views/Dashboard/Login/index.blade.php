@@ -18,12 +18,17 @@
                     <h2>Sign In</h2>
                     <h4>Dashboard</h4><input type="hidden">
                     <div class="input-container"><label for="">Email</label><input class="input" type="text" name="email" autocomplete="off"></div>
+                    @error('email')
+                        <div class="alert-danger">{{ $message }}</div>
+                    @enderror
                     <div class="input-container"><label for="">Password </label><input class="input" type="password" name="password" autocomplete="off"></div>
+                    @error('password')
+                        <div class="alert-danger">{{ $message }}</div>
+                    @enderror
                     <div class="error-container"><span>Incorrect Email or Password</span></div>
                     <div class="success-container"><span>Welcome</span></div>
                     <div class="text-container"><a onclick="forgotForm()" id="forgot-password-btn">Forgot Password?</a></div>
                     <div class="input-container" style="margin: 0px"><input class="input" type="submit" value="Sign In"></div>
-                    <div class="signup-redirect"><span>Not yet member?</span><a href="{{ route('signup.index') }}">Sign Up</a></div>
                 </form>
             </div>
             <div class="forgot-password-container">

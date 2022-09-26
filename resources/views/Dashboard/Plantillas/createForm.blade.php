@@ -4,32 +4,37 @@
         <label for="" class="label">Nombres</label>
         <input name="nombres" type="text" class="input" placeholder=" " autocomplete="off">
     </div>
+    @error('nombres')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="container">
         <label for="" class="label" >Apellidos</label>
         <input name="apellidos" type="text" class="input" placeholder=" " autocomplete="off">
-        <label class="errorLabel">No colocaste el apellido.</label>
     </div>
+    @error('apellidos')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="container">
         <label for="" class="label">Nombre de Usuario</label>
         <input name="nombrePerfil" type="text" class="input" placeholder=" " autocomplete="off">
     </div>
+    @error('nombrePerfil')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="container">
         <label for="" class="label">Contraseña</label>
         <input name="contrasena" type="text" class="input" placeholder=" " autocomplete="off">
     </div>
+    @error('contrasena')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="container">
         <label for="" class="label">Email</label>
         <input name="email" type="email" class="input" placeholder=" " autocomplete="off">
     </div>
+    @error('email')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="container">
         <label for="" class="label">Telefono</label>
         <input name="telefono" type="text" class="input" placeholder=" " autocomplete="off">
     </div>
+    @error('telefono')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="containerSelect">
         <label for="" class="label">Tipo de Documento</label>
@@ -40,18 +45,21 @@
                     echo "<option value='$documento->idDocumento'>$documento->tipoDocumento</option>";  
                 }
             @endphp 
-        </select>
+        </select>        
     </div>
+    @error('tipoDocumento')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="container">
         <label for="" class="label" id="secondLabel">Documento</label>
         <input name="documento" type="text" class="input" id="inputDouble" placeholder=" " autocomplete="off">
     </div>
+    @error('documento')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="container">
         <label for="" class="label">Direccion</label>
         <input name="direccion" type="text" class="input" placeholder=" " autocomplete="off">            
     </div>
+    @error('direccion')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="containerSelect">
         <label for="" class="label">Ciudad</label>
@@ -64,11 +72,13 @@
             @endphp 
         </select>
     </div>
+    @error('ciudad')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="container">
         <label for="" class="label">Fecha de Nacimiento</label>
-        <input type="date" name="fechaNacimiento" class="input" id="inputDate" onchange="resetValue(this, this.value)" value="" min="1900-01-01" max="2022-12-31" placeholder=" ">
+        <input type="date" name="fechaNacimiento" class="input" id="inputDate" onchange="resetValue(this, this.value)" value="" min="1900-01-01" max="<?= date('Y-m-d'); ?>" placeholder=" ">
     </div>
+    @error('fechaNacimiento')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="containerSelect">
         <label for="" class="label">Estado</label>
@@ -81,6 +91,7 @@
             @endphp
         </select>
     </div>
+    @error('estado_idEstado')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="container">
         <label for="" class="label">Rol</label>
@@ -90,3 +101,15 @@
     <div class="buttonContainer">
         <input type="submit" class="createButton" value="Crear"> <a class="cancelButton" onclick="showForm()">Cancelar</a>
     </div>
+
+    @if($errors->any())
+    <style type="text/css">
+        .container {
+            height: 55px;
+        }
+
+        .containerSelect {
+            height: 55px;
+        }
+    </style>
+    @endif

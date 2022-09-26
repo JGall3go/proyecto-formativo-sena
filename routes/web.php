@@ -10,6 +10,7 @@ use App\Http\Controllers\Dashboard\ProductoController;
 use App\Http\Controllers\Dashboard\VentaController;
 use App\Http\Controllers\Dashboard\LoginController;
 use App\Http\Controllers\Dashboard\RegistroController;
+use App\Http\Controllers\Dashboard\LogoutController;
 
 
 /*
@@ -23,24 +24,26 @@ use App\Http\Controllers\Dashboard\RegistroController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/dashboard', function () {
+    return redirect('/dashboard/home');
 });
 
-Route::resource('dashboard/home', ReporteController::class);
+Route::resource('dashboard/home', ReporteController::class)->middleware('auth');
 
-Route::resource('dashboard/administrador', AdministradorController::class);
+Route::resource('dashboard/administrador', AdministradorController::class)->middleware('auth');
 
-Route::resource('dashboard/empleado', EmpleadoController::class);
+Route::resource('dashboard/empleado', EmpleadoController::class)->middleware('auth');
 
-Route::resource('dashboard/cliente', ClienteController::class);
+Route::resource('dashboard/cliente', ClienteController::class)->middleware('auth');
 
-Route::resource('dashboard/proveedor', ProveedorController::class);
+Route::resource('dashboard/proveedor', ProveedorController::class)->middleware('auth');
 
-Route::resource('dashboard/producto', ProductoController::class);
+Route::resource('dashboard/producto', ProductoController::class)->middleware('auth');
 
-Route::resource('dashboard/venta', VentaController::class);
+Route::resource('dashboard/venta', VentaController::class)->middleware('auth');
 
 Route::resource('dashboard/login', LoginController::class);
 
 Route::resource('dashboard/signup', RegistroController::class);
+
+Route::resource('dashboard/logout', LogoutController::class);

@@ -19,20 +19,21 @@
                 </div>
             </div>
     
-            <a id="profileAncla"><img src="https://hastane.ksu.edu.tr/depo/kullanici/resim/no-avatar.png" id='imageProfile'></a>
+            <span id="profileAncla"><span class="usernameText">{{ session('username') }}</span><img src="https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.webp" id='imageProfile'>
+        <a href="/dashboard/logout"><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><title>Log Out</title><path d="M304 336v40a40 40 0 01-40 40H104a40 40 0 01-40-40V136a40 40 0 0140-40h152c22.09 0 48 17.91 48 40v40M368 336l80-80-80-80M176 256h256" fill="none" stroke="gray" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg></a></span>
         </div>
 
         <div class="reportes">
             <div class="reporteDiario">
-                <span class="gananciaReporte">$50.000</span>
+                <span class="gananciaReporte">${{ $gananciasHoy }}</span>
                 <span class="textoReporte">Ganancias de hoy</span>
             </div>
             <div class="reporteMensual">
-                <span class="gananciaReporte">$802.400</span>
+                <span class="gananciaReporte">${{ $gananciasMes }}</span>
                 <span class="textoReporte">Ganacias del mes</span>
             </div>
             <div class="reporteVentas">
-                <span class="gananciaReporte">104</span>
+                <span class="gananciaReporte">{{ $ventasMes }}</span>
                 <span class="textoReporte">Ventas del mes</span>
             </div>
         </div>
@@ -50,6 +51,7 @@
                             <option value="{{ $año }}">{{ $año }}</option>
                         @endforeach
                     </select>
+
                 </form>
 
                 <!-- Se cambia la opcion seleccionada dependiendo de la variable "año" -->
@@ -85,48 +87,9 @@
             </div>
 
             <div class="canvasUsuarios">
-                <h1>Ventas</h1>
-
-                <form class="formSelectTime" action="dashboard/home" method="GET">
-                    <label>Año</label>
-                    <select onchange="this.form.submit()" name='año' class="annualSelect" id="select">
-                        <!-- Automaticamente aparecen los años con ventas registradas -->
-                        @foreach ($añosRegistrados as $año)
-                            <option value="{{ $año }}">{{ $año }}</option>
-                        @endforeach
-                    </select>
-                </form>
-
-                <!-- Se cambia la opcion seleccionada dependiendo de la variable "año" -->
-                <script type="text/javascript">
-                    var añoNuevo = "<?= session('año'); ?>";
-                    if(añoNuevo != "") {document.getElementById('select').value = añoNuevo;} else {
-                        document.getElementById('select').value = '<?php date("Y") ?>';
-                    }
-                </script>
-
-                <canvas id="graficaVentas"></canvas>
-                
-                <script>
-                    Chart.defaults.font.size = 13;
-                    const ctx = document.getElementById('graficaVentas');
-                    const mes = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-
-                    const myChart = new Chart(ctx, {
-                        type: 'line',
-                        data:{
-                            labels: mes,
-                            datasets: [{
-                                barThickness: 30,
-                                label: @isset($año)'Ventas año <?php echo $año; ?>' @else 'Ventas año <?php echo date("Y"); ?>'@endisset,
-                                data: @json($y), // Se llama a la variable $y que se paso mediante el controlador.
-                                backgroundClor: ['#7182e4'],
-                                borderColor: ['#7182e4'],
-                                borderWidth: 2.0 
-                            }]
-                        }
-                    })
-                </script>
+                <h1>Producto mas vendido</h1>
+                <img src="{{asset('storage').'/'.$productoPreferido->imagen}}">
+                <h4>{{ $productoPreferidoTitulo->titulo }}</h4>
             </div>
         </div>
     </section>

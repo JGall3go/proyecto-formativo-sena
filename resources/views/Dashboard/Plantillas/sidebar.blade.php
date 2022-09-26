@@ -54,19 +54,20 @@
             <a href="/dashboard/producto" @if(str_contains(url()->current(), '/dashboard/producto'))class="active"@else class="a"@endif> <img src="{{ asset('svg/cube-outline.svg') }}" id="ionIconElement"> <span class="textElementMenu" id="spanCollect">Productos</span></a>  
             <a href="/dashboard/venta" @if(str_contains(url()->current(), '/dashboard/venta'))class="active"@else class="a"@endif> <img src="{{ asset('svg/cart-outline.svg') }}" id="ionIconElement"> <span class="textElementMenu" id="spanCollect">Ventas</span></a>
             
-            <a href="#" id="dropbox" onclick="dropMenu(this)">Complementarios<img src="{{ asset('svg/chevron-down-outline.svg') }}" class="rotateArrow" id="ionIconElement"></a>
+            <!--<a href="#" id="dropbox" onclick="dropMenu(this)">Complementarios<img src="{{ asset('svg/chevron-down-outline.svg') }}" class="rotateArrow" id="ionIconElement"></a>
+            
             
             <div id="complementarios" class="collect">
                 <a href="/dashboard/linea" @if(str_contains(url()->current(), '/dashboard/linea'))class="active"@else class="a"@endif><img src="{{ asset('svg/bookmark-outline.svg') }}" id="ionIconElement"><span class="textElementMenu" id="spanCollect">Lineas</span></a>
                 <a href="/dashboard/sublinea" @if(str_contains(url()->current(), '/dashboard/sublinea'))class="active"@else class="a"@endif><img src="{{ asset('svg/bookmarks-outline.svg') }}" id="ionIconElement"><span class="textElementMenu" id="spanCollect">Sublineas</span></a>
-                <a href="/dashboard/tipoDocumento" id="hoverComp" @if(str_contains(url()->current(), '/dashboard/tipoDocumento')) class="active"@else class="a" @endif><img src="{{ asset('svg/id-card-outline.svg') }}" id="ionIconElement"><span class="textElementMenu" id="spanCollect">Identificaciones</span></a>
+                <a href="/dashboard/identificacion" id="hoverComp" @if(str_contains(url()->current(), '/dashboard/identificacion')) class="active"@else class="a" @endif><img src="{{ asset('svg/id-card-outline.svg') }}" id="ionIconElement"><span class="textElementMenu" id="spanCollect">Identificaciones</span></a>
             </div>
 
             <div id="complementariosHidden">
                 <a href="/dashboard/linea" @if(str_contains(url()->current(), '/dashboard/linea'))class="active"@else class="a"@endif><img src="{{ asset('svg/bookmark-outline.svg') }}" id="ionIconElement"><span class="textElementMenu" id="spanCollect">Lineas</span></a>
                 <a href="/dashboard/sublinea" @if(str_contains(url()->current(), '/dashboard/sublinea'))class="active"@else class="a"@endif><img src="{{ asset('svg/bookmarks-outline.svg') }}" id="ionIconElement"><span class="textElementMenu" id="spanCollect">Sublineas</span></a>
-                <a href="/dashboard/tipoDocumento" id="hoverComp" @if(str_contains(url()->current(), '/dashboard/tipoDocumento'))class="active"@else class="a"@endif><img src="{{ asset('svg/id-card-outline.svg') }}" id="ionIconElement"><span class="textElementMenu" id="spanCollect">Identificaciones</span></a>
-            </div>
+                <a href="/dashboard/identificacion" id="hoverComp" @if(str_contains(url()->current(), '/dashboard/identificacion'))class="active"@else class="a"@endif><img src="{{ asset('svg/id-card-outline.svg') }}" id="ionIconElement"><span class="textElementMenu" id="spanCollect">Identificaciones</span></a>
+            </div>-->
         </div>
 
         <!--

@@ -4,31 +4,37 @@
         <label for="" class="label">Nombres</label>
         <input name="nombres" type="text" class="input" @isset($usuariosEdit) value="{{ $usuariosEdit->nombres }}"@endisset placeholder=" " autocomplete="off">
     </div>
+    @error('nombres')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="container">
         <label for="" class="label" id="secondLabel">Apellidos</label>
         <input name="apellidos" type="text" class="input" @isset($usuariosEdit) value="{{ $usuariosEdit->apellidos }}"@endisset placeholder=" " autocomplete="off">
     </div>
+    @error('apellidos')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="container">
         <label for="" class="label">Nombre de Usuario</label>
         <input name="nombrePerfil" type="text" class="input" @isset($perfilesEdit) value="{{ $perfilesEdit->nombrePerfil }}"@endisset placeholder=" " autocomplete="off">
     </div>
+    @error('nombrePerfil')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="container">
         <label for="" class="label" id="secondLabel">Contraseña</label>
         <input name="contrasena" type="text" class="input" @isset($usuariosEdit) value="{{ $usuariosEdit->contrasena }}"@endisset placeholder=" " autocomplete="off">
     </div>
+    @error('contrasena')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="container">
         <label for="" class="label">Email</label>
         <input name="email" type="email" class="input" @isset($datosContactoEdit) value="{{ $datosContactoEdit->email }}"@endisset placeholder=" " autocomplete="off">
     </div>
+    @error('email')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="container">
         <label for="" class="label" id="secondLabel">Telefono</label>
         <input name="telefono" type="text" class="input" @isset($datosContactoEdit) value="{{ $datosContactoEdit->telefono }}"@endisset placeholder=" " autocomplete="off">
     </div>
+    @error('telefono')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="containerSelect">
         <label for="" class="label" id="secondLabel">Tipo de Documento</label>
@@ -49,11 +55,13 @@
             @endphp
         </select>
     </div>
+    @error('tipoDocumento')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="container">
         <label for="" class="label" id="secondLabel">Documento</label>
         <input name="documento" type="text" class="input" id="inputDouble" @isset($usuariosEdit) value="{{ $usuariosEdit->documento }}"@endisset placeholder=" " autocomplete="off">
     </div>
+    @error('documento')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="containerSelect">
         <label for="" class="label">Ciudad</label>
@@ -74,16 +82,19 @@
             @endphp 
         </select>
     </div>
+    @error('direccion')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="container">
         <label for="" class="label"  id="secondLabel">Direccion</label>
         <input name="direccion" type="text" class="input" id="inputDouble" @isset($datosContactoEdit) value="{{ $datosContactoEdit->direccion }}"@endisset placeholder=" " autocomplete="off">            
     </div>
+    @error('ciudad')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="container">
         <label for="" class="label">Fecha de Nacimiento</label>
         <input type="date" name="fechaNacimiento" class="input" id="inputDate" @isset($usuariosEdit) value="{{ $usuariosEdit->fechaNacimiento }}"@endisset onchange="resetValue(this, this.value)" value="" min="1900-01-01" max="2022-12-31" placeholder=" ">
     </div>
+    @error('fechaNacimiento')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="containerSelect">
         <label for="" class="label">Estado</label>
@@ -103,6 +114,7 @@
             @endphp
         </select>
     </div>
+    @error('estado_idEstado')<div class="alert-danger">{{ $message }}</div>@enderror
 
     <div class="containerSelect">
         <label for="" class="label">Rol</label>
