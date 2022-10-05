@@ -42,10 +42,10 @@ class AdministradorController
             $data['perfiles'] = DB::table('perfil')
             ->orderByRaw('idPerfil')
             ->join('usuario', 'usuario_idUsuario', '=', 'idUsuario') // Tabla de Datos de Contacto
-            ->join('datos_contacto', 'datos_contacto_idContacto', '=', 'idContacto') // Tabla de Datos de Contacto
+            ->leftjoin('datos_contacto', 'datos_contacto_idContacto', '=', 'idContacto') // Tabla de Datos de Contacto
             ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
-            ->join('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
-            ->join('ciudad', 'ciudad_idCiudad', 'idCiudad')
+            ->leftjoin('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
+            ->leftjoin('ciudad', 'ciudad_idCiudad', 'idCiudad')
             ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Administrador');})
             ->select('idPerfil', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'password', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')
             ->where('idPerfil', 'Like','%'.$busqueda.'%')
@@ -139,16 +139,19 @@ class AdministradorController
      */
     public function store(Request $request)
     {
-        
+            
+        $añoActual = date('Y') - 1;
+        $adultos = $añoActual - 18;
+
         $userData = request()->validate([
             'telefono'=>'bail|required|unique:datos_contacto|max:10',
             'direccion'=>'bail|required|max:50',
-            'email'=>'bail|required|unique:datos_contacto|max:45',
-            'ciudad'=>'bail|required',
-            'contrasena'=>'bail|required|max:45',
-            'nombres'=>'bail|required|max:45',
-            'apellidos'=>'bail|required|max:45',
-            'fechaNacimiento'=>'bail|required',
+            'email'=> 'bail|required|unique:datos_contacto|max:45',
+            'ciudad'=> 'bail|required',
+            'contrasena'=> 'bail|required|max:45',
+            'nombres'=> 'bail|required|max:45',
+            'apellidos'=> 'bail|required|max:45',
+            'fechaNacimiento'=> 'bail|required|date_format:Y-m-d|before_or_equal:'.$adultos.'-12-31',
             'tipoDocumento'=>'bail|required',
             'documento'=>'bail|required|unique:usuario|max:45',
             'nombrePerfil'=>'bail|required|unique:perfil|max:15',
@@ -178,6 +181,7 @@ class AdministradorController
             'apellidos.max'=>'El campo apellido solo puede tener 45 caracteres',
 
             'fechaNacimiento.required'=>'Campo requerido',
+            'fechaNacimiento.before_or_equal'=> 'Debes ser mayor de edad.',
             'tipoDocumento.required'=>'Campo requerido',
 
             'documento.required'=>'Campo requerido',
@@ -247,10 +251,10 @@ class AdministradorController
             $data['perfiles'] = DB::table('perfil')
             ->orderByRaw('idPerfil')
             ->join('usuario', 'usuario_idUsuario', '=', 'idUsuario') // Tabla de Datos de Contacto
-            ->join('datos_contacto', 'datos_contacto_idContacto', '=', 'idContacto') // Tabla de Datos de Contacto
+            ->leftjoin('datos_contacto', 'datos_contacto_idContacto', '=', 'idContacto') // Tabla de Datos de Contacto
             ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
-            ->join('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
-            ->join('ciudad', 'ciudad_idCiudad', 'idCiudad')
+            ->leftjoin('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
+            ->leftjoin('ciudad', 'ciudad_idCiudad', 'idCiudad')
             ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Administrador');})
             ->select('idPerfil', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'password', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')->paginate(session('paginate'));
 
@@ -270,10 +274,10 @@ class AdministradorController
             
             $data['perfilUsuario'] = DB::table('perfil')
             ->join('usuario', 'usuario_idUsuario', '=', 'idUsuario') // Tabla de Datos de Contacto
-            ->join('datos_contacto', 'datos_contacto_idContacto', '=', 'idContacto') // Tabla de Datos de Contacto
+            ->leftjoin('datos_contacto', 'datos_contacto_idContacto', '=', 'idContacto') // Tabla de Datos de Contacto
             ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
-            ->join('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
-            ->join('ciudad', 'ciudad_idCiudad', 'idCiudad')
+            ->leftjoin('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
+            ->leftjoin('ciudad', 'ciudad_idCiudad', 'idCiudad')
             ->join('rol', 'rol_idRol', 'idRol')
             ->select('idPerfil', 'imagen', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'password', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol', 'rol_idRol')
             ->where('idContacto', $datosContacto['idContacto'])
@@ -331,6 +335,9 @@ class AdministradorController
         $datosContacto = DatosContacto::where('idContacto', $usuarios->datos_contacto_idContacto)
         ->firstOrFail();
 
+        $añoActual = date('Y') - 1;
+        $adultos = $añoActual - 18;
+
         $userData = request()->validate([
             'telefono'=>'bail|required|max:10|unique:datos_contacto,telefono,'.$datosContacto->idContacto.',idContacto',
             'direccion'=>'bail|required|max:50',
@@ -339,7 +346,7 @@ class AdministradorController
             'contrasena'=>'bail|max:45',
             'nombres'=>'bail|required|max:45',
             'apellidos'=>'bail|required|max:45',
-            'fechaNacimiento'=>'bail|required',
+            'fechaNacimiento'=> 'bail|required|date_format:Y-m-d|before_or_equal:'.$adultos.'-12-31',
             'tipoDocumento'=>'bail|required',
             'documento'=>'bail|required|max:45|unique:usuario,documento,'.$usuarios->idUsuario.',idUsuario',
             'nombrePerfil'=>'bail|required|max:15|unique:perfil,nombrePerfil,'.$idPerfil.',idPerfil',
@@ -370,6 +377,7 @@ class AdministradorController
             'apellidos.max'=>'El campo apellido solo puede tener 45 caracteres',
 
             'fechaNacimiento.required'=>'Campo requerido',
+            'fechaNacimiento.before_or_equal'=> 'Debe ser una persona mayor de edad.',
             'tipoDocumento.required'=>'Campo requerido',
 
             'documento.required'=>'Campo requerido',

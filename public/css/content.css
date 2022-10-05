@@ -5,27 +5,49 @@ p {
   color: transparent;
 }
 
-.contentDashboard {
+.contentDashboard, .contentHome {
   margin-top: 100px;
   width: 100%;
   max-width: 100%;
-  height: calc(100vh - 220px);
+  height: calc(100vh - 210px);
 }
 
 /* Phones */
 @media screen and (max-width: 767px) {
+
+  .contentHome {
+    overflow: scroll;
+    height: calc(100vh - 180px);
+  }
+
   .contentDashboard {
     margin-top: 100px;
-    padding: 0 15px 15px 15px;
+    padding: 0px 15px 15px 15px;
+    width: calc(100% - 30px);
+  }
+  .contentHome {
+    margin-top: 95px;
+    padding: 15px 15px 15px 15px;
     width: calc(100% - 30px);
   }
 }
 
 /* Tablets */
 @media screen and (min-width: 768px) and (max-width: 1024px) {
+
+  .contentHome {
+    overflow: scroll;
+    height: calc(100vh - 180px);
+  }
+
   .contentDashboard {
     margin-top: 100px;
-    padding: 0 15px 15px 15px;
+    padding: 0px 15px 15px 15px;
+    width: calc(100% - 30px);
+  }
+  .contentHome {
+    margin-top: 95px;
+    padding: 15px 15px 15px 15px;
     width: calc(100% - 30px);
   }
 }
@@ -323,8 +345,8 @@ textarea:focus {
   display: none;
 }
 
-#inputAmount {
-  display: none;
+#inputAmount, #inputAmount2 {
+ display: none;
 }
 
 .addTagSection {

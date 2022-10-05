@@ -41,11 +41,11 @@ class ProveedorController
             // $data['usuarios'] = Usuario::paginate(5);
             $data['perfiles'] = DB::table('perfil')
             ->orderByRaw('idPerfil')
-            ->join('usuario', 'usuario_idUsuario', '=', 'idUsuario') // Tabla de Datos de Contacto
+            ->leftjoin('usuario', 'usuario_idUsuario', '=', 'idUsuario') // Tabla de Datos de Contacto
             ->join('datos_contacto', 'datos_contacto_idContacto', '=', 'idContacto') // Tabla de Datos de Contacto
             ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
-            ->join('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
-            ->join('ciudad', 'ciudad_idCiudad', 'idCiudad')
+            ->leftjoin('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
+            ->leftjoin('ciudad', 'ciudad_idCiudad', 'idCiudad')
             ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Proveedor');})
             ->select('idPerfil', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'password', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')
             // Sistema de busqueda
@@ -75,11 +75,11 @@ class ProveedorController
             $datosContacto = Auth::user();
             
             $data['perfilUsuario'] = DB::table('perfil')
-            ->join('usuario', 'usuario_idUsuario', '=', 'idUsuario') // Tabla de Datos de Contacto
+            ->leftjoin('usuario', 'usuario_idUsuario', '=', 'idUsuario') // Tabla de Datos de Contacto
             ->join('datos_contacto', 'datos_contacto_idContacto', '=', 'idContacto') // Tabla de Datos de Contacto
             ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
-            ->join('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
-            ->join('ciudad', 'ciudad_idCiudad', 'idCiudad')
+            ->leftjoin('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
+            ->leftjoin('ciudad', 'ciudad_idCiudad', 'idCiudad')
             ->join('rol', 'rol_idRol', 'idRol')
             ->select('idPerfil', 'imagen', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'password', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol', 'rol_idRol')
             ->where('idContacto', $datosContacto['idContacto'])
@@ -141,16 +141,11 @@ class ProveedorController
     public function store(Request $request)
     {
         $userData = request()->validate([
-            'telefono'=>'bail|required|unique:datos_contacto|max:10',
-            'direccion'=>'bail|required|max:50',
+            'telefono'=>'bail|required|unique:datos_contacto|max:10|min:10',
             'email'=>'bail|required|unique:datos_contacto|max:45',
-            'ciudad'=>'bail|required',
             'contrasena'=>'bail|required|max:45',
             'nombres'=>'bail|required|max:45',
             'apellidos'=>'bail|required|max:45',
-            'fechaNacimiento'=>'bail|required',
-            'tipoDocumento'=>'bail|required',
-            'documento'=>'bail|required|unique:usuario|max:45',
             'nombrePerfil'=>'bail|required|unique:perfil|max:15',
             'estado_idEstado'=>'bail|required',
         ],
@@ -159,14 +154,9 @@ class ProveedorController
             'telefono.max'=>'El campo telefono solo puede tener 10 caracteres',
             'telefono.unique'=>'Este telefono ya fue usado',
 
-            'direccion.required'=>'Campo requerido',
-            'direccion.max'=>'El campo direccion solo puede tener 50 caracteres',
-
             'email.required'=>'Campo requerido',
             'email.unique'=>'Este email ya fue usado',
             'email.max'=>'El campo email solo puede tener 45 caracteres',
-
-            'ciudad.required'=>'Campo requerido',
 
             'contrasena.required'=>'Campo requerido',
             'contrasena.max'=>'La contraseña solo puede tener 45 caracteres',
@@ -176,13 +166,6 @@ class ProveedorController
 
             'apellidos.required'=>'Campo requerido',
             'apellidos.max'=>'El campo apellido solo puede tener 45 caracteres',
-
-            'fechaNacimiento.required'=>'Campo requerido',
-            'tipoDocumento.required'=>'Campo requerido',
-
-            'documento.required'=>'Campo requerido',
-            'documento.max'=>'El campo documento solo puede tener 45 caracteres',
-            'documento.unique'=>'Este documento ya fue usado',
 
             'nombrePerfil.required'=>'Campo requerido',
             'nombrePerfil.max'=>'El nombre de perfil solo puede tener 15 caracteres',
@@ -195,9 +178,7 @@ class ProveedorController
 
         $datosContactoInsertado = DB::table('datos_contacto')->insertGetId([ // Tabla de datos de contacto
             'telefono' => $userData['telefono'],
-            'direccion' => $userData['direccion'],
             'email' => $userData['email'],
-            'ciudad_idCiudad' => $userData['ciudad'],
             'password' => $password // Password Hashed
         ]);
 
@@ -205,11 +186,8 @@ class ProveedorController
             'imagen' => 'usuarios/default01.png',
             'nombres' => $userData['nombres'],
             'apellidos' => $userData['apellidos'],
-            'fechaNacimiento' => $userData['fechaNacimiento'],
             'estado_idEstado' => $userData['estado_idEstado'],
-            'datos_contacto_idContacto' => $datosContactoInsertado,
-            'tipo_documento_idDocumento' => $userData['tipoDocumento'],
-            'documento' => $userData['documento']
+            'datos_contacto_idContacto' => $datosContactoInsertado
         ]);
         
         $perfilInsertado = DB::table('perfil')->insertGetId([
@@ -246,11 +224,11 @@ class ProveedorController
             // $data['usuarios'] = Usuario::paginate(5);
             $data['perfiles'] = DB::table('perfil')
             ->orderByRaw('idPerfil')
-            ->join('usuario', 'usuario_idUsuario', '=', 'idUsuario') // Tabla de Datos de Contacto
+            ->leftjoin('usuario', 'usuario_idUsuario', '=', 'idUsuario') // Tabla de Datos de Contacto
             ->join('datos_contacto', 'datos_contacto_idContacto', '=', 'idContacto') // Tabla de Datos de Contacto
             ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
-            ->join('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
-            ->join('ciudad', 'ciudad_idCiudad', 'idCiudad')
+            ->leftjoin('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
+            ->leftjoin('ciudad', 'ciudad_idCiudad', 'idCiudad')
             ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Proveedor');})
             ->select('idPerfil', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'password', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')->paginate(session('paginate'));
 
@@ -332,15 +310,10 @@ class ProveedorController
 
         $userData = request()->validate([
             'telefono'=>'bail|required|max:10|unique:datos_contacto,telefono,'.$datosContacto->idContacto.',idContacto',
-            'direccion'=>'bail|required|max:50',
             'email'=>'bail|required|max:45|unique:datos_contacto,email,'.$datosContacto->idContacto.',idContacto',
-            'ciudad'=>'bail|required',
             'contrasena'=>'bail|max:45',
             'nombres'=>'bail|required|max:45',
             'apellidos'=>'bail|required|max:45',
-            'fechaNacimiento'=>'bail|required',
-            'tipoDocumento'=>'bail|required',
-            'documento'=>'bail|required|max:45|unique:usuario,documento,'.$usuarios->idUsuario.',idUsuario',
             'nombrePerfil'=>'bail|required|max:15|unique:perfil,nombrePerfil,'.$idPerfil.',idPerfil',
             'estado_idEstado'=>'bail|required',
             'rol'=>'bail|required',
@@ -350,14 +323,9 @@ class ProveedorController
             'telefono.max'=>'El campo telefono solo puede tener 10 caracteres',
             'telefono.unique'=>'Este telefono ya fue usado',
 
-            'direccion.required'=>'Campo requerido',
-            'direccion.max'=>'El campo direccion solo puede tener 50 caracteres',
-
             'email.required'=>'Campo requerido',
             'email.unique'=>'Este email ya fue usado',
             'email.max'=>'El campo email solo puede tener 45 caracteres',
-
-            'ciudad.required'=>'Campo requerido',
 
             'contrasena.required'=>'Campo requerido',
             'contrasena.max'=>'La contraseña solo puede tener 45 caracteres',
@@ -367,13 +335,6 @@ class ProveedorController
 
             'apellidos.required'=>'Campo requerido',
             'apellidos.max'=>'El campo apellido solo puede tener 45 caracteres',
-
-            'fechaNacimiento.required'=>'Campo requerido',
-            'tipoDocumento.required'=>'Campo requerido',
-
-            'documento.required'=>'Campo requerido',
-            'documento.max'=>'El campo documento solo puede tener 45 caracteres',
-            'documento.unique'=>'Este documento ya fue usado',
 
             'nombrePerfil.required'=>'Campo requerido',
             'nombrePerfil.max'=>'El nombre de perfil solo puede tener 15 caracteres',
@@ -394,8 +355,6 @@ class ProveedorController
                 // Actualizacion de Datos De Contacto
                 $datosContacto = DatosContacto::where('idContacto', '=', $usuario->datos_contacto_idContacto)->update([
                     'telefono' => $userData['telefono'],
-                    'ciudad_idCiudad' => $userData['ciudad'],
-                    'direccion' => $userData['direccion'],
                     'email' => $userData['email'],
                     'password' => $password
                 ]);
@@ -404,8 +363,6 @@ class ProveedorController
                 
                 $datosContacto = DatosContacto::where('idContacto', '=', $usuario->datos_contacto_idContacto)->update([
                     'telefono' => $userData['telefono'],
-                    'ciudad_idCiudad' => $userData['ciudad'],
-                    'direccion' => $userData['direccion'],
                     'email' => $userData['email'],
                 ]);
             }
@@ -414,10 +371,7 @@ class ProveedorController
             $datosUsuario = Usuario::where('idUsuario', '=', $perfil->usuario_idUsuario)->update([
                 'nombres' => $userData['nombres'],
                 'apellidos' => $userData['apellidos'],
-                'fechaNacimiento' => $userData['fechaNacimiento'],
-                'estado_idEstado' => $userData['estado_idEstado'],
-                'tipo_documento_idDocumento' => $userData['tipoDocumento'],
-                'documento' => $userData['documento']
+                'estado_idEstado' => $userData['estado_idEstado']
             ]);
 
             // Actualizacion de Usuarios

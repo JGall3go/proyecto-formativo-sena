@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    <span id="profileAncla"><span class="usernameText">{{ session('username') }}</span><img src="https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.webp" id='imageProfile'>
+    <span id="profileAncla"><span class="usernameText">{{ session('username') }}</span><img src="{{asset('storage').'/'.session('userImage')}}" id='imageProfile'>
         <a href="/dashboard/logout"><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><title>Log Out</title><path d="M304 336v40a40 40 0 01-40 40H104a40 40 0 01-40-40V136a40 40 0 0140-40h152c22.09 0 48 17.91 48 40v40M368 336l80-80-80-80M176 256h256" fill="none" stroke="gray" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg></a></span>
 </div>
 
@@ -205,7 +205,7 @@
 
         <a class="formBackground" @isset($productosEdit) href="/dashboard/producto" @else onclick="showForm('create')" @endisset></a>
 
-        <div class="createForm" id="product" @if(isset($formError) && !isset($perfilesEdit))style="display: flex" @endisset>
+        <div class="createForm" id="product" @if(isset($formError) && !isset($productosEdit))style="display: flex" @endisset>
 
             <form action="{{url('/dashboard/producto')}}" method="POST" enctype="multipart/form-data" class="form" onkeydown="return event.key != 'Enter';">
     
@@ -218,12 +218,14 @@
                     <div class="dropArea-1">
 
                         <div class="dropTextArea">
-                            <span class="dropText">Arrastra la imagen aqui o presiona para buscarla</span>
                             <span class="dropText">Tamaño recomendado 800px x 800px</span>
+                            <span class="dropText">Click para buscar imagen en el dispositivo</span>
+                            <!--<span class="dropText">Arrastra la imagen aqui o presiona para buscarla</span>
+                            <span class="dropText">Tamaño recomendado 800px x 800px</span>-->
                         </div>
                         
                         <!--<div class="dropZoneImage"></div>-->
-                        <input type="file" name="imagen" class="dropAreaInput" accept="image/png, image/jpeg">
+                        <input type="file" name="imagen" class="dropAreaInput" accept="image/png, image/jpeg, image/jpg">
                     </div>
                 </div>
                 @error('imagen')<div class="alert-danger">{{ $message }}</div>@enderror
@@ -366,7 +368,7 @@
                         @endphp
                     @endisset
                     <input name="keys" type="text" class="inputAllTags" autocomplete="off" @isset($keysParsed)value="{{ $keysParsed }}"@endisset>
-                    <input name="cantidad" type="number" id="inputAmount" @isset($keys)value="{{ count($keys) }}"@endisset autocomplete="off"> 
+                    <input name="cantidad" type="number" id="inputAmount2" @isset($keys)value="{{ count($keys) }}"@endisset autocomplete="off"> 
                     <label for="" class="label">Keys <span class="opaqueLabelText"> - Cantidad @isset($keys){{ count($keys) }}@endisset</span></label>
 
                     <div class="tagger" id="tagger">

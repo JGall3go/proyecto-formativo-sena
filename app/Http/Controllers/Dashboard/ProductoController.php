@@ -153,11 +153,11 @@ class ProductoController
             'linea'=>'bail|required',
             'sublinea'=>'bail|required',
             'proveedor'=>'bail|required',
-            'descripcion'=>'bail|required|max:300',
-            'requisitosMinimos'=>'bail|required|max:300',
-            'requisitosRecomendados'=>'bail|required|max:300',
+            'descripcion'=>'bail|required|max:600',
+            'requisitosMinimos'=>'bail|required|max:600',
+            'requisitosRecomendados'=>'bail|required|max:600',
         ],
-        [
+        [   
             'imagen.required'=>'Campo requerido',
 
             'titulo.required'=>'Campo requerido',
@@ -176,13 +176,13 @@ class ProductoController
             'proveedor.required'=>'Campo requerido',
 
             'descripcion.required'=>'Campo requerido',
-            'descripcion.max'=>'El campo descripcion solo puede tener 300 caracteres',
+            'descripcion.max'=>'El campo descripcion solo puede tener 600 caracteres',
 
             'requisitosMinimos.required'=>'Campo requerido',
-            'requisitosMinimos.max'=>'El campo requisitos minimos solo puede tener 300 caracteres',
+            'requisitosMinimos.max'=>'El campo requisitos minimos solo puede tener 600 caracteres',
 
             'requisitosRecomendados.required'=>'Campo requerido',
-            'requisitosRecomendados.max'=>'El campo requisitos recomendados solo puede tener 300 caracteres'
+            'requisitosRecomendados.max'=>'El campo requisitos recomendados solo puede tener 600 caracteres'
         ]);
 
         if($request->hasFile('imagen')){
@@ -427,7 +427,44 @@ class ProductoController
      */
     public function update(Request $request, $idProducto)
     {
-        $productData = request()->except(['_token', '_method']);
+        $productData = request()->validate([
+            'titulo'=>'bail|required|max:50',
+            'valor'=>'bail|required|numeric',
+            'keys'=>'bail|required',
+            'cantidad'=>'bail|required|numeric',
+            'linea'=>'bail|required',
+            'sublinea'=>'bail|required',
+            'proveedor'=>'bail|required',
+            'descripcion'=>'bail|required|max:600',
+            'requisitosMinimos'=>'bail|required|max:600',
+            'requisitosRecomendados'=>'bail|required|max:600',
+        ],
+        [
+
+            'titulo.required'=>'Campo requerido',
+            'titulo.max'=>'El campo titulo solo puede tener 50 caracteres',
+
+            'valor.required'=>'Campo requerido',
+            'valor.numeric'=>'Este campo solo permite numeros',
+
+            'keys.required'=>'Campo requerido',
+
+            'cantidad.required'=>'Campo requerido',
+            'cantidad.numeric'=>'Este campo solo permite numeros',
+
+            'linea.required'=>'Campo requerido',
+            'sublinea.required'=>'Campo requerido',
+            'proveedor.required'=>'Campo requerido',
+
+            'descripcion.required'=>'Campo requerido',
+            'descripcion.max'=>'El campo descripcion solo puede tener 600 caracteres',
+
+            'requisitosMinimos.required'=>'Campo requerido',
+            'requisitosMinimos.max'=>'El campo requisitos minimos solo puede tener 600 caracteres',
+
+            'requisitosRecomendados.required'=>'Campo requerido',
+            'requisitosRecomendados.max'=>'El campo requisitos recomendados solo puede tener 600 caracteres'
+        ]);
 
         // Si hay una imagen diferente se elimina la anterior y se pone la nueva.
         $producto = Producto::where('idProducto', '=', $idProducto)->first();
@@ -467,11 +504,13 @@ class ProductoController
             // Se eliminan todas las keys viejas
             for ($key = 0; $key < count($keyDetalle); $key++) { // Se elimina cada Key
                 KeyDetalle::destroy($keyDetalle[$key]->idDetalle);
+                error_log($key);
             }
 
             // Se agregan las nuevas keys junto a las viejas
             $allKeys = explode('/', $productData['keys']);
             for ($i=1; $i < count($allKeys); $i++) { 
+                error_log($allKeys[$i]);
                 DB::table('key_detalle')->insert([
                     'keys_idKey' => $keys->idKey,
                     'key' => $allKeys[$i]
@@ -494,16 +533,14 @@ class ProductoController
         $producto = Producto::where('idProducto', '=', $idProducto)->first();
         $keys = Keys::where('producto_idProducto', '=', $idProducto)->first();
 
-        if(count($keys) > 0){
 
-            $keyDetalle = KeyDetalle::where('keys_idKey', '=', $keys->idKey)->get();
+        $keyDetalle = KeyDetalle::where('keys_idKey', '=', $keys->idKey)->get();
 
-            for ($key = 0; $key < count($keyDetalle); $key++) { // Se elimina cada Key
-                KeyDetalle::destroy($keyDetalle[$key]->idDetalle);
-            }
-
-            Keys::destroy($keys->idKey);
+        for ($key = 0; $key < count($keyDetalle); $key++) { // Se elimina cada Key
+            KeyDetalle::destroy($keyDetalle[$key]->idDetalle);
         }
+
+        Keys::destroy($keys->idKey);
 
         // Se elimina la imagen del producto y el producto
         Storage::disk('public')->delete($producto->imagen);

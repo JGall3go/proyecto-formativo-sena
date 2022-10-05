@@ -36,9 +36,9 @@ function selectColor(element) {
 // Arrastrar y soltar imagenes
 const initApp = () => {
 
-    for(i = 1; i < 2; i++){
+    for(num = 1; num <= 2; num++){
 
-        const dropArea = document.querySelector(`.dropArea-${i}`);
+        const dropArea = document.querySelector(`.dropArea-${num}`);
         const inputElement = dropArea.querySelector('.dropAreaInput');
 
         // Clase con estilos que se le aplicara al elemento cuando haya algo arriba.
@@ -59,23 +59,50 @@ const initApp = () => {
             dropArea.addEventListener(evt, inactive);
         });
 
-        // Cuando se suelte un archivo en el contenedor se pondra de fondo
-        dropArea.addEventListener("drop", (e) => {
-            if (e.dataTransfer.files.length) {
-            handleDrop(e.dataTransfer.files[0]);
-            }
-        });
+        /*
+        if(num == 1) {
+            // Cuando se suelte un archivo en el contenedor se pondra de fondo
+            dropArea.addEventListener("drop", (e) => {
+                if (e.dataTransfer.files.length) {
+
+                    handleDrop(e.dataTransfer.files[0]);
+                    inputElement.files = e.dataTransfer.files[0];
+                }
+            });
+        }
+
+        if(num == 2) {
+            // Cuando se suelte un archivo en el contenedor se pondra de fondo
+            dropArea.addEventListener("drop", (e) => {
+                if (e.dataTransfer.files.length) {
+
+                    handleDrop2(e.dataTransfer.files[0]);
+                    inputElement.files = e.dataTransfer.files[0];
+                }
+            });
+        }*/
 
         // Cuando se haga click en el contenedor se pondra la ventana para buscar la imagen
         const inputClick = () => inputElement.click();
         dropArea.addEventListener("click", inputClick);
 
-        // Cuando se seleccione la imagen se pondra de fondo
-        inputElement.addEventListener("change", (e) => {
-            if (inputElement.files.length) {
-                handleDrop(inputElement.files[0]);
-            }
-        });
+        if(num == 1) {
+            // Cuando se seleccione la imagen se pondra de fondo
+            inputElement.addEventListener("change", (e) => {
+                if (inputElement.files.length) {
+                    handleDrop(inputElement.files[0]);
+                }
+            });
+        }
+
+        if(num == 2) {
+            // Cuando se seleccione la imagen se pondra de fondo
+            inputElement.addEventListener("change", (e) => {
+                if (inputElement.files.length) {
+                    handleDrop2(inputElement.files[0]);
+                }
+            });
+        }
     }
 }
 
@@ -85,44 +112,83 @@ function handleDrop(e) {
 
     const file = e;
 
-    for(i = 1; i < 2; i++){
+    const dropArea = document.querySelector(`.dropArea-1`);
+    let thumbnail = dropArea.querySelector('.dropAreaImage');
+    let updateDefaultImage = document.querySelector('.updateDefaultImage');
 
-        const dropArea = document.querySelector(`.dropArea-${i}`);
-        let thumbnail = dropArea.querySelector('.dropAreaImage');
-        let updateDefaultImage = document.querySelector('.updateDefaultImage');
+    // Se retira el texto
+    if(dropArea.querySelector('.dropTextArea')) {
+        dropArea.querySelector('.dropTextArea').remove();
+    }
 
-        // Se retira el texto
-        if(dropArea.querySelector('.dropTextArea')) {
-            dropArea.querySelector('.dropTextArea').remove();
-        }
+    // Se añade el espacio para poner la imagen
+    if(!thumbnail) {
+        thumbnail = document.createElement('div');
+        image = document.createElement('img');
+        thumbnail.classList.add('dropAreaImage');
+        thumbnail.appendChild(image)
+        dropArea.appendChild(thumbnail);
+    }
 
-        // Se añade el espacio para poner la imagen
-        if(!thumbnail) {
-            thumbnail = document.createElement('div');
-            image = document.createElement('img');
-            thumbnail.classList.add('dropAreaImage');
-            thumbnail.appendChild(image)
-            dropArea.appendChild(thumbnail);
-        }
+    // Si la imagen ya existe
+    if(updateDefaultImage) {
+        updateDefaultImage.remove();
+        image = document.createElement('img');
+        thumbnail.appendChild(image)
+    }
 
-        // Si la imagen ya existe
-        if(updateDefaultImage) {
-            updateDefaultImage.remove();
-            image = document.createElement('img');
-            thumbnail.appendChild(image)
-        }
+    // Si el archivo ingresado es una imagen
+    if(file.type.startsWith('image/')){
+        const reader = new FileReader();
 
-        // Si el archivo ingresado es una imagen
-        if(file.type.startsWith('image/')){
-            const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            image.setAttribute('src', reader.result);
+        };
+    } else {
+        thumbnail.style.backgroundImage = null;
+    }
+}
 
-            reader.readAsDataURL(file);
-            reader.onload = () => {
-                image.setAttribute('src', reader.result);
-            };
-        } else {
-            thumbnail.style.backgroundImage = null;
-        }
+function handleDrop2(e) {
+
+    const file = e;
+
+    const dropArea = document.querySelector(`.dropArea-2`);
+    let thumbnail = dropArea.querySelector('.dropAreaImage');
+    let updateDefaultImage = document.querySelector('.updateDefaultImage');
+
+    // Se retira el texto
+    if(dropArea.querySelector('.dropTextArea')) {
+        dropArea.querySelector('.dropTextArea').remove();
+    }
+
+    // Se añade el espacio para poner la imagen
+    if(!thumbnail) {
+        thumbnail = document.createElement('div');
+        image = document.createElement('img');
+        thumbnail.classList.add('dropAreaImage');
+        thumbnail.appendChild(image)
+        dropArea.appendChild(thumbnail);
+    }
+
+    // Si la imagen ya existe
+    if(updateDefaultImage) {
+        updateDefaultImage.remove();
+        image = document.createElement('img');
+        thumbnail.appendChild(image)
+    }
+
+    // Si el archivo ingresado es una imagen
+    if(file.type.startsWith('image/')){
+        const reader = new FileReader();
+
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            image.setAttribute('src', reader.result);
+        };
+    } else {
+        thumbnail.style.backgroundImage = null;
     }
 }
 
@@ -183,6 +249,8 @@ function createTag(event, form) {
 
             if(input[1].value != "" && keysArray.indexOf(input[1].value) === -1) {
 
+                const inputAmount = document.getElementById('inputAmount2');
+
                 console.log(inputAllTags[1].value);
 
                 inputAllTags[1].value += `/${ input[1].value }`;
@@ -202,12 +270,10 @@ function createTag(event, form) {
 
 function deleteTag(element, form) {
 
-    const tagText = element.parentNode.getElementsByClassName('tagText');
+    const tagText = element.parentNode.querySelector('.tagText');
     const inputAllTags = document.getElementsByClassName('inputAllTags');
 
     if(form == "create") {
-
-        console.log("delete")
 
         // Se elimina la key del valor del input (inputAllTags)
         inputAllTags[0].value = inputAllTags[0].value.replace(`/${tagText.innerHTML}`, '');
@@ -239,7 +305,8 @@ function deleteTag(element, form) {
 
         const tagNumber = document.getElementsByClassName('tagNumber');
         const count = document.getElementsByClassName('opaqueLabelText');
-        const inputAmount = document.getElementById('inputAmount');
+        const inputAmount = document.getElementById('inputAmount2');
+        console.log(tagNumber.length);
         inputAmount.value = tagNumber.length;
         count[1].innerHTML = `- Cantidad ${ tagNumber.length }`; // Se cambia la cantidad de tags que hay en total
 

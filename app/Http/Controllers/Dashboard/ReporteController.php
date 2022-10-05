@@ -139,10 +139,12 @@ class ReporteController
             ->where('idProducto', '=', $idProductoPreferido)
             ->first();
 
-            $data['productoPreferidoTitulo'] = DB::table('descripcion_producto')
-            ->select('titulo')
-            ->where('idDescripcion', '=', $data['productoPreferido']->descripcion_producto_idDescripcion)
-            ->first();
+            if($data['productoPreferido'] != null) {
+                $data['productoPreferidoTitulo'] = DB::table('descripcion_producto')
+                ->select('titulo')
+                ->where('idDescripcion', '=', $data['productoPreferido']->descripcion_producto_idDescripcion)
+                ->first();
+            }
 
             return $data;
         }

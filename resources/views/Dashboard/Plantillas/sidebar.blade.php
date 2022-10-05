@@ -27,7 +27,7 @@
         <div class="sidebarHeader" id="sidebarHeader">
             
             <span id="companyTitle">
-                <h2>InstantGaming</h2>
+                <h2>KeysGuardian</h2>
                 <h6>Dashboard</h6>
             </span>
 

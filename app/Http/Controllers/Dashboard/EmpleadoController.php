@@ -139,6 +139,9 @@ class EmpleadoController
      */
     public function store(Request $request)
     {
+        $añoActual = date('Y') - 1;
+        $adultos = $añoActual - 18;
+
         $userData = request()->validate([
             'telefono'=>'bail|required|unique:datos_contacto|max:10',
             'direccion'=>'bail|required|max:50',
@@ -147,7 +150,7 @@ class EmpleadoController
             'contrasena'=>'bail|required|max:45',
             'nombres'=>'bail|required|max:45',
             'apellidos'=>'bail|required|max:45',
-            'fechaNacimiento'=>'bail|required',
+            'fechaNacimiento'=> 'bail|required|date_format:Y-m-d|before_or_equal:'.$adultos.'-12-31',
             'tipoDocumento'=>'bail|required',
             'documento'=>'bail|required|unique:usuario|max:45',
             'nombrePerfil'=>'bail|required|unique:perfil|max:15',
@@ -177,6 +180,7 @@ class EmpleadoController
             'apellidos.max'=>'El campo apellido solo puede tener 45 caracteres',
 
             'fechaNacimiento.required'=>'Campo requerido',
+            'fechaNacimiento.before_or_equal'=> 'Debe ser una persona mayor de edad.',
             'tipoDocumento.required'=>'Campo requerido',
 
             'documento.required'=>'Campo requerido',
@@ -329,6 +333,9 @@ class EmpleadoController
         $datosContacto = DatosContacto::where('idContacto', $usuarios->datos_contacto_idContacto)
         ->firstOrFail();
 
+        $añoActual = date('Y') - 1;
+        $adultos = $añoActual - 18;
+
         $userData = request()->validate([
             'telefono'=>'bail|required|max:10|unique:datos_contacto,telefono,'.$datosContacto->idContacto.',idContacto',
             'direccion'=>'bail|required|max:50',
@@ -337,7 +344,7 @@ class EmpleadoController
             'contrasena'=>'bail|max:45',
             'nombres'=>'bail|required|max:45',
             'apellidos'=>'bail|required|max:45',
-            'fechaNacimiento'=>'bail|required',
+            'fechaNacimiento'=> 'bail|required|date_format:Y-m-d|before_or_equal:'.$adultos.'-12-31',
             'tipoDocumento'=>'bail|required',
             'documento'=>'bail|required|max:45|unique:usuario,documento,'.$usuarios->idUsuario.',idUsuario',
             'nombrePerfil'=>'bail|required|max:15|unique:perfil,nombrePerfil,'.$idPerfil.',idPerfil',
@@ -368,6 +375,7 @@ class EmpleadoController
             'apellidos.max'=>'El campo apellido solo puede tener 45 caracteres',
 
             'fechaNacimiento.required'=>'Campo requerido',
+            'fechaNacimiento.before_or_equal'=> 'Debe ser una persona mayor de edad.',
             'tipoDocumento.required'=>'Campo requerido',
 
             'documento.required'=>'Campo requerido',

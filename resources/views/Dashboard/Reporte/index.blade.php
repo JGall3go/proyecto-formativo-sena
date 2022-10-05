@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <section class="contentDashboard">
+    <section class="contentDashboard contentHome">
         
         <link  href="{{ asset ('css/graficas.css') }}" rel="stylesheet">
         <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js' integrity='sha512-sW/w8s4RWTdFFSduOTGtk4isV1+190E/GghVffMA9XczdJ2MDzSzLEubKAs5h0wzgSJOQTRYyaz73L3d6RtJSg==' crossorigin='anonymous' referrerpolicy='no-referrer'></script>
@@ -13,14 +13,14 @@
                 <span class="iconMenu" onclick="collectSidebarResponsive(this)">
                     <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><title>Menu</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M80 160h352M80 256h352M80 352h352"/></svg>
                 </span>
-                <div>
+                <div class="breadCrumbsText">
                     <span style="color: #b9b9b9; font-size: 12px; font-weight: 600;">Dashboard</span> <span style="color: #818181; font-size: 12px; font-weight: 600;">/ Home</span>
                     <div><h3 style="margin-top: 0px; color: #707070">Reportes</h3></div>
                 </div>
             </div>
     
-            <span id="profileAncla"><span class="usernameText">{{ session('username') }}</span><img src="https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.webp" id='imageProfile'>
-        <a href="/dashboard/logout"><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><title>Log Out</title><path d="M304 336v40a40 40 0 01-40 40H104a40 40 0 01-40-40V136a40 40 0 0140-40h152c22.09 0 48 17.91 48 40v40M368 336l80-80-80-80M176 256h256" fill="none" stroke="gray" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg></a></span>
+            <span id="profileAncla"><span class="usernameText">{{ session('username') }}</span><img src="{{ asset('storage').'/'.session('userImage')}}" id='imageProfile'>
+            <a href="/dashboard/logout"><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><title>Log Out</title><path d="M304 336v40a40 40 0 01-40 40H104a40 40 0 01-40-40V136a40 40 0 0140-40h152c22.09 0 48 17.91 48 40v40M368 336l80-80-80-80M176 256h256" fill="none" stroke="gray" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg></a></span>
         </div>
 
         <div class="reportes">
@@ -87,9 +87,13 @@
             </div>
 
             <div class="canvasUsuarios">
+                @if($productoPreferido != null)
                 <h1>Producto mas vendido</h1>
                 <img src="{{asset('storage').'/'.$productoPreferido->imagen}}">
                 <h4>{{ $productoPreferidoTitulo->titulo }}</h4>
+                @else
+                <h1>No hay registros de venta</h1>
+                @endif
             </div>
         </div>
     </section>

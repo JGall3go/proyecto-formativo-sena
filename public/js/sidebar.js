@@ -153,6 +153,8 @@ function reportWindowSize() {
         if(sidebar.classList.contains('sidebarCollected')) {
             content.classList.remove('content');
             content.classList.add('contentCollect');
+            menu_icon.style.display = "none";
+            menu_icon_back.style.display = "flex";
         }
 
         if(!sidebar.classList.contains('sidebarCollected')){
@@ -162,6 +164,8 @@ function reportWindowSize() {
             content.classList.add('content');
             topBar.classList.remove('topBarCollected')
             topBar.classList.add('topBar')
+            menu_icon.style.display = "flex";
+            menu_icon_back.style.display = "none";
         }
 
     }
@@ -185,7 +189,7 @@ function reportWindowSize() {
 
         // Adding Element Styles
         company_title.style.display = "block";
-        menu_icon.style.display = "flex";
+        menu_icon.style.display = "none";
         menu_icon_back.style.display = "none";
         titulo_profile.style.display = "flex";
         profile_sidebar.style.justifyContent = "flex-start";

@@ -11,6 +11,7 @@ use App\Http\Controllers\Dashboard\VentaController;
 use App\Http\Controllers\Dashboard\LoginController;
 use App\Http\Controllers\Dashboard\RegistroController;
 use App\Http\Controllers\Dashboard\LogoutController;
+use App\Http\Controllers\Dashboard\ImageController;
 
 
 /*
@@ -23,6 +24,9 @@ use App\Http\Controllers\Dashboard\LogoutController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', function () {
+    return redirect('/dashboard/home');
+});
 
 Route::get('/dashboard', function () {
     return redirect('/dashboard/home');
@@ -44,6 +48,11 @@ Route::resource('dashboard/venta', VentaController::class)->middleware('auth');
 
 Route::resource('dashboard/login', LoginController::class);
 
-Route::resource('dashboard/signup', RegistroController::class);
+// Route::resource('dashboard/signup', RegistroController::class);
 
 Route::resource('dashboard/logout', LogoutController::class);
+
+
+// API 
+
+Route::resource('dashboard/imagepush', ImageController::class);

@@ -36,6 +36,7 @@
     </div>
     @error('telefono')<div class="alert-danger">{{ $message }}</div>@enderror
 
+    @if($usuario != "Proveedor")
     <div class="containerSelect">
         <label for="" class="label">Tipo de Documento</label>
         <select class="inputSelect" name="tipoDocumento" onchange="selectColor(this)">
@@ -48,19 +49,25 @@
         </select>        
     </div>
     @error('tipoDocumento')<div class="alert-danger">{{ $message }}</div>@enderror
+    @endif
 
+    @if($usuario != "Proveedor")
     <div class="container">
         <label for="" class="label" id="secondLabel">Documento</label>
         <input name="documento" type="text" class="input" id="inputDouble" placeholder=" " autocomplete="off">
     </div>
     @error('documento')<div class="alert-danger">{{ $message }}</div>@enderror
+    @endif
 
+    @if($usuario != "Proveedor")
     <div class="container">
         <label for="" class="label">Direccion</label>
         <input name="direccion" type="text" class="input" placeholder=" " autocomplete="off">            
     </div>
     @error('direccion')<div class="alert-danger">{{ $message }}</div>@enderror
+    @endif
 
+    @if($usuario != "Proveedor")
     <div class="containerSelect">
         <label for="" class="label">Ciudad</label>
         <select class="inputSelect" name="ciudad" onchange="selectColor(this)">
@@ -73,12 +80,15 @@
         </select>
     </div>
     @error('ciudad')<div class="alert-danger">{{ $message }}</div>@enderror
+    @endif
 
+    @if($usuario != "Proveedor")
     <div class="container">
         <label for="" class="label">Fecha de Nacimiento</label>
         <input type="date" name="fechaNacimiento" class="input" id="inputDate" onchange="resetValue(this, this.value)" value="" min="1900-01-01" max="<?= date('Y-m-d'); ?>" placeholder=" ">
     </div>
     @error('fechaNacimiento')<div class="alert-danger">{{ $message }}</div>@enderror
+    @endif
 
     <div class="containerSelect">
         <label for="" class="label">Estado</label>
