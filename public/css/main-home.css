@@ -1,0 +1,21 @@
+*{
+    margin: 0%;
+    padding: 0%;
+    background:black ;
+    
+    
+}
+html,body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color: black;
+
+}
+.cotanier-fluid{
+    width: 100%;
+    height: auto;
+    background-color: black;
+    
+}

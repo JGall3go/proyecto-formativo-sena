@@ -1,0 +1,100 @@
+
+.main-image{
+    position: relative;
+    background-size: cover;
+    height: 350px;
+    overflow: hidden;
+    margin-top: 30px;
+  }
+  .main-image-2{
+    position: relative;
+    background-size: cover;
+    height: 350px;
+    overflow: hidden;
+    margin-top: 30px;
+     }
+.container-banner{
+    position: absolute;
+    top: 20%;
+        
+    transform: translate(-50% -50%);
+    text-align: center;
+    color:#fff;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+
+.container-banner h1{
+    margin: 0;
+    font-size: 70px;
+}
+
+.container-banner h1 span{
+    border: 6px solid white;
+    padding: 6px 14px;
+    display: inline-block;
+}
+
+.cen{
+    margin: 20px;
+    display: block;
+    font-size: 26px;
+}
+
+.button-banner{
+    color:#313131 #313131;
+    padding:10px 24px ;
+    background:#f1f1f1 ;
+    text-decoration: none;
+    border-radius: 12px;
+    transition: .6s;
+
+}
+.button-banner:hover{
+    opacity: .6;
+}
+
+.gal-offtopic{
+    position: relative;
+    background: url("{{URL::asset('/recursos_css/background-op-3.jpg')}}") no-repeat center;
+    background-size: cover;
+    height:  15rem;
+    overflow: hidden;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+     }
+
+     .cont-gal-off h1{
+        margin: 0;
+        font-size: 70px;
+    }
+     .cont-gal-off h1 span{
+        text-align: center;
+        border: 6px solid white;
+        padding: 6px 14px;
+        display: inline-block;
+
+   }
+
+   .card-body {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+    }
+
+    .card-text {
+        font-size: 20px;
+        font-weight: bold;
+        height: 100px;
+    }
+
+    .precio {
+        font-size: 25px;
+        font-weight: bold;
+        text-decoration: underline;
+        text-decoration-color: #9256F0;
+    }

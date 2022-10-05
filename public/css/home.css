@@ -1,0 +1,101 @@
+
+html, body{
+    margin: 0%;
+    padding: 0%;
+}
+
+body{
+    width: 100%;
+    height: 100%;
+    font-family: sans-serif;
+    letter-spacing: 0.03em;
+    line-height: 1.6;
+}
+
+.title{
+    text-align: center;
+    font-size: 40px;
+    color: white;
+    margin-top: 100px;
+    font-weight: 100;
+}
+
+.container{
+   /* max-width: 1200px;*/
+   background-color: black;
+   position: relative;
+   width: 50%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: auto;
+}
+
+
+.container .card{
+    border-radius: 8px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    margin: 20px;
+    transition: all 0.25s;
+    
+}
+.container .card:hover{
+    transform: translateY(-15px);
+    box-shadow: 0, 12px 16px rgba(0, 0, 0, 0.2); 
+}
+
+.container .card img{
+    width: 330px;
+    height: 220px;
+}
+/*efectos hoover */
+.container .card:hover .overlay {
+    bottom: 0;
+    height: 100%;
+  }
+.overlay {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    background-color: #008CBA;
+    overflow: hidden;
+    width: 100%;
+    height:0;
+    transition: .5s ease;
+  }
+  .text {
+    white-space: nowrap; 
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    overflow: hidden;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+  }
+
+
+/* mas o menos */
+.but{
+    float: right;
+    background-color: #434343 ;
+    border-radius: 40px;
+    padding: 15px 32px;
+    font-size: 1.2em;
+    box-shadow: 0px 0px 10px 0px #434343;
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+.hid{
+    display: none;
+}
+
+.show{
+    display: block;
+}

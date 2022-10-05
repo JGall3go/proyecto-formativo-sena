@@ -1,12 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UsuarioController;
-use App\Http\Controllers\AdministradorController;
-use App\Http\Controllers\EmpleadoController;
-use App\Http\Controllers\ClienteController;
-use App\Http\Controllers\ProveedorController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -19,51 +13,66 @@ use App\Http\Controllers\ProveedorController;
 |
 */
 
+use App\Http\Controllers\store\CartController;/* carrito*/
+use App\Http\Controllers\store\storeController;
+use App\Http\Controllers\Login\LoginController;
+use App\Http\Controllers\Login\RegisterController;
+use App\Http\Controllers\Login\LogoutController;
+use App\Http\Controllers\store\PerfilController;
+use App\Http\Controllers\store\ConfigController;
+use App\Http\Controllers\store\BibliotecaController;
+
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('store.index');
 });
 
+//Ruta para el Metodo - Pago
+Route::resource('/pago', PagoController::class);
+Route::get('/metodo', [PagoController::class, 'vista'])->name('pago');
 
-Route::resource('dashboard/usuario', UsuarioController::class);
 
-Route::resource('dashboard/administrador', AdministradorController::class);
+Route::resource('store', storeController::class);
+Route::get('store/producto/{titulo}', [storeController::class, 'ver'])->name('detalle.producto');
+//Route::get('store/producto/{titulo}/metodo{idProdcto}', [storeController::class, 'vista'])->name('pago');
 
-Route::resource('dashboard/empleado', EmpleadoController::class);
 
-Route::resource('dashboard/cliente', ClienteController::class);
+//Route::get('store/venta/{id}/{status}', [storeController::class, 'status'])->name('venta.status');
+Route::get('/buscar', [storeController::class, 'buscar'])->name('buscar');
 
-Route::resource('dashboard/proveedor', ProveedorController::class);
+Route::get('/condicion', function(){
+    return view('/store.terminos');
+})->name('condicion');
 
-Route::get('/producto', function () {
-    return view('producto/index');
-})->name('producto');
+Route::get('/fap', function(){
+    return view('/store.faq');
+})->name('fap');
 
-Route::get('/venta', function () {
-    return view('venta/index');
-})->name('venta');
+Route::get('/politic', function(){
+    return view('/store.politica');
+})->name('politic');
 
-Route::get('/proveedor', function () {
-    return view('proveedor/index');
-})->name('proveedor');
+Route::get('/prueba', function(){
+    return view('/store.prueba');
+})->name('prueba');
 
-Route::get('/reporte', function () {
-    return view('reporte/index');
-})->name('reporte');
-
-Route::get('/categoria', function () {
-    return view('categoria/index');
-})->name('categoria');
-
-Route::get('/clasificacion', function () {
-    return view('clasificacion/index');
-})->name('clasificacion');
-
-Route::get('/metodoDePago', function () {
-    return view('metodo/index');
-})->name('metodo');
-
-Route::get('/estado', function () {
-    return view('estado/index');
-})->name('estado');
+//Route::get('store', [storeController::class, 'index'])->name('shop');
+Route::get('/cart', [CartController::class, 'cart'])->name('cart.index')->middleware('auth');
+Route::post('/add', [CartController::class, 'add'])->name('cart.store')->middleware('auth');
+Route::post('/update', [CartController::class, 'update'])->name('cart.update')->middleware('auth');
+Route::post('/remove', [CartController::class, 'remove'])->name('cart.remove')->middleware('auth');
+Route::post('/clear', [CartController::class, 'clear'])->name('cart.clear')->middleware('auth');
 
 /*Route::resource('usuario', EmpleadoController::class);*/
+
+/*Route::get('/pago', function(){
+    return view('/store.metodo');
+})->name('pago');*/
+
+// Perfil
+Route::resource('/biblioteca', BibliotecaController::class)->middleware('auth');
+Route::resource('/configuracion', ConfigController::class)->middleware('auth');
+ 
+// Login
+Route::resource('/login', LoginController::class);
+Route::resource('/signup', RegisterController::class);
+Route::resource('/logout', LogoutController::class)->middleware('auth');
