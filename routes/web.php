@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\store\CartController;/* carrito*/
 use App\Http\Controllers\store\storeController;
+use App\Http\Controllers\store\PagoController;
 use App\Http\Controllers\Login\LoginController;
 use App\Http\Controllers\Login\RegisterController;
 use App\Http\Controllers\Login\LogoutController;
