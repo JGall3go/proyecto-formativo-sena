@@ -22,9 +22,6 @@ use App\Http\Controllers\Login\LogoutController;
 use App\Http\Controllers\store\PerfilController;
 use App\Http\Controllers\store\ConfigController;
 use App\Http\Controllers\store\BibliotecaController;
-use App\Http\Controllers\store\PagoController;
-
-
 
 Route::get('/', function () {
     return redirect()->route('store.index');
