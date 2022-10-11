@@ -1,0 +1,49 @@
+*{
+    background-color: rgb(40, 40, 40);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-size: 15px;
+    color: #fff;
+    font-family: arial, sans-serif;
+    --color-light: #909090;
+}
+
+.container{
+    margin: 2rem auto;
+    width: 770px;
+}
+
+div {
+    display: block;
+}
+
+.readable h1, .readable h2, .readable h3 {
+    color: #fff;
+}
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 40px;
+}
+
+h3{
+    font-size: 19px;
+}
+
+h2, h3 {
+    margin-bottom: 20px;
+    font-size: 19px;
+}
+
+p{
+    margin-bottom: 30px;
+}
+
+.readable {
+    line-height: 25px;
+    color: var(--color-light);
+}

@@ -1,0 +1,255 @@
+html {
+    background-color: #141414;
+    height: 100vh;
+}
+
+.content {
+    background-color: #141414;
+    width: 100%;
+    margin-top: 80px;
+}
+
+/* Profile Image */
+
+.profile-description {
+    width: 100%;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#profile-image {
+    margin-top: 80px;
+    width: 200px;
+    border-radius: 200px;
+    border: 3px solid transparent;
+    transition-duration: 0.5s;
+    cursor: pointer;
+}
+
+#profile-image:hover {
+    border: 3px solid #9256F0;
+}
+
+.profile-username {
+    color: #F5F5F5;
+    font-size: 35px;
+    font-weight: bold;
+    margin-top: 15px;
+    text-decoration: underline;
+    text-decoration-color: #9256F0;
+}
+
+.profile-nav-bar {
+    background-color: rgb(165, 165, 165, 0.3);
+    width: 500px;
+    height: max-content;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    border-radius: 30px;
+}
+
+.profile-nav-bar a {
+    color: #f5f5f5;
+    text-decoration: none;
+    font-size: 20px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-nav-bar a:hover {
+    color: #9256F0;
+}
+
+.profile-nav-bar a:first-child {
+    margin-left: 50px;
+}
+
+.profile-nav-bar a:last-child {
+    margin-right: 50px;
+}
+
+/* Phones */
+@media screen and (max-width: 767px) {
+  .navegacion_container {
+    display: none;
+  }
+}
+
+/* Tablets */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .navegacion_container {
+    display: none;
+  }
+}
+
+.link-active {
+    color: #9256F0;
+}
+
+.profile-content {
+    background-color: rgb(165, 165, 165, 0.3);
+    width: 90%;
+    height: max-content;
+    margin-top: 50px;
+    border-radius: 30px;
+    padding: 15px;
+    margin-bottom: 30px;
+    overflow: auto;
+}
+
+.producto {
+    background-color: rgb(165, 165, 165, 0.2);
+    padding: 10px;
+    border-radius: 30px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: row;
+}
+
+.producto img {
+    width: 150px;
+    border-radius: 30px;
+}
+
+.producto-texto {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 30px;
+    width: 75%;
+}
+
+.producto-titulo {
+    color: #f5f5f5;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.producto-item {
+    color: #dddd;
+    font-size: 16px;
+}
+
+.producto-detalle {
+    color: #dddd;
+    cursor: pointer;
+    width: max-content;
+}
+
+.producto-detalle:hover {
+    color: #9256F0;
+}
+
+.producto-precio {
+    padding-top: 15px;
+}
+
+.producto-precio span {
+    color: #F5F5F5;
+    background-color: #9256F0;
+    padding: 15px;
+    border-radius: 30px;
+    font-weight: bold;
+}
+
+/* Form */
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.input-container, .image-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 450px;
+}
+
+.input-container label, .image-container label{
+    color: #f5f5f5;
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.input-container input {
+    color: #F5F5F5;
+    font-size: 16px;
+    margin-bottom: 15px;
+    padding: 5px;
+    border-radius: 30px;
+    border: 3px solid transparent;
+    height: 50px;
+    background-color: rgb(165, 165, 165, 0.4);
+    padding-left: 20px;
+    outline: none;
+    transition-duration: 0.3s;
+}
+
+.image-container input {
+    color: #F5F5F5;
+    font-size: 16px;
+    margin-bottom: 15px;
+    padding: 5px;
+    height: 50px;
+}
+
+.input-container select {
+    color: gray;
+    font-size: 16px;
+    margin-bottom: 15px;
+    padding: 5px;
+    border-radius: 30px;
+    border: 3px solid transparent;
+    height: 50px;
+    background-color: rgb(165, 165, 165, 0.4);
+    padding-left: 20px;
+    outline: none;
+    transition-duration: 0.3s;
+}
+
+.input-container option {
+    content: black;
+}
+
+.input-container input:focus {
+    border: 3px solid #9256F0;
+}
+
+.input-container input:hover {
+    border: 3px solid #9256F0;
+}
+
+.submit-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 450px;
+}
+
+.submit-input {
+    color: #f5f5f5;
+    margin-top: 30px;
+    padding: 0px;
+    font-size: 20px;
+    border-radius: 30px;
+    border: none;
+    height: 50px;
+    background-color: rgb(165, 165, 165, 0.2);
+    transition-duration: 0.3s;
+    outline: none;
+}
+
+.submit-input:hover {
+    background-color: #9256F0;
+}

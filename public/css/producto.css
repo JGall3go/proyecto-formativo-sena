@@ -1,0 +1,242 @@
+* {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+
+}
+
+
+body {
+    background-color: #323232 ;
+
+}
+
+.header_producto {
+    /* background-image: url(img/GTA\ V\ ll.jpg); */
+    background-repeat: no-repeat;
+    position: relative;
+    background-size: cover;
+    height: 500px;
+    padding: .1px;
+
+}
+
+/* .producto_waves {
+    /* margin-top: 250px; 
+
+} */
+
+
+
+/* CSS DEL CONTAINER DE DATOS + IMAGEN */
+
+/* .container_img{
+    width: 300px;
+    height: 500px;
+    border-radius: 30%;
+    float: left;
+} */
+
+.container_datos {
+    margin-block-start: -210px;
+    display: flex;
+    align-items: flex-start;
+
+}
+
+.datos_presentacion {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 616px;
+
+}
+
+.presentacion_banner {
+    position: relative;
+    align-self: baseline;
+    display: flex;
+    width: 100%;
+
+}
+
+.presentacion_banner img {
+    /* margin-left: 30px; */
+    width: 90%;
+    border-radius: 50px;
+
+}
+
+
+
+/* CSS DE LOS DATOS DEL PRODUCTO */
+
+
+
+.panel_producto-datos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(34, 32, 32, 0.8);
+    margin-right: 30px;
+    width: 100%;
+    border-radius: 50px;
+
+}
+
+/* ESPACIO DONDE IRA EL TITULO DEL PRODUCTO */
+
+.name_producto {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 15px;
+
+}
+
+/* TITULO DEL PRODUCTO */
+
+.titulo_producto {
+    font-size: 24px;
+    text-align: center;
+    color: white;
+    margin-bottom: 10px;
+
+}
+
+/* INFORMACION DEL PRODUCTO */
+
+.subinfo_producto {
+    font-size: 14px;
+    background-color: rgba(16, 16, 16, 0.568);
+    padding: 7px 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 100px;
+    min-height: 49px;
+
+}
+
+.subinfo_producto a {
+    margin-left: -12px;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
+
+}
+
+.espacio_subinfo-producto {
+    background-color: rgb(139, 135, 135);
+    width: 1px;
+    height: 20px;
+    margin: 0 10px;
+    
+}
+
+.stock_producto {
+    display: flex;
+    align-items: center;
+    color: white;
+
+}
+
+/* ICONOS DE LA INFORMACION DEL PRODUCTO */
+
+.uil-check {
+    font-size: 20px;
+    margin-right: 10px;
+    color: rgb(59, 230, 59);
+    flex: 0 0 15px;
+
+}
+
+.uil-fire {
+    color: red;
+    font-size: 20px;
+    margin-right: 10px;
+
+}
+
+.uil-heart-sign {
+    margin-bottom: 20px;
+    margin-right: 15px;
+    background-color: #9256F0;
+    padding: 20px 20px;
+    border-radius: 50%;
+
+}
+
+/* PRECIO Y DESCUENTOS DEL PRODUCTO */
+
+.precio_producto {
+    display: flex;
+    align-items: baseline;
+    padding: 10px 10px;
+    margin-top: auto;
+
+}
+
+.descuento {
+    color: #9256F0;
+    font-size: 18px;
+
+}
+
+.descuento_precio-producto {
+    color: white;
+    font-size: 18px;
+    margin-right: 10px;
+
+}
+
+.total {
+    font-weight: bold;
+    color: white;
+    font-size: 25px;
+    margin-left: 10px;
+
+}
+
+.descarga_producto {
+    display: flex;
+    align-items: center;
+    color: white;
+
+}
+
+.viral_producto {
+    display: flex;
+    align-items: flex-end;
+    margin-top: 10px;
+    color: white;
+
+}
+
+/* SESION DEL VENTA DEL PRODUCTO */
+
+.comprar_producto {
+    margin: 5px 5px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.comprar_producto a {
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    text-decoration: none;
+
+}
+
+.button_comprar {
+    background-color: #9256F0;
+    padding: 20px 200px;
+    border-radius: 30px;
+    margin-bottom: 20px;
+
+}
+

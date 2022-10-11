@@ -1,0 +1,422 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+/* CSS DEL HEADER */
+
+.header_container_pago {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    padding: 0 20px;
+    width: 100%;
+    height: 130px;
+    background-color: #323232;
+    z-index: 2;
+
+}
+
+/* CSS DEL LOGO */
+
+.logo_pago {
+    width: 120px;
+    height: 31px;
+}
+
+.topbar_image {
+    width: max-content;
+}
+
+.topbar_image img {
+    width: 120px;
+}
+
+/* CSS DE LA BARRA DE PROGRESO DEL PAGO */
+
+.barra_progreso_pago {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    transition: .2s;
+    top: 0;
+}
+
+
+
+.step_active {
+    font-size: 16px;
+    position: relative;
+    box-shadow: 0 0 0 3px #9256F0;
+    color: #9256F0;
+    background-color: #9256F0;
+    border-radius: 100px;
+    height: 25px;
+    width: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.icono {
+    width: 35px;
+    height: 35px;
+    flex: 0 0 15px;
+
+}
+
+.texto_progreso {
+    position: absolute;
+    white-space: nowrap;
+    top: 37px;
+    color: #fff;
+
+}
+
+.spacer {
+    width: 200px;
+    height: 4px;
+    background-color: #9256F0;
+
+}
+
+.step {
+    font-size: 16px;
+    position: relative;
+    box-shadow: 0 0 0 3px #9256F0;
+    color: #9256F0;
+    border-radius: 100px;
+    height: 25px;
+    width: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.spacer_inactive {
+    width: 200px;
+    height: 4px;
+    background-color: #9256F0;
+
+}
+
+.step_inactive {
+    font-size: 16px;
+    position: relative;
+    box-shadow: 0 0 0 3px #9256F0;
+    color: #9256F0;
+    border-radius: 100px;
+    height: 25px;
+    width: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.seguridad_pago {
+    display: flex;
+    align-items: center;
+    margin-right: 40px;
+
+}
+
+.icono_seguridad {
+    color: #25de57;
+    font-size: 30px;
+    margin-right: 10px;
+
+}
+
+.seguridad_pago {
+    color: white;
+    font-size: 16px;
+
+}
+
+.plataforma_metodo-pago {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.directdebit-platforms {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.radio_button_tarjeta-credito {
+    border-radius: 10px;
+    padding: 12px 0;
+    display: flex;
+    position: relative;
+    align-items: center;
+    cursor: pointer;
+
+}
+
+.radio_button_tarjeta-credito input {
+    font-size: 18px;
+    background-color: #9256F0;
+    color: white;
+    padding: 15px;
+    outline: none;
+    border: none;
+
+}
+
+.text_name {
+    font-size: 20px;
+    margin-left: 5px;
+    color: white;
+
+}
+
+.inpu{
+    float: left;
+}
+
+.pago{
+    float: left;
+}
+
+body{
+    background-color: #434343;
+    width: auto;
+    
+}
+h5{
+    text-align: left;
+    margin-left: 20px;
+    color: aliceblue;
+}
+.row>* {
+    width: auto;
+}
+.fluid-container{
+    width: auto;
+    flex-direction: row;
+    margin-top: 160px;
+    flex-wrap: wrap;
+    justify-content: center;
+    display: flex;
+}
+.Plataformas{
+    width: 650px;
+    margin:5px;
+    text-align: center;
+}
+.nombre-apellido{
+    display: inline-flex;
+    width: 600px;
+    margin: 4px;
+}
+.contenido{
+    width: 400px;
+    margin:5px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+.col-md-6{
+    margin: 3px;
+}
+.input-group {
+    width:600px;
+    margin:20px;
+}
+
+.card {
+    display:flex;
+    margin: 20px; 
+    text-align: center;
+    width:300px;
+    background-color: #bdc3c7;   
+}
+
+.card-credit {
+    width: max-content;
+}
+
+/* Phones */
+@media screen and (max-width: 767px) {
+
+    .barra_progreso_pago {
+        display: none;
+    }
+
+    .card {
+        width: calc(100vh - 330px);
+    }
+
+    .card-credit {
+        width: calc(100vh - 330px);
+    }
+
+    .card-credit .input-group {
+        width: calc(100% - 35px);
+    }
+}
+
+/* Tablets */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    .barra_progreso_pago {
+        display: none;
+    }
+
+    .card {
+        width: calc(100vh - 330px);
+    }
+
+    .card-credit {
+        width: calc(100vh - 330px);
+    }
+
+    .card-credit .input-group {
+        width: calc(100% - 35px);
+    }
+}
+
+.precio{
+    font-weight:bold;
+}
+
+.img{
+    max-width: 200px;
+    max-height: 40px;
+}
+
+.imga{
+    max-width: 50px;
+    max-height: 60px;
+}
+
+.btn-paypal {
+    background-color: #f5f5f5;
+    outline: none;
+    transition-duration: 0.2s;
+    border-radius: 5px;
+    border: none;
+    padding: 0px 15px;
+}
+
+.btn-paypal:hover {
+    background-color: #dcdcdc;
+}
+
+/* Alertas de pago */
+
+.pay-alert-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+.pay-alert {
+    width: 50%;
+    padding: 30px;
+    background-color: #5EA66F;
+    color: #f5f5f5;
+    font-weight: bold;
+    font-size: 30px;
+    border-radius: 25px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pay-text {
+    text-align: justify;
+    width: 50%;
+    color: #f5f5f5;
+    background-color: #595959;
+    margin-top: 15px;
+    padding: 30px;
+    border-radius: 25px;
+    font-size: 17px;
+}
+
+.pay-text a {
+    text-decoration: underline;
+    color: #f5f5f5;
+}
+
+.pay-text a:hover {
+    color: #9256f0;
+}
+
+.pay-buttons {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.biblioteca-button {
+    width: 50%;
+    height: 50px;
+    padding-top: 10px;
+    background-color: #3b3b3b; 
+    text-decoration: none;
+    color: #f5f5f5;
+    margin-right: 15px;
+    border-radius: 25px;
+    font-size: 20px;
+}
+
+.store-button {
+    width: 50%;
+    height: 50px;
+    padding-top: 10px;
+    background-color: #3b3b3b;
+    text-decoration: none;
+    color: #f5f5f5;
+    border-radius: 25px;
+    font-size: 20px;
+}
+
+.pay-buttons a {
+    transition-duration: 0.2s;
+}
+
+.pay-buttons a:hover {
+    color: #9256f0;
+    background-color: #4b4b4b;
+}
+
+/* Phones */
+@media screen and (max-width: 767px) {
+
+    .pay-alert {
+        width: 90%;
+    }
+
+    .pay-text {
+        width: 90%;
+    }
+}
+
+/* Tablets */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    
+    .pay-alert {
+        width: 90%;
+    }
+
+    .pay-text {
+        width: 90%;
+    }
+}

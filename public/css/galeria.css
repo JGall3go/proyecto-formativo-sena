@@ -1,0 +1,92 @@
+
+.content_grid{
+   
+    flex-flow: row wrap;
+    background-color:#141414 ;
+    
+    flex-direction: row;
+
+    margin-top: 20px;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    flex-wrap: wrap;
+   
+}
+.cont-gal-off{
+    flex-flow: row wrap;
+    
+    
+    flex-direction: row;
+
+    margin-top: 20px;
+    display: flex;
+    position: relative;
+    
+    flex-wrap: wrap;
+
+}
+
+ .cont-gal-off .card{
+    margin: 20px;
+    height: 10rem;
+    border-radius: 2.5rem;
+}
+
+.content_grid .card-img-top{
+    height: 10rem; 
+    border-radius: 30px;
+    border-bottom-left-radius:0;
+    border-bottom-right-radius: 0; 
+    
+}
+.content_grid .card{
+    background-color:#1A1A1A ;
+    color: whitesmoke;
+    border-radius: 30px;
+    cursor: pointer;
+}
+.card:hover{
+    background-color: #5e72e4;
+}
+.content_grid div{
+margin: 20px;
+}
+
+@media screen and (max-width: 686px) {
+    .content_grid{
+        display: flex;
+        flex-wrap: nowrap;
+        overflow: scroll;
+    }
+    }
+
+@media screen and (max-width: 686px){
+    .card{
+        flex: 1 0 auto;
+        
+    }
+    }
+
+@media  screen and (min-width:1282px )  {
+    #hide{
+        display:none;
+    }
+    
+}
+@media  screen and (max-width:953px) {
+    #hide{
+        display:none;
+    } 
+    
+}
+
+.but {
+    margin-bottom: 15px;
+    margin-right: 15px;
+    transition-duration: 0.3s;
+}
+
+.but:hover {
+    color: #9256F0;
+}
