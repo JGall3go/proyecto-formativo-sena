@@ -27,7 +27,7 @@
                     @enderror
                     <div class="error-container"><span>Incorrect Email or Password</span></div>
                     <div class="success-container"><span>Welcome</span></div>
-                    <div class="text-container"><a onclick="forgotForm()" id="forgot-password-btn">Forgot Password?</a></div>
+                    <div class="text-container"><a onclick="forgotForm()" id="forgot-password-btn"></a></div>
                     <div class="input-container" style="margin: 0px"><input class="input" type="submit" value="Sign In"></div>
                 </form>
             </div>

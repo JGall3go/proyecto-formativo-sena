@@ -90,19 +90,6 @@
     @error('fechaNacimiento')<div class="alert-danger">{{ $message }}</div>@enderror
     @endif
 
-    <div class="containerSelect">
-        <label for="" class="label">Estado</label>
-        <select class="inputSelect" name='estado_idEstado' id="inputSelect" onchange="selectColor(this)">
-            <option disabled selected style="display: none">- Seleccionar -</option>
-            @php
-                foreach ($estadosTotales as $estado) {
-                    echo "<option value='$estado->idEstado'>$estado->estado</option>";
-                }
-            @endphp
-        </select>
-    </div>
-    @error('estado_idEstado')<div class="alert-danger">{{ $message }}</div>@enderror
-
     <div class="container">
         <label for="" class="label">Rol</label>
         <input type="text" class="input" value="{{$usuario}}" style="color: #b8b8b9" autocomplete="off" readonly>

@@ -19,21 +19,37 @@ class VentaController
      */
     public function index(Request $request)
     {
-        // Variables obtenidas mediante un Request a la URL
-        $busqueda = trim($request->get('busqueda'));
+        if($request->has('busqueda')) {
+            $busqueda = trim($request->get('busqueda'));
+        } else {
+            $busqueda = "null";
+        }
+
         $page = trim($request->get('page'));
         $registros = trim($request->get('registros'));
 
-        // Se comprueba si se requiere cambiar la variable de session o no 
+        /* Se comprueba si se requiere cambiar la variable de session o no */
         function actualizarSession($nuevoValor, $session, $defaultValue){
             if (session()->exists($session)) {
                 if($nuevoValor != ""){ 
                     session([$session => intval($nuevoValor)]);}
             } else {
-                session([$session => 5]);}
+                session([$session => $defaultValue]);
+            }
+        }
+
+        function actualizarBusqueda($nuevoValor, $session) {
+            if (session()->exists($session)) {
+                if($nuevoValor != "null"){ 
+                    session([$session => $nuevoValor]);
+                }
+            } else {
+                session([$session => '']);
+            }
         }
 
         actualizarSession($registros, 'paginate', 5);
+        actualizarBusqueda($busqueda, 'busqueda6');
 
         function busquedaDB($busqueda){
 
@@ -43,11 +59,10 @@ class VentaController
             ->join('perfil', 'perfil_idPerfil', '=', 'idPerfil')
             ->select('idVenta', 'fecha', 'total', 'metodo', 'nombrePerfil')
             // Busqueda por url
-            ->where('idVenta', 'Like','%'.$busqueda.'%')
-            ->orwhere('fecha', 'Like','%'.$busqueda.'%')
-            ->orwhere('total', 'Like','%'.$busqueda.'%')
-            ->orwhere('metodo', 'Like','%'.$busqueda.'%')
-            ->orwhere('nombrePerfil', 'Like','%'.$busqueda.'%')
+            ->where('fecha', 'Like','%'.session('busqueda6').'%')
+            ->orwhere('total', 'Like','%'.session('busqueda6').'%')
+            ->orwhere('metodo', 'Like','%'.session('busqueda6').'%')
+            ->orwhere('nombrePerfil', 'Like','%'.session('busqueda6').'%')
             ->paginate(session('paginate')); // Cantidad de registros que se van a mostrar;
 
             // Seleccion de proveedores
@@ -61,11 +76,11 @@ class VentaController
             $datosContacto = Auth::user();
             
             $data['perfilUsuario'] = DB::table('perfil')
-            ->join('usuario', 'usuario_idUsuario', '=', 'idUsuario') // Tabla de Datos de Contacto
+            ->leftjoin('usuario', 'usuario_idUsuario', '=', 'idUsuario') // Tabla de Datos de Contacto
             ->join('datos_contacto', 'datos_contacto_idContacto', '=', 'idContacto') // Tabla de Datos de Contacto
             ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
-            ->join('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
-            ->join('ciudad', 'ciudad_idCiudad', 'idCiudad')
+            ->leftjoin('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
+            ->leftjoin('ciudad', 'ciudad_idCiudad', 'idCiudad')
             ->join('rol', 'rol_idRol', 'idRol')
             ->select('idPerfil', 'imagen', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'password', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol', 'rol_idRol')
             ->where('idContacto', $datosContacto['idContacto'])
@@ -148,8 +163,7 @@ class VentaController
         ->join('perfil', 'perfil_idPerfil', '=', 'idPerfil')
         ->select('idVenta', 'fecha', 'total', 'metodo', 'nombrePerfil')
         // Busqueda por url
-        ->where('idVenta', 'Like','%'.$busqueda.'%')
-        ->orwhere('fecha', 'Like','%'.$busqueda.'%')
+        ->where('fecha', 'Like','%'.$busqueda.'%')
         ->orwhere('total', 'Like','%'.$busqueda.'%')
         ->orwhere('metodo', 'Like','%'.$busqueda.'%')
         ->orwhere('nombrePerfil', 'Like','%'.$busqueda.'%')

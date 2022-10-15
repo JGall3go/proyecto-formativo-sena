@@ -90,7 +90,7 @@
                 @if($productoPreferido != null)
                 <h1>Producto mas vendido</h1>
                 <img src="{{asset('storage').'/'.$productoPreferido->imagen}}">
-                <h4>{{ $productoPreferidoTitulo->titulo }}</h4>
+                <h3>{{ $productoPreferidoTitulo->titulo }}</h4>
                 @else
                 <h1>No hay registros de venta</h1>
                 @endif

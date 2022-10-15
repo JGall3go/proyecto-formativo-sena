@@ -44,12 +44,20 @@ class LoginController
             ->where('idContacto', $datosContacto['idContacto'])
             ->first();
 
+            error_log($rol->estado);
+
             if ($rol->rol == "Administrador" || $rol->rol == "Empleado" || $rol->rol == "Proveedor") {
+
+                if($rol->estado == "Activo") {
+                    session(['username' => $rol->nombrePerfil]);
+                    session(['userImage' => $rol->imagen]);
+                    
+                    return redirect('/dashboard/home/');
+                } else {
+                    Auth::logout();
+                    return redirect('/dashboard/login');
+                }
                 
-                session(['username' => $rol->nombrePerfil]);
-                session(['userImage' => $rol->imagen]);
-                
-                return redirect('/dashboard/home/');
             } else {
                 Auth::logout();
                 return redirect('/dashboard/login');

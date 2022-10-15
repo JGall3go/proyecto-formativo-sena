@@ -27,7 +27,7 @@
         <div class="tableHeaderContent">
 
             <div class="firstSection">
-                <form class="formSelect" action="{{ route('proveedor.index') }}" method="GET">
+                <form class="formSelect" action="{{ route('venta.index') }}" method="GET">
                     <select onchange="this.form.submit()" name='registros'  class="registersSelect" id="select">
                         <option value='5'>5 Reg</option>
                         <option value='10'>10 Reg</option>
@@ -44,8 +44,8 @@
             </script>
 
             <div class="searchBar">
-                <form action="{{ route('proveedor.index') }}" method="GET" class="searchForm">
-                    <input type="text" name="busqueda" class="searchInput"  @isset($busqueda)value="{{$busqueda}}"@endisset  placeholder="Buscar..." autocomplete="off">
+                <form action="{{ route('venta.index') }}" method="GET" class="searchForm">
+                    <input type="text" name="busqueda" class="searchInput" value="{{ session('busqueda6') }}" placeholder="Buscar..." autocomplete="off">
                     <button type="submit" class="searchButton">
                         <img src="{{ asset('svg/search.svg') }}" id="ionIconElement">
                     </button>

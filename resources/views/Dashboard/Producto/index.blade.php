@@ -49,7 +49,7 @@
 
             <div class="searchBar">
                 <form action="{{ route('producto.index') }}" method="GET" class="searchForm">
-                    <input type="text" name="busqueda" class="searchInput"  @isset($busqueda)value="{{$busqueda}}"@endisset  placeholder="Buscar..." autocomplete="off">
+                    <input type="text" name="busqueda" class="searchInput" value="{{session('busqueda5')}}"  placeholder="Buscar..." autocomplete="off">
                     <button type="submit" class="searchButton">
                         <img src="{{ asset('svg/search.svg') }}" id="ionIconElement">
                     </button>
@@ -66,6 +66,7 @@
                         <th>Imagen</th>
                         <th>Titulo</th>
                         <th>Descripcion</th>
+                        <th>Estado</th>
                         <th>Valor</th>
                         <th>Cantidad</th>
                         <th>Linea y Sublinea</th>
@@ -91,7 +92,8 @@
                             </form>
                             
                         </td>
-                        <td>{{ $producto->valor}}</td>
+                        <td><span @if($producto->estado == "Activo")class="activeState"@else class="inactiveState" @endif>{{ $producto->estado}}<span></td>
+                        <td>{{ $producto->valor }}</td>
                         <td>{{ $producto->cantidad}}</td>
                         <td>{{ $producto->linea}} - {{ $producto->sublinea}}</td>
                         <td>{{ $producto->nombrePerfil}}</td>
@@ -183,12 +185,36 @@
                 </div>
                 <div>
                     <h3>Requisitos Minimos</h3>    
-                    <span>@isset($descripcion){{ $descripcion->requisitosMinimos }}@endisset</span>
+                    <span id="rm"></span>
                 </div>
                 <div>
                     <h3>Requisitos Recomendados</h3>
-                    <span>@isset($descripcion){{ $descripcion->requisitosRecomendados }}@endisset</span>
+                    <span id="rc"></span>
                 </div>
+
+                @isset($descripcion)
+                @php
+                    $requisitosMinimos = $descripcion->requisitosMinimos;
+                    $requisitosRecomendados = $descripcion->requisitosRecomendados;
+                @endphp
+
+                <script>
+                    const requisitosMinimos = @json($requisitosMinimos);
+                    const requisitosRecomendados = @json($requisitosRecomendados);
+
+                    var rm = document.getElementById("rm");
+                    var rc = document.getElementById("rc");
+
+                    temprm = document.createElement('span');
+                    temprc = document.createElement('span');
+                    temprm.innerHTML = requisitosMinimos;
+                    temprc.innerHTML = requisitosRecomendados;
+
+                    rm.append(temprm);
+                    rc.append(temprc);
+                </script>
+                @endisset
+
             </div>
         </div>
     </div>
@@ -452,6 +478,26 @@
                         @endphp
                     </select>
                 </div>
+
+                <div class="containerSelect">
+                    <label for="" class="label">Estado</label>
+                    <select class="inputSelect" name='estado_idEstado' onchange="selectColor(this)" style="color: #686666">
+                        @php
+                            foreach ($estadosTotales as $estado) {
+                                if(isset($productosEdit)){
+                                    if($productosEdit->estado_idEstado == $estado->idEstado){
+                                        echo "<option value='$estado->idEstado' selected>$estado->estado</option>";
+                                    } else {
+                                        echo "<option value='$estado->idEstado'>$estado->estado</option>";
+                                    }
+                                }  else {
+                                    echo "<option value='$estado->idEstado'>$estado->estado</option>";
+                                }   
+                            }
+                        @endphp
+                    </select>
+                </div>
+                @error('estado_idEstado')<div class="alert-danger">{{ $message }}</div>@enderror
 
                 <div class="textareaContainer">
                     <label for="" class="label">Descripcion</label>

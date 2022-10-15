@@ -22,7 +22,12 @@ class ProveedorController
      */
     public function index(Request $request)
     {
-        $busqueda = trim($request->get('busqueda'));
+        if($request->has('busqueda')) {
+            $busqueda = trim($request->get('busqueda'));
+        } else {
+            $busqueda = "null";
+        }
+
         $page = trim($request->get('page'));
         $registros = trim($request->get('registros'));
 
@@ -32,10 +37,22 @@ class ProveedorController
                 if($nuevoValor != ""){ 
                     session([$session => intval($nuevoValor)]);}
             } else {
-                session([$session => 5]);}
+                session([$session => $defaultValue]);
+            }
+        }
+
+        function actualizarBusqueda($nuevoValor, $session) {
+            if (session()->exists($session)) {
+                if($nuevoValor != "null"){ 
+                    session([$session => $nuevoValor]);
+                }
+            } else {
+                session([$session => '']);
+            }
         }
 
         actualizarSession($registros, 'paginate', 5);
+        actualizarBusqueda($busqueda, 'busqueda4');
 
         function busquedaDB($busqueda){
             // $data['usuarios'] = Usuario::paginate(5);
@@ -49,19 +66,18 @@ class ProveedorController
             ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Proveedor');})
             ->select('idPerfil', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'password', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')
             // Sistema de busqueda
-            ->where('idPerfil', 'Like','%'.$busqueda.'%')
-            ->orwhere('nombres', 'Like','%'.$busqueda.'%')
-            ->orwhere('apellidos', 'Like','%'.$busqueda.'%')
-            ->orwhere('nombrePerfil', 'Like','%'.$busqueda.'%')
-            ->orwhere('fechaNacimiento', 'Like','%'.$busqueda.'%')
-            ->orwhere('estado', 'Like','%'.$busqueda.'%')
-            ->orwhere('telefono', 'Like','%'.$busqueda.'%')
-            ->orwhere('tipoDocumento', 'Like','%'.$busqueda.'%')
-            ->orwhere('documento', 'Like','%'.$busqueda.'%')
-            ->orwhere('ciudad', 'Like','%'.$busqueda.'%')
-            ->orwhere('direccion', 'Like','%'.$busqueda.'%')
-            ->orwhere('email', 'Like','%'.$busqueda.'%')
-            ->orwhere('rol', 'Like','%'.$busqueda.'%')
+            ->where('nombres', 'Like','%'.session('busqueda4').'%')
+            ->orwhere('apellidos', 'Like','%'.session('busqueda4').'%')
+            ->orwhere('nombrePerfil', 'Like','%'.session('busqueda4').'%')
+            ->orwhere('fechaNacimiento', 'Like','%'.session('busqueda4').'%')
+            ->orwhere('estado', 'Like','%'.session('busqueda4').'%')
+            ->orwhere('telefono', 'Like','%'.session('busqueda4').'%')
+            ->orwhere('tipoDocumento', 'Like','%'.session('busqueda4').'%')
+            ->orwhere('documento', 'Like','%'.session('busqueda4').'%')
+            ->orwhere('ciudad', 'Like','%'.session('busqueda4').'%')
+            ->orwhere('direccion', 'Like','%'.session('busqueda4').'%')
+            ->orwhere('email', 'Like','%'.session('busqueda4').'%')
+            ->orwhere('rol', 'Like','%'.session('busqueda4').'%')
             ->paginate(session('paginate'));
 
             $data['perfilesTotales'] = DB::table('perfil')->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Proveedor');})->get();
@@ -119,6 +135,18 @@ class ProveedorController
 
         $data = busquedaDB($busqueda);
 
+        if (intval($page) > 0) {
+            $countPage = intval($page) - 1;
+        } else {
+            $countPage = 0;
+        }
+
+        $count = $countPage * session('paginate');
+        foreach ($data['perfiles'] as $key => $value) {
+            $count++;
+            $value->idContinua = $count;
+        }
+
         return view('Dashboard.Proveedor.index', $data, compact('busqueda', 'page'));
     }
 
@@ -147,7 +175,6 @@ class ProveedorController
             'nombres'=>'bail|required|max:45',
             'apellidos'=>'bail|required|max:45',
             'nombrePerfil'=>'bail|required|unique:perfil|max:15',
-            'estado_idEstado'=>'bail|required',
         ],
         [
             'telefono.required'=>'Campo requerido',
@@ -170,8 +197,6 @@ class ProveedorController
             'nombrePerfil.required'=>'Campo requerido',
             'nombrePerfil.max'=>'El nombre de perfil solo puede tener 15 caracteres',
             'nombrePerfil.unique'=>'Este nombre de perfil ya fue usado',
-
-            'estado_idEstado.required'=>'Campo requerido'
         ]);
         
         $password = Hash::make($userData['contrasena']);
@@ -186,7 +211,7 @@ class ProveedorController
             'imagen' => 'usuarios/default01.png',
             'nombres' => $userData['nombres'],
             'apellidos' => $userData['apellidos'],
-            'estado_idEstado' => $userData['estado_idEstado'],
+            'estado_idEstado' => 1,
             'datos_contacto_idContacto' => $datosContactoInsertado
         ]);
         
@@ -230,7 +255,20 @@ class ProveedorController
             ->leftjoin('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
             ->leftjoin('ciudad', 'ciudad_idCiudad', 'idCiudad')
             ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Proveedor');})
-            ->select('idPerfil', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'password', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')->paginate(session('paginate'));
+            ->select('idPerfil', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'password', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')
+            ->where('nombres', 'Like','%'.session('busqueda4').'%')
+            ->orwhere('apellidos', 'Like','%'.session('busqueda4').'%')
+            ->orwhere('nombrePerfil', 'Like','%'.session('busqueda4').'%')
+            ->orwhere('fechaNacimiento', 'Like','%'.session('busqueda4').'%')
+            ->orwhere('estado', 'Like','%'.session('busqueda4').'%')
+            ->orwhere('telefono', 'Like','%'.session('busqueda4').'%')
+            ->orwhere('tipoDocumento', 'Like','%'.session('busqueda4').'%')
+            ->orwhere('documento', 'Like','%'.session('busqueda4').'%')
+            ->orwhere('ciudad', 'Like','%'.session('busqueda4').'%')
+            ->orwhere('direccion', 'Like','%'.session('busqueda4').'%')
+            ->orwhere('email', 'Like','%'.session('busqueda4').'%')
+            ->orwhere('rol', 'Like','%'.session('busqueda4').'%')
+            ->paginate(session('paginate'));
 
             $data['perfilesEdit'] = Perfil::findOrFail($idPerfil); // change
             $data['usuariosEdit'] = Usuario::findOrFail($data['perfilesEdit']->usuario_idUsuario);
@@ -290,6 +328,18 @@ class ProveedorController
         }
 
         $data = busquedaDB($idPerfil);
+
+        if (intval($page) > 0) {
+            $countPage = intval($page) - 1;
+        } else {
+            $countPage = 0;
+        }
+
+        $count = $countPage * session('paginate');
+        foreach ($data['perfiles'] as $key => $value) {
+            $count++;
+            $value->idContinua = $count;
+        }
 
         return view('Dashboard.Proveedor.index', $data, compact('params', 'page', 'formDisplay'));
     }
@@ -392,12 +442,12 @@ class ProveedorController
      */
     public function destroy($idPerfil)
     {
-        $perfil = Perfil::findOrFail($idPerfil);
-        $usuario = Usuario::findOrFail($perfil->usuario_idUsuario);
+        $perfil = Perfil::findOrFail($idPerfil); // change    
 
-        Perfil::destroy($idPerfil);
-        Usuario::destroy($perfil->usuario_idUsuario);
-        DatosContacto::destroy($usuario->datos_contacto_idContacto);
+        // Actualizacion de Usuarios
+        Usuario::where('idUsuario', '=', $perfil->usuario_idUsuario)->update([
+            'estado_idEstado' => 2,
+        ]);
 
         return redirect('/dashboard/proveedor');
     }

@@ -21,8 +21,14 @@ class AdministradorController
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
-        $busqueda = trim($request->get('busqueda'));
+    {   
+
+        if($request->has('busqueda')) {
+            $busqueda = trim($request->get('busqueda'));
+        } else {
+            $busqueda = "null";
+        }
+
         $page = trim($request->get('page'));
         $registros = trim($request->get('registros'));
 
@@ -32,10 +38,22 @@ class AdministradorController
                 if($nuevoValor != ""){ 
                     session([$session => intval($nuevoValor)]);}
             } else {
-                session([$session => 5]);}
+                session([$session => $defaultValue]);
+            }
+        }
+
+        function actualizarBusqueda($nuevoValor, $session) {
+            if (session()->exists($session)) {
+                if($nuevoValor != "null"){ 
+                    session([$session => $nuevoValor]);
+                }
+            } else {
+                session([$session => '']);
+            }
         }
 
         actualizarSession($registros, 'paginate', 5);
+        actualizarBusqueda($busqueda, 'busqueda1');
 
         function busquedaDB($busqueda){
             // $data['usuarios'] = Usuario::paginate(5);
@@ -48,19 +66,18 @@ class AdministradorController
             ->leftjoin('ciudad', 'ciudad_idCiudad', 'idCiudad')
             ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Administrador');})
             ->select('idPerfil', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'password', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')
-            ->where('idPerfil', 'Like','%'.$busqueda.'%')
-            ->orwhere('nombres', 'Like','%'.$busqueda.'%')
-            ->orwhere('apellidos', 'Like','%'.$busqueda.'%')
-            ->orwhere('nombrePerfil', 'Like','%'.$busqueda.'%')
-            ->orwhere('fechaNacimiento', 'Like','%'.$busqueda.'%')
-            ->orwhere('estado', 'Like','%'.$busqueda.'%')
-            ->orwhere('telefono', 'Like','%'.$busqueda.'%')
-            ->orwhere('tipoDocumento', 'Like','%'.$busqueda.'%')
-            ->orwhere('documento', 'Like','%'.$busqueda.'%')
-            ->orwhere('ciudad', 'Like','%'.$busqueda.'%')
-            ->orwhere('direccion', 'Like','%'.$busqueda.'%')
-            ->orwhere('email', 'Like','%'.$busqueda.'%')
-            ->orwhere('rol', 'Like','%'.$busqueda.'%')
+            ->where('nombres', 'Like','%'.session('busqueda1').'%')
+            ->orwhere('apellidos', 'Like','%'.session('busqueda1').'%')
+            ->orwhere('nombrePerfil', 'Like','%'.session('busqueda1').'%')
+            ->orwhere('fechaNacimiento', 'Like','%'.session('busqueda1').'%')
+            ->orwhere('estado', 'Like','%'.session('busqueda1').'%')
+            ->orwhere('telefono', 'Like','%'.session('busqueda1').'%')
+            ->orwhere('tipoDocumento', 'Like','%'.session('busqueda1').'%')
+            ->orwhere('documento', 'Like','%'.session('busqueda1').'%')
+            ->orwhere('ciudad', 'Like','%'.session('busqueda1').'%')
+            ->orwhere('direccion', 'Like','%'.session('busqueda1').'%')
+            ->orwhere('email', 'Like','%'.session('busqueda1').'%')
+            ->orwhere('rol', 'Like','%'.session('busqueda1').'%')
             ->paginate(session('paginate'));
 
             $data['perfilesTotales'] = DB::table('perfil')->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Administrador');})->get();
@@ -74,11 +91,11 @@ class AdministradorController
             $datosContacto = Auth::user();
             
             $data['perfilUsuario'] = DB::table('perfil')
-            ->join('usuario', 'usuario_idUsuario', '=', 'idUsuario') // Tabla de Datos de Contacto
+            ->leftjoin('usuario', 'usuario_idUsuario', '=', 'idUsuario') // Tabla de Datos de Contacto
             ->join('datos_contacto', 'datos_contacto_idContacto', '=', 'idContacto') // Tabla de Datos de Contacto
             ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
-            ->join('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
-            ->join('ciudad', 'ciudad_idCiudad', 'idCiudad')
+            ->leftjoin('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
+            ->leftjoin('ciudad', 'ciudad_idCiudad', 'idCiudad')
             ->join('rol', 'rol_idRol', 'idRol')
             ->select('idPerfil', 'imagen', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'password', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol', 'rol_idRol')
             ->where('idContacto', $datosContacto['idContacto'])
@@ -118,6 +135,18 @@ class AdministradorController
 
         $data = busquedaDB($busqueda);
 
+        if (intval($page) > 0) {
+            $countPage = intval($page) - 1;
+        } else {
+            $countPage = 0;
+        }
+
+        $count = $countPage * session('paginate');
+        foreach ($data['perfiles'] as $key => $value) {
+            $count++;
+            $value->idContinua = $count;
+        }
+
         return view('Dashboard.Administrador.index', $data, compact('busqueda', 'page'));
     }
 
@@ -155,7 +184,6 @@ class AdministradorController
             'tipoDocumento'=>'bail|required',
             'documento'=>'bail|required|unique:usuario|max:45',
             'nombrePerfil'=>'bail|required|unique:perfil|max:15',
-            'estado_idEstado'=>'bail|required',
         ],
         [
             'telefono.required'=>'Campo requerido',
@@ -191,8 +219,6 @@ class AdministradorController
             'nombrePerfil.required'=>'Campo requerido',
             'nombrePerfil.max'=>'El nombre de perfil solo puede tener 15 caracteres',
             'nombrePerfil.unique'=>'Este nombre de perfil ya fue usado',
-
-            'estado_idEstado.required'=>'Campo requerido'
         ]);
 
         $password = Hash::make($userData['contrasena']);
@@ -210,7 +236,7 @@ class AdministradorController
             'nombres' => $userData['nombres'],
             'apellidos' => $userData['apellidos'],
             'fechaNacimiento' => $userData['fechaNacimiento'],
-            'estado_idEstado' => $userData['estado_idEstado'],
+            'estado_idEstado' => 1,
             'datos_contacto_idContacto' => $datosContactoInsertado,
             'tipo_documento_idDocumento' => $userData['tipoDocumento'],
             'documento' => $userData['documento']
@@ -256,7 +282,20 @@ class AdministradorController
             ->leftjoin('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
             ->leftjoin('ciudad', 'ciudad_idCiudad', 'idCiudad')
             ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Administrador');})
-            ->select('idPerfil', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'password', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')->paginate(session('paginate'));
+            ->select('idPerfil', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'password', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')
+            ->where('nombres', 'Like','%'.session('busqueda1').'%')
+            ->orwhere('apellidos', 'Like','%'.session('busqueda1').'%')
+            ->orwhere('nombrePerfil', 'Like','%'.session('busqueda1').'%')
+            ->orwhere('fechaNacimiento', 'Like','%'.session('busqueda1').'%')
+            ->orwhere('estado', 'Like','%'.session('busqueda1').'%')
+            ->orwhere('telefono', 'Like','%'.session('busqueda1').'%')
+            ->orwhere('tipoDocumento', 'Like','%'.session('busqueda1').'%')
+            ->orwhere('documento', 'Like','%'.session('busqueda1').'%')
+            ->orwhere('ciudad', 'Like','%'.session('busqueda1').'%')
+            ->orwhere('direccion', 'Like','%'.session('busqueda1').'%')
+            ->orwhere('email', 'Like','%'.session('busqueda1').'%')
+            ->orwhere('rol', 'Like','%'.session('busqueda1').'%')
+            ->paginate(session('paginate'));
 
             $data['perfilesEdit'] = Perfil::findOrFail($idPerfil); // change
             $data['usuariosEdit'] = Usuario::findOrFail($data['perfilesEdit']->usuario_idUsuario);
@@ -316,6 +355,19 @@ class AdministradorController
         }
 
         $data = busquedaDB($idPerfil);
+
+        if (intval($page) > 0) {
+            $countPage = intval($page) - 1;
+        } else {
+            $countPage = 0;
+        }
+
+        $count = $countPage * session('paginate');
+        foreach ($data['perfiles'] as $key => $value) {
+            $count++;
+            $value->idContinua = $count;
+
+        }
 
         return view('Dashboard.Administrador.index', $data, compact('params', 'page', 'formDisplay'));
     }
@@ -447,12 +499,12 @@ class AdministradorController
      */
     public function destroy($idPerfil)
     {
-        $perfil = Perfil::findOrFail($idPerfil);
-        $usuario = Usuario::findOrFail($perfil->usuario_idUsuario);
+        $perfil = Perfil::findOrFail($idPerfil); // change    
 
-        Perfil::destroy($idPerfil);
-        Usuario::destroy($perfil->usuario_idUsuario);
-        DatosContacto::destroy($usuario->datos_contacto_idContacto);
+        // Actualizacion de Usuarios
+        Usuario::where('idUsuario', '=', $perfil->usuario_idUsuario)->update([
+            'estado_idEstado' => 2,
+        ]);
 
         return redirect('/dashboard/administrador');
     }

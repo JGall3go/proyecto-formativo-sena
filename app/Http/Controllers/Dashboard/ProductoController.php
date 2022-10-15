@@ -24,9 +24,13 @@ class ProductoController
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
-        // Variables obtenidas mediante un Request a la URL
-        $busqueda = trim($request->get('busqueda'));
+    {   
+        if($request->has('busqueda')) {
+            $busqueda = trim($request->get('busqueda'));
+        } else {
+            $busqueda = "null";
+        }
+
         $page = trim($request->get('page'));
         $registros = trim($request->get('registros'));
 
@@ -36,10 +40,21 @@ class ProductoController
                 if($nuevoValor != ""){ 
                     session([$session => intval($nuevoValor)]);}
             } else {
-                session([$session => 5]);}
+                session([$session => $defaultValue]);}
+        }
+
+        function actualizarBusqueda($nuevoValor, $session) {
+            if (session()->exists($session)) {
+                if($nuevoValor != "null"){ 
+                    session([$session => $nuevoValor]);
+                }
+            } else {
+                session([$session => '']);
+            }
         }
 
         actualizarSession($registros, 'paginate', 5);
+        actualizarBusqueda($busqueda, 'busqueda5');
 
         function busquedaDB($busqueda){
 
@@ -48,24 +63,26 @@ class ProductoController
             ->join('linea', 'linea_idLinea', '=', 'idLinea')
             ->join('sublinea', 'sublinea_idSublinea', '=', 'idSublinea')
             ->join('perfil', 'perfil_idPerfil', '=', 'idPerfil')
+            ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
             ->join('descripcion_producto', 'descripcion_producto_idDescripcion', '=', 'idDescripcion')
-            ->select('idProducto', 'imagen', 'titulo', 'descripcion', 'requisitosMinimos', 'requisitosRecomendados', 'valor', 'cantidad', 'linea', 'sublinea', 'nombrePerfil')
+            ->select('idProducto', 'imagen', 'titulo', 'descripcion', 'requisitosMinimos', 'requisitosRecomendados', 'valor', 'cantidad', 'linea', 'sublinea', 'nombrePerfil', 'estado')
             // Busqueda por url
-            ->where('idProducto', 'Like','%'.$busqueda.'%')
-            ->orwhere('titulo', 'Like','%'.$busqueda.'%')
-            ->orwhere('descripcion', 'Like','%'.$busqueda.'%')
-            ->orwhere('valor', 'Like','%'.$busqueda.'%')
-            ->orwhere('cantidad', 'Like','%'.$busqueda.'%')
-            ->orwhere('linea', 'Like','%'.$busqueda.'%')
-            ->orwhere('sublinea', 'Like','%'.$busqueda.'%')
-            ->orwhere('nombrePerfil', 'Like','%'.$busqueda.'%')
-            ->orwhere('requisitosMinimos', 'Like','%'.$busqueda.'%')
-            ->orwhere('requisitosRecomendados', 'Like','%'.$busqueda.'%')
+            ->where('titulo', 'Like','%'.session('busqueda5').'%')
+            ->orwhere('descripcion', 'Like','%'.session('busqueda5').'%')
+            ->orwhere('valor', 'Like','%'.session('busqueda5').'%')
+            ->orwhere('cantidad', 'Like','%'.session('busqueda5').'%')
+            ->orwhere('linea', 'Like','%'.session('busqueda5').'%')
+            ->orwhere('estado', 'Like','%'.session('busqueda5').'%')
+            ->orwhere('sublinea', 'Like','%'.session('busqueda5').'%')
+            ->orwhere('nombrePerfil', 'Like','%'.session('busqueda5').'%')
+            ->orwhere('requisitosMinimos', 'Like','%'.session('busqueda5').'%')
+            ->orwhere('requisitosRecomendados', 'Like','%'.session('busqueda5').'%')
             ->paginate(session('paginate')); // Cantidad de registros que se van a mostrar
 
             $data['productosTotales'] = DB::table('producto')->get();
             $data['lineasTotales'] = DB::table('linea')->get();
             $data['sublineasTotales'] = DB::table('sublinea')->get();
+            $data['estadosTotales'] = DB::table('estado')->get();
 
             // Seleccion de proveedores
             $data['proveedoresTotales'] = DB::table('perfil')
@@ -79,11 +96,11 @@ class ProductoController
             $datosContacto = Auth::user();
             
             $data['perfilUsuario'] = DB::table('perfil')
-            ->join('usuario', 'usuario_idUsuario', '=', 'idUsuario') // Tabla de Datos de Contacto
+            ->leftjoin('usuario', 'usuario_idUsuario', '=', 'idUsuario') // Tabla de Datos de Contacto
             ->join('datos_contacto', 'datos_contacto_idContacto', '=', 'idContacto') // Tabla de Datos de Contacto
             ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
-            ->join('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
-            ->join('ciudad', 'ciudad_idCiudad', 'idCiudad')
+            ->leftjoin('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
+            ->leftjoin('ciudad', 'ciudad_idCiudad', 'idCiudad')
             ->join('rol', 'rol_idRol', 'idRol')
             ->select('idPerfil', 'imagen', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'password', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol', 'rol_idRol')
             ->where('idContacto', $datosContacto['idContacto'])
@@ -200,6 +217,7 @@ class ProductoController
             'imagen' => $productData['imagen'],
             'valor' => $productData['valor'],
             'cantidad' => $productData['cantidad'],
+            'estado_idEstado' => 1,
             'linea_idLinea' => $productData['linea'],
             'sublinea_idSublinea' => $productData['sublinea'],
             'perfil_idPerfil' => $productData['proveedor'],
@@ -239,13 +257,26 @@ class ProductoController
         ->join('linea', 'linea_idLinea', '=', 'idLinea')
         ->join('sublinea', 'sublinea_idSublinea', '=', 'idSublinea')
         ->join('perfil', 'perfil_idPerfil', '=', 'idPerfil')
+        ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
         ->join('descripcion_producto', 'descripcion_producto_idDescripcion', '=', 'idDescripcion')
-        ->select('idProducto', 'imagen', 'titulo', 'descripcion', 'requisitosMinimos', 'requisitosRecomendados', 'valor', 'cantidad', 'linea', 'sublinea', 'nombrePerfil')
+        ->select('idProducto', 'imagen', 'titulo', 'descripcion', 'requisitosMinimos', 'requisitosRecomendados', 'valor', 'cantidad', 'linea', 'sublinea', 'nombrePerfil', 'estado')
+        // Busqueda por url
+        ->where('titulo', 'Like','%'.session('busqueda5').'%')
+        ->orwhere('descripcion', 'Like','%'.session('busqueda5').'%')
+        ->orwhere('valor', 'Like','%'.session('busqueda5').'%')
+        ->orwhere('cantidad', 'Like','%'.session('busqueda5').'%')
+        ->orwhere('linea', 'Like','%'.session('busqueda5').'%')
+        ->orwhere('estado', 'Like','%'.session('busqueda5').'%')
+        ->orwhere('sublinea', 'Like','%'.session('busqueda5').'%')
+        ->orwhere('nombrePerfil', 'Like','%'.session('busqueda5').'%')
+        ->orwhere('requisitosMinimos', 'Like','%'.session('busqueda5').'%')
+        ->orwhere('requisitosRecomendados', 'Like','%'.session('busqueda5').'%')
         ->paginate(session('paginate')); // Cantidad de registros que se van a mostrar
 
         $data['productosTotales'] = DB::table('producto')->get();
         $data['lineasTotales'] = DB::table('linea')->get();
         $data['sublineasTotales'] = DB::table('sublinea')->get();
+        $data['estadosTotales'] = DB::table('estado')->get();
 
         // Seleccion de proveedores
         $data['proveedoresTotales'] = DB::table('perfil')
@@ -332,8 +363,19 @@ class ProductoController
             ->join('linea', 'linea_idLinea', '=', 'idLinea')
             ->join('sublinea', 'sublinea_idSublinea', '=', 'idSublinea')
             ->join('perfil', 'perfil_idPerfil', '=', 'idPerfil')
+            ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
             ->join('descripcion_producto', 'descripcion_producto_idDescripcion', '=', 'idDescripcion')
-            ->select('idProducto', 'imagen', 'titulo', 'descripcion', 'requisitosMinimos', 'requisitosRecomendados', 'valor', 'cantidad', 'linea', 'sublinea', 'nombrePerfil')
+            ->select('idProducto', 'imagen', 'titulo', 'descripcion', 'requisitosMinimos', 'requisitosRecomendados', 'valor', 'cantidad', 'linea', 'sublinea', 'nombrePerfil', 'estado')
+            ->where('titulo', 'Like','%'.session('busqueda5').'%')
+            ->orwhere('descripcion', 'Like','%'.session('busqueda5').'%')
+            ->orwhere('valor', 'Like','%'.session('busqueda5').'%')
+            ->orwhere('cantidad', 'Like','%'.session('busqueda5').'%')
+            ->orwhere('estado', 'Like','%'.session('busqueda5').'%')
+            ->orwhere('linea', 'Like','%'.session('busqueda5').'%')            
+            ->orwhere('sublinea', 'Like','%'.session('busqueda5').'%')
+            ->orwhere('nombrePerfil', 'Like','%'.session('busqueda5').'%')
+            ->orwhere('requisitosMinimos', 'Like','%'.session('busqueda5').'%')
+            ->orwhere('requisitosRecomendados', 'Like','%'.session('busqueda5').'%')
             ->paginate(session('paginate')); // Cantidad de registros que se van a mostrar
 
             $data['productosEdit'] = Producto::findOrFail($idProducto);
@@ -346,6 +388,7 @@ class ProductoController
             $data['productosTotales'] = DB::table('producto')->get();
             $data['lineasTotales'] = DB::table('linea')->get();
             $data['sublineasTotales'] = DB::table('sublinea')->get();
+            $data['estadosTotales'] = DB::table('estado')->get();
             
             // Seleccion de proveedores
             $data['proveedoresTotales'] = DB::table('perfil')
@@ -438,6 +481,7 @@ class ProductoController
             'descripcion'=>'bail|required|max:600',
             'requisitosMinimos'=>'bail|required|max:600',
             'requisitosRecomendados'=>'bail|required|max:600',
+            'estado_idEstado'=>'bail|required',
         ],
         [
 
@@ -463,7 +507,9 @@ class ProductoController
             'requisitosMinimos.max'=>'El campo requisitos minimos solo puede tener 600 caracteres',
 
             'requisitosRecomendados.required'=>'Campo requerido',
-            'requisitosRecomendados.max'=>'El campo requisitos recomendados solo puede tener 600 caracteres'
+            'requisitosRecomendados.max'=>'El campo requisitos recomendados solo puede tener 600 caracteres',
+
+            'estado_idEstado.required'=>'Campo requerido',
         ]);
 
         // Si hay una imagen diferente se elimina la anterior y se pone la nueva.
@@ -488,11 +534,11 @@ class ProductoController
                 'requisitosRecomendados' => $productData['requisitosRecomendados'],
             ]);
 
-            // Actualizacion de Datos De Contacto
             $producto = Producto::where('idProducto', '=', $idProducto)->update([
                 'imagen' => $productData['imagen'],
                 'valor' => $productData['valor'],
                 'cantidad' => $productData['cantidad'],
+                'estado_idEstado' => $productData['estado_idEstado'],
                 'linea_idLinea' => $productData['linea'],
                 'sublinea_idSublinea' => $productData['sublinea'],
                 'perfil_idPerfil' => $productData['proveedor'],
@@ -530,22 +576,10 @@ class ProductoController
      */
     public function destroy($idProducto)
     {   
-        $producto = Producto::where('idProducto', '=', $idProducto)->first();
-        $keys = Keys::where('producto_idProducto', '=', $idProducto)->first();
-
-
-        $keyDetalle = KeyDetalle::where('keys_idKey', '=', $keys->idKey)->get();
-
-        for ($key = 0; $key < count($keyDetalle); $key++) { // Se elimina cada Key
-            KeyDetalle::destroy($keyDetalle[$key]->idDetalle);
-        }
-
-        Keys::destroy($keys->idKey);
-
-        // Se elimina la imagen del producto y el producto
-        Storage::disk('public')->delete($producto->imagen);
-        Producto::destroy($idProducto);
-        DescripcionProducto::destroy($producto->descripcion_producto_idDescripcion);
+        // Actualizacion de Datos De Contacto
+        $producto = Producto::where('idProducto', '=', $idProducto)->update([
+            'estado_idEstado' => 2,
+        ]);
 
         return redirect('/dashboard/producto');
     }

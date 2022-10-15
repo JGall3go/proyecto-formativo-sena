@@ -22,7 +22,12 @@ class EmpleadoController
      */
     public function index(Request $request)
     {
-        $busqueda = trim($request->get('busqueda'));
+        if($request->has('busqueda')) {
+            $busqueda = trim($request->get('busqueda'));
+        } else {
+            $busqueda = "null";
+        }
+
         $page = trim($request->get('page'));
         $registros = trim($request->get('registros'));
 
@@ -32,10 +37,21 @@ class EmpleadoController
                 if($nuevoValor != ""){ 
                     session([$session => intval($nuevoValor)]);}
             } else {
-                session([$session => 5]);}
+                session([$session => $defaultValue]);}
+        }
+
+        function actualizarBusqueda($nuevoValor, $session) {
+            if (session()->exists($session)) {
+                if($nuevoValor != "null"){ 
+                    session([$session => $nuevoValor]);
+                }
+            } else {
+                session([$session => '']);
+            }
         }
 
         actualizarSession($registros, 'paginate', 5);
+        actualizarBusqueda($busqueda, 'busqueda2');
 
         function busquedaDB($busqueda){
             // $data['usuarios'] = Usuario::paginate(5);
@@ -48,22 +64,22 @@ class EmpleadoController
             ->join('ciudad', 'ciudad_idCiudad', 'idCiudad')
             ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Empleado');})
             ->select('idPerfil', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'password', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')
-            ->where('idPerfil', 'Like','%'.$busqueda.'%')
-            ->orwhere('nombres', 'Like','%'.$busqueda.'%')
-            ->orwhere('apellidos', 'Like','%'.$busqueda.'%')
-            ->orwhere('nombrePerfil', 'Like','%'.$busqueda.'%')
-            ->orwhere('fechaNacimiento', 'Like','%'.$busqueda.'%')
-            ->orwhere('estado', 'Like','%'.$busqueda.'%')
-            ->orwhere('telefono', 'Like','%'.$busqueda.'%')
-            ->orwhere('tipoDocumento', 'Like','%'.$busqueda.'%')
-            ->orwhere('documento', 'Like','%'.$busqueda.'%')
-            ->orwhere('ciudad', 'Like','%'.$busqueda.'%')
-            ->orwhere('direccion', 'Like','%'.$busqueda.'%')
-            ->orwhere('email', 'Like','%'.$busqueda.'%')
-            ->orwhere('rol', 'Like','%'.$busqueda.'%')
+            ->where('nombres', 'Like','%'.session('busqueda2').'%')
+            ->orwhere('apellidos', 'Like','%'.session('busqueda2').'%')
+            ->orwhere('nombrePerfil', 'Like','%'.session('busqueda2').'%')
+            ->orwhere('fechaNacimiento', 'Like','%'.session('busqueda2').'%')
+            ->orwhere('estado', 'Like','%'.session('busqueda2').'%')
+            ->orwhere('telefono', 'Like','%'.session('busqueda2').'%')
+            ->orwhere('tipoDocumento', 'Like','%'.session('busqueda2').'%')
+            ->orwhere('documento', 'Like','%'.session('busqueda2').'%')
+            ->orwhere('ciudad', 'Like','%'.session('busqueda2').'%')
+            ->orwhere('direccion', 'Like','%'.session('busqueda2').'%')
+            ->orwhere('email', 'Like','%'.session('busqueda2').'%')
+            ->orwhere('rol', 'Like','%'.session('busqueda2').'%')
             ->paginate(session('paginate'));
 
             $data['perfilesTotales'] = DB::table('perfil')->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Empleado');})->get();
+
             $data['rolesTotales'] = DB::table('rol')->get();
             $data['estadosTotales'] = DB::table('estado')->get();
             $data['ciudadesTotales'] = DB::table('ciudad')->get();
@@ -74,11 +90,11 @@ class EmpleadoController
             $datosContacto = Auth::user();
             
             $data['perfilUsuario'] = DB::table('perfil')
-            ->join('usuario', 'usuario_idUsuario', '=', 'idUsuario') // Tabla de Datos de Contacto
+            ->leftjoin('usuario', 'usuario_idUsuario', '=', 'idUsuario') // Tabla de Datos de Contacto
             ->join('datos_contacto', 'datos_contacto_idContacto', '=', 'idContacto') // Tabla de Datos de Contacto
             ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
-            ->join('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
-            ->join('ciudad', 'ciudad_idCiudad', 'idCiudad')
+            ->leftjoin('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
+            ->leftjoin('ciudad', 'ciudad_idCiudad', 'idCiudad')
             ->join('rol', 'rol_idRol', 'idRol')
             ->select('idPerfil', 'imagen', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'password', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol', 'rol_idRol')
             ->where('idContacto', $datosContacto['idContacto'])
@@ -118,7 +134,21 @@ class EmpleadoController
 
         $data = busquedaDB($busqueda);
 
+        if (intval($page) > 0) {
+            $countPage = intval($page) - 1;
+        } else {
+            $countPage = 0;
+        }
+
+        $count = $countPage * session('paginate');
+        foreach ($data['perfiles'] as $key => $value) {
+            $count++;
+            $value->idContinua = $count;
+        }
+
         return view('Dashboard.Empleado.index', $data, compact('busqueda', 'page'));
+
+        // dd($data['perfiles']);
     }
 
     /**
@@ -143,18 +173,17 @@ class EmpleadoController
         $adultos = $añoActual - 18;
 
         $userData = request()->validate([
-            'telefono'=>'bail|required|unique:datos_contacto|max:10',
+            'telefono'=>'bail|required|unique:datos_contacto|max:10|numeric',
             'direccion'=>'bail|required|max:50',
             'email'=>'bail|required|unique:datos_contacto|max:45',
             'ciudad'=>'bail|required',
             'contrasena'=>'bail|required|max:45',
-            'nombres'=>'bail|required|max:45',
-            'apellidos'=>'bail|required|max:45',
+            'nombres'=>'bail|required|max:45|',
+            'apellidos'=>'bail|required|max:45|',
             'fechaNacimiento'=> 'bail|required|date_format:Y-m-d|before_or_equal:'.$adultos.'-12-31',
-            'tipoDocumento'=>'bail|required',
+            'tipoDocumento'=>'bail|required|numeric',
             'documento'=>'bail|required|unique:usuario|max:45',
             'nombrePerfil'=>'bail|required|unique:perfil|max:15',
-            'estado_idEstado'=>'bail|required',
         ],
         [
             'telefono.required'=>'Campo requerido',
@@ -190,8 +219,6 @@ class EmpleadoController
             'nombrePerfil.required'=>'Campo requerido',
             'nombrePerfil.max'=>'El nombre de perfil solo puede tener 15 caracteres',
             'nombrePerfil.unique'=>'Este nombre de perfil ya fue usado',
-
-            'estado_idEstado.required'=>'Campo requerido'
         ]);
         
         $password = Hash::make($userData['contrasena']);
@@ -209,7 +236,7 @@ class EmpleadoController
             'nombres' => $userData['nombres'],
             'apellidos' => $userData['apellidos'],
             'fechaNacimiento' => $userData['fechaNacimiento'],
-            'estado_idEstado' => $userData['estado_idEstado'],
+            'estado_idEstado' => 1,
             'datos_contacto_idContacto' => $datosContactoInsertado,
             'tipo_documento_idDocumento' => $userData['tipoDocumento'],
             'documento' => $userData['documento']
@@ -255,7 +282,19 @@ class EmpleadoController
             ->join('tipo_documento', 'tipo_documento_idDocumento', '=', 'idDocumento')
             ->join('ciudad', 'ciudad_idCiudad', 'idCiudad')
             ->join('rol', function ($join) {$join->on('idRol', '=', 'rol_idRol')->where('rol', '=', 'Empleado');})
-            ->select('idPerfil', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'password', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')->paginate(session('paginate'));
+            ->select('idPerfil', 'nombres', 'apellidos', 'nombrePerfil', 'fechaNacimiento', 'password', 'estado', 'telefono', 'tipoDocumento', 'documento', 'ciudad', 'direccion', 'email', 'rol')
+            ->where('nombres', 'Like','%'.session('busqueda2').'%')
+            ->orwhere('apellidos', 'Like','%'.session('busqueda2').'%')
+            ->orwhere('nombrePerfil', 'Like','%'.session('busqueda2').'%')
+            ->orwhere('fechaNacimiento', 'Like','%'.session('busqueda2').'%')
+            ->orwhere('estado', 'Like','%'.session('busqueda2').'%')
+            ->orwhere('telefono', 'Like','%'.session('busqueda2').'%')
+            ->orwhere('tipoDocumento', 'Like','%'.session('busqueda2').'%')
+            ->orwhere('documento', 'Like','%'.session('busqueda2').'%')
+            ->orwhere('ciudad', 'Like','%'.session('busqueda2').'%')
+            ->orwhere('direccion', 'Like','%'.session('busqueda2').'%')
+            ->orwhere('email', 'Like','%'.session('busqueda2').'%')
+            ->paginate(session('paginate'));
 
             $data['perfilesEdit'] = Perfil::findOrFail($idPerfil); // change
             $data['usuariosEdit'] = Usuario::findOrFail($data['perfilesEdit']->usuario_idUsuario);
@@ -315,6 +354,18 @@ class EmpleadoController
         }
 
         $data = busquedaDB($idPerfil);
+
+        if (intval($page) > 0) {
+            $countPage = intval($page) - 1;
+        } else {
+            $countPage = 0;
+        }
+
+        $count = $countPage * session('paginate');
+        foreach ($data['perfiles'] as $key => $value) {
+            $count++;
+            $value->idContinua = $count;
+        }
 
         return view('Dashboard.Empleado.index', $data, compact('params', 'page', 'formDisplay'));
     }
@@ -446,12 +497,12 @@ class EmpleadoController
      */
     public function destroy($idPerfil)
     {
-        $perfil = Perfil::findOrFail($idPerfil);
-        $usuario = Usuario::findOrFail($perfil->usuario_idUsuario);
+        $perfil = Perfil::findOrFail($idPerfil); // change    
 
-        Perfil::destroy($idPerfil);
-        Usuario::destroy($perfil->usuario_idUsuario);
-        DatosContacto::destroy($usuario->datos_contacto_idContacto);
+        // Actualizacion de Usuarios
+        Usuario::where('idUsuario', '=', $perfil->usuario_idUsuario)->update([
+            'estado_idEstado' => 2,
+        ]);
 
         return redirect('/dashboard/empleado');
     }

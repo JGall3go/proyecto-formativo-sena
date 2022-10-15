@@ -49,7 +49,7 @@
 
             <div class="searchBar">
                 <form action="{{ route('proveedor.index') }}" method="GET" class="searchForm">
-                    <input type="text" name="busqueda" class="searchInput"  @isset($busqueda)value="{{$busqueda}}"@endisset  placeholder="Buscar..." autocomplete="off">
+                    <input type="text" name="busqueda" class="searchInput" value="{{session('busqueda4')}}" placeholder="Buscar..." autocomplete="off">
                     <button type="submit" class="searchButton">
                         <img src="{{ asset('svg/search.svg') }}" id="ionIconElement">
                     </button>
@@ -77,7 +77,7 @@
 
                 @foreach($perfiles as $perfil)
                 <tr>
-                    <td>{{ $perfil->idPerfil}}</td>
+                    <td>{{ $perfil->idContinua}}</td>
                     <td>{{ $perfil->nombres}} {{$perfil->apellidos}}</td>
                     <td>{{ $perfil->nombrePerfil}}</td>
                     <td><span @if($perfil->estado == "Activo")class="activeState"@else class="inactiveState" @endif>{{ $perfil->estado}}<span></td>
