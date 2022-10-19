@@ -54,7 +54,7 @@ body{
 }
 
 .container .card img{
-    width: 330px;
+    width: 100%;
     height: 220px;
 }
 /*efectos hoover */

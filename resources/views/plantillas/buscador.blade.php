@@ -53,8 +53,7 @@
 
     </div>
  
-    <div class="navegacion_link" style=" background-color:#9256F0; border-radius: 20px; height: max-content;
-    margin-left: 65%;">
+    <div class="navegacion_link" id="MiniCart" style=" background-color:#9256F0; border-radius: 20px; height: max-content; margin-left: 55%;">
 
         <li class="nav-item dropdown" style="">
             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
