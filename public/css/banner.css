@@ -6,6 +6,8 @@
     overflow: hidden;
     margin-top: 30px;
   }
+  
+
   .main-image-2{
     position: relative;
     background-size: cover;
@@ -22,6 +24,7 @@
     color:#fff;
     font-weight: 700;
     text-transform: uppercase;
+    
 }
 
 
@@ -59,7 +62,7 @@
     position: relative;
     background: url("{{URL::asset('/recursos_css/background-op-3.jpg')}}") no-repeat center;
     background-size: cover;
-    height:  15rem;
+    height: 350px;
     overflow: hidden;
     margin-top: 30px;
     display: flex;

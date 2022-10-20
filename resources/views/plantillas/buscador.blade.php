@@ -23,7 +23,7 @@
 
         <div class="navegacion_container">
 
-        <a class="navegacion_link" href="{{ route('condicion') }}">Terminos y condiciones</a>
+        <a class="navegacion_link"  href="{{ route('condicion') }}">Terminos y condiciones</a>
 
         <div class="navegacion_link-separacion"></div>
 

@@ -32,9 +32,9 @@
     
         <!--banner1-->
         @php
-            $url=URL::asset('/recursos_css/—Pngtree—watercolor illustration ink clear star_615990.jpg');
+            $url=URL::asset('/recursos_css/cyberpunk.jfif');
             @endphp
-        <div class="main-image" style="background: url('{{ $url }}') no-repeat center; ">
+        <div class="main-image" style="background: url('{{ $url }}') no-repeat center; background-size: cover; ">
             
             <div class="container-banner " >
 
@@ -89,9 +89,9 @@
 
         <!--banner2-->
         @php
-            $url=URL::asset('/recursos_css/background-op-2.jpg');
+            $url=URL::asset('/recursos_css/colorful.jfif');
             @endphp
-        <div class="main-image-2" style="background: url('{{ $url }}') no-repeat center; ">
+        <div class="main-image-2" style="background: url('{{ $url }}') no-repeat center; background-size: cover; ">
           
 
             <div class="container-banner" >
@@ -150,9 +150,9 @@
         <!-- galeria offtopics-->
         <div class="gal-offtopic">
             @php
-            $url=URL::asset('/recursos_css/background-op-3.jpg')
+            $url=URL::asset('/recursos_css/kindred.jfif')
             @endphp
-            <div class="cont-gal-off " style="background: url({{$url}}) no-repeat center;">
+            <div class="cont-gal-off " style="background: url({{$url}}) no-repeat center; background-size: cover;">
 
                 <h1> <span>Indie</span></h1>
 
