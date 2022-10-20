@@ -1,15 +1,8 @@
-*{
-    background-color: rgb(40, 40, 40);
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
 body{
     font-size: 15px;
-    color: #fff;
     font-family: arial, sans-serif;
-    --color-light: #909090;
+   
 }
 
 .faq-container{
@@ -21,10 +14,11 @@ div {
     display: block;
 }
 
+/*
 .readable h1, .readable h2, .readable h3 {
     color: #fff;
 }
-
+*/
 h1 {
     font-size: 32px;
     margin-bottom: 40px;
