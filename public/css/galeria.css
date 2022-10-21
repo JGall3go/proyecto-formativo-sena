@@ -15,14 +15,10 @@
 }
 .cont-gal-off{
     flex-flow: row wrap;
-    
-    
     flex-direction: row;
-
     margin-top: 20px;
     display: flex;
     position: relative;
-    
     flex-wrap: wrap;
 
 }
@@ -32,6 +28,21 @@
     height: 10rem;
     border-radius: 2.5rem;
 }
+
+@media screen and (max-width: 428px){
+    .cont-gal-off .card{
+        width: 8rem!important;
+    }
+}
+
+@media screen and (max-width: 526px){
+    .cont-gal-off{
+        justify-content: center;
+    }
+    .cont-gal-off h1{
+        font-size: 45px!important;
+    }
+    }
 
 .content_grid .card-img-top{
     height: 10rem; 
@@ -53,18 +64,18 @@
 margin: 20px;
 }
 
-@media screen and (max-width: 686px) {
+@media screen and (max-width: 786px) {
     .content_grid{
         display: flex;
         flex-wrap: nowrap;
-        overflow: scroll;
+        overflow: auto;
+        justify-content: left;
     }
     }
 
-@media screen and (max-width: 686px){
+@media screen and (max-width: 900px){
     .card{
         flex: 1 0 auto;
-        
     }
     }
 

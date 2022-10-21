@@ -1,3 +1,4 @@
+
 * {
     margin: 0;
     padding: 0;
@@ -6,9 +7,7 @@
 
 body {
     font-size: 15px;
-    color: #fff;
     font-family: arial, sans-serif;
-    --color-light: #909090;
 }
 
 .privacy-container {
@@ -30,9 +29,7 @@ div {
     display: block;
 }
 
-.readable h1, .readable h2, .readable h3 {
-    color: #fff;
-}
+
 
 h1 {
     font-size: 32px;
