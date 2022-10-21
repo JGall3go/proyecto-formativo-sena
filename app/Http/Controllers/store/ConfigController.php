@@ -5,6 +5,7 @@ namespace App\Http\Controllers\store;
 use App\Models\Usuario;
 use App\Models\Perfil;
 use App\Models\DatosContacto;
+use Darryldecode\Cart\Cart;
 
 // Laravel Modules
 use Illuminate\Http\Request;
@@ -48,6 +49,24 @@ class ConfigController
 
         $data = busquedaDB();
 
+        $cartCollection = \Cart::getContent();
+
+        foreach ($cartCollection as $producto) {
+            
+            $estado = DB::table('producto')
+            ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
+            ->select('estado')
+            ->where('idProducto', 'Like', '%' . $producto->idProducto . '%')
+            ->first();
+
+            /* Si el producto se inactiva en el momento de hacer la compra
+            se removera de la lista del carrito y por ende de la compra*/
+            if ($estado->estado == "Inactivo") {
+
+                \Cart::remove($producto->idProducto);
+            }
+        }
+
         return view('Perfil.config', $data);
     }
 
@@ -72,23 +91,29 @@ class ConfigController
         ->firstOrFail();
 
         $userData = request()->validate([
-            'telefono'=>'bail|required|max:10|unique:datos_contacto,telefono,'.$datosContacto->idContacto.',idContacto',
-            'direccion'=>'bail|required|max:50',
-            'ciudad'=>'bail|required',
-            'contrasena'=>'bail|max:45',
+            'telefono'=>'bail|nullable|numeric|min:10|max:10|unique:datos_contacto,telefono,'.$datosContacto->idContacto.',idContacto',
+            'direccion'=>'bail|max:50',
+            'ciudad'=>'bail',
+            'contrasena'=>'bail|min:12|max:45',
             'nombres'=>'bail|required|max:45',
             'apellidos'=>'bail|required|max:45',
-            'documento'=>'bail|required|max:45|unique:usuario,documento,'.$usuarios->idUsuario.',idUsuario',
+            'nombrePerfil'=>'bail|required|min:4|max:30|unique:perfil,nombrePerfil,'.$idPerfil.',idPerfil',
         ],
         [
             'telefono.required'=>'Campo requerido',
             'telefono.max'=>'El campo telefono solo puede tener 10 caracteres',
+            'telefono.min'=>'El campo telefono debe tener al menos 10 caracteres',
             'telefono.unique'=>'Este telefono ya fue usado',
+            'telefono.numeric'=>'El campo telefono solo puede contener numeros',
 
             'direccion.required'=>'Campo requerido',
             'direccion.max'=>'El campo direccion solo puede tener 50 caracteres',
 
+            'ciudad.required'=>'Campo requerido',
+
+            'contrasena.required'=>'Campo requerido',
             'contrasena.max'=>'La contraseña solo puede tener 45 caracteres',
+            'contrasena.min'=>'La contraseña debe tener al menos 12 caracteres',
 
             'nombres.required'=>'Campo requerido',
             'nombres.max'=>'El campo nombre solo puede tener 45 caracteres',
@@ -96,10 +121,15 @@ class ConfigController
             'apellidos.required'=>'Campo requerido',
             'apellidos.max'=>'El campo apellido solo puede tener 45 caracteres',
 
-            'documento.required'=>'Campo requerido',
-            'documento.max'=>'El campo documento solo puede tener 45 caracteres',
-            'documento.unique'=>'Este documento ya fue usado',
+            'nombrePerfil.required'=>'Campo requerido',
+            'nombrePerfil.max'=>'El nombre de perfil solo puede tener 30 caracteres',
+            'nombrePerfil.min'=>'El nombre de perfil debe tener al menos 4 caracteres',
+            'nombrePerfil.unique'=>'Este nombre de perfil ya fue usado',
         ]);
+
+        if (!isset($userData['telefono'])) { $userData['telefono'] = null;}
+        if (!isset($userData['direccion'])) { $userData['direccion'] = null; }
+        if (!isset($userData['ciudad'])) { $userData['ciudad'] = null; }
 
         function actualizarDB($idPerfil, $userData){
 
@@ -131,7 +161,6 @@ class ConfigController
             $datosUsuario = Usuario::where('idUsuario', '=', $perfil->usuario_idUsuario)->update([
                 'nombres' => $userData['nombres'],
                 'apellidos' => $userData['apellidos'],
-                'documento' => $userData['documento']
             ]);
         }
         

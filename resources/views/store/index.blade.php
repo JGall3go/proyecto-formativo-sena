@@ -1,3 +1,5 @@
+@extends('plantillas/buscador')
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,14 +20,6 @@
 
 <body style="background-color:black ;">
 
-    <header>
-        @extends('plantillas/buscador')
-
-        @section('buscador')
-
-        
-    </header>
-
 
     <!-- home -->
     <div class="cotanier-fluid">
@@ -45,10 +39,43 @@
             </div>
         </div>
         <!-- resultado busqueda -->
-        <div id="resultado" class="content_grid"> </div>
+        <div id="resultado" class="content_grid">
+            @if(session('resultado'))
+                @foreach(session('resultado') as $resultado)
+                @isset($resultado->detalle[0])
+                <div class="card" style="width: 18rem;">
+                    <a href="{{ route('detalle.producto', [$resultado->titulo]) }}" style="text-decoration: none; color: #f5f5f5;">
+                        <img src="{{ env('DASHBOARD_URL').$resultado->detalle[0]->imagen }}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <span class="card-text">{{ $resultado->titulo }}</span>
+                            <span class="precio">${{ number_format($resultado->detalle[0]->valor, 0) }}</span>
+                            
+                        </div>
+                        <form action="{{ route('cart.store') }}" method="POST">
+                            {{ csrf_field() }}
+                            <input type="hidden" value="{{ $resultado->detalle[0]->idProducto }}" id="id" name="idProducto">
+                            <input type="hidden" value="{{ $resultado->titulo }}" id="titulo" name="titulo">
+                            <input type="hidden" value="{{ $resultado->detalle[0]->valor }}" id="valor" name="valor">
+                            <input type="hidden" value="{{ $resultado->detalle[0]->imagen }}" id="img" name="imagen">
+                            <input type="hidden" value="{{ $resultado->detalle[0]->estado }}" id="img" name="estado">
+
+                            <input type="hidden" value="1" id="quantity" name="quantity">
+                            <div class="card-footer" >
+                                <div class="row">
+                                    <button class="btn btn-secondary btn-sm" class="tooltip-test" title="add to cart">
+                                        <i class="fa fa-shopping-cart"></i> agregar al carrito
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </a>
+                </div>
+                @endisset
+                @endforeach            
+            @endif
+        </div>
         <!-- galeria 1 -->
         <div class="content_grid">
-
             @php
                 $count = 0;
             @endphp
@@ -59,17 +86,20 @@
             @endphp
             @if($count <= 12)
             <div class="card" style="width: 18rem;">
-                <a href="{{ route('detalle.producto',[$producto->titulo]) }}" style="text-decoration: none; color: #f5f5f5;"><img src="{{ env('DASHBOARD_URL').$producto->imagen }}" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <span class="card-text">{{ $producto->titulo }}</span>
-                    <span class="precio">${{ number_format($producto->valor, 0) }}</span>
-                    
-                </div>
-                 <form action="{{ route('cart.store') }}" method="POST">{{ csrf_field() }}
+                <a href="{{ route('detalle.producto',[$producto->titulo]) }}" style="text-decoration: none; color: #f5f5f5;">
+                    <img src="{{ env('DASHBOARD_URL').$producto->imagen }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <span class="card-text">{{ $producto->titulo }}</span>
+                        <span class="precio">${{ number_format($producto->valor, 0) }}</span>
+                        
+                    </div>
+                    <form action="{{ route('cart.store') }}" method="POST">
+                        {{ csrf_field() }}
                         <input type="hidden" value="{{ $producto->idProducto }}" id="id" name="idProducto">
                         <input type="hidden" value="{{ $producto->titulo }}" id="titulo" name="titulo">
                         <input type="hidden" value="{{ $producto->valor }}" id="valor" name="valor">
                         <input type="hidden" value="{{ $producto->imagen }}" id="img" name="imagen">
+                        <input type="hidden" value="{{ $producto->estado }}" id="img" name="estado">
 
                         <input type="hidden" value="1" id="quantity" name="quantity">
                         <div class="card-footer" >
@@ -79,7 +109,8 @@
                                 </button>
                             </div>
                         </div>
-                    </form> </a>
+                    </form>
+                </a>
             </div>
             @endif
             
@@ -90,7 +121,7 @@
         <!--banner2-->
         @php
             $url=URL::asset('/recursos_css/colorful.jfif');
-            @endphp
+        @endphp
         <div class="main-image-2" style="background: url('{{ $url }}') no-repeat center; background-size: cover; ">
           
 
@@ -148,7 +179,7 @@
         </div>
 
         <!-- galeria offtopics-->
-        <div class="gal-offtopic">
+        <div class="gal-offtopic" style="margin-bottom: 100px;">
             @php
             $url=URL::asset('/recursos_css/kindred.jpg')
             @endphp
@@ -175,196 +206,18 @@
             </div>
 
         </div>
-{{-- 
-        <!--categorias -->
-        <div class="mas">
-            <div class="cont">
-                <div class="title">
-                    <h1 class="underline_title">Categorias</h1>
-                </div>
-            </div>
-            <!-- fila 1 caracteristicas -->
-
-            <div class="container">
-                <div class="card">
-                    <a href="">
-                        <img src="{{URL::asset('/img/wach.jpg')}}">
-                    </a>
-                    <!-- hoover y efectos-->
-                    <div class="overlay">
-                        <div class="text">ACCION</div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <a href="">
-                        <img src="img/metal.jpg">
-                    </a>
-                    <div class="overlay">
-                        <div class="text">ARCADE</div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <a href="">
-                        <img src="img/aventura.jpg">
-                    </a>
-                    <div class="overlay">
-                        <div class="text">AVENTURA</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- flia 2 caracteristicas -->
-
-            <div class="container">
-                <div class="card">
-                    <a href="">
-                        <img src="img/estrategia.jpg">
-                    </a>
-                    <div class="overlay">
-                        <div class="text">ESTRATEGIA</div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <a href="">
-                        <img src="img/fps.jpg">
-                    </a>
-                    <div class="overlay">
-                        <div class="text">SHOOTER</div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <a href="">
-                        <img src="img/lucha.jpg">
-                    </a>
-                    <div class="overlay">
-                        <div class="text">FIGTHER</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- fila 3 caracteristicas -->
-
-            <div class="container">
-                <div class="card">
-                    <a href="">
-                        <img src="img/rpg.jpg">
-                    </a>
-                    <div class="overlay">
-                        <div class="text">RPG</div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <a href="">
-                        <img src="img/uno.jpeg">
-                    </a>
-                    <div class="overlay">
-                        <div class="text">SURVIVAL</div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <a href="">
-                        <img src="img/vr.jpg">
-                    </a>
-                    <div class="overlay">
-                        <div class="text">VIRTUAL-REALITY</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="more">
-
-            </div>
-
-            <!-- ver mas o menos -->
-
-            <!-- fila 1 caracteristicas ver mas -->
-
-            <span class="hid" id="hidText">
-
-                <div class="container">
-                    <div class="card">
-                        <a href="">
-                            <img src="img/carrera.jpg">
-                        </a>
-                        <div class="overlay">
-                            <div class="text">RACER</div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <a href="">
-                            <img src="img/multijugador.jpeg">
-                        </a>
-                        <div class="overlay">
-                            <div class="text">BATTLE-GROUND</div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <a href="">
-                            <img src="img/mmo.jpg">
-                        </a>
-                        <div class="overlay">
-                            <div class="text">MMO</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- fila 2 caracteristicas ver mas -->
-
-                <div class="container">
-                    <div class="card">
-                        <a href="">
-                            <img src="img/cooli.jpg">
-                        </a>
-                        <div class="overlay">
-                            <div class="text">COOPERATIVO</div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <a href="">
-                            <img src="img/depor.jpg">
-                        </a>
-                        <div class="overlay">
-                            <div class="text">DEPORTES</div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <a href="">
-                            <img src="img/cooduo.jpg">
-                        </a>
-                        <div class="overlay">
-                            <div class="text">FANTASIA</div>
-                        </div>
-                    </div>
-                </div>
-
-            </span>
-
-            <!-- boton mas o menos -->
-
-            <button class="but" id="hidBut">Ver mas</button> --}}
-
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
             <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
             <script src="{{ asset('js/bot.js') }}"></script>
         </div>
+        -->
 
     </div>
-    <!--div de cierre perron -->
+    <!--div de cierre -->
     <footer>
         @extends('plantillas/footer')
 
         @section('footer')
-
 
     </footer>
 

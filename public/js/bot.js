@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     });
 });
 */
-
+/*
 $(function () {
     $("#resultado").hide();
     var path = "/buscar";
@@ -69,6 +69,7 @@ $(function () {
                     var html ='';
                     data.forEach(element => {
                         console.log(element);
+                        console.log("asd");
                         html += '<div class="card" style="width: 18rem;"><a href="/store/producto/'+element.titulo+'" style="text-decoration: none; color: #f5f5f5;"><img src="http://192.168.56.1:8002/storage/'+element.detalle[0].imagen+'" class="card-img-top" alt="..."><div class="card-body"> <p class="card-text">'+element.titulo+'</p> <span class="precio">$'+element.detalle[0].valor+'</span></div><form action="/add" method="POST"><input type="hidden" name="csrf" value="'+element.csrf+'"><input type="hidden" value="'+element.detalle[0].idProducto+'" id="id" name="idProducto"><input type="hidden" value="'+element.titulo+'" id="titulo" name="titulo"><input type="hidden" value="'+element.detalle[0].valor+'" id="valor" name="valor"><input type="hidden" value="'+element.detalle[0].imagen+'" id="img" name="imagen"><input type="hidden" value="1" id="quantity" name="quantity"><div class="card-footer" ><div class="row"><button class="btn btn-secondary btn-sm" class="tooltip-test" title="add to cart"><i class="fa fa-shopping-cart"></i> agregar al carrito</button></div></div></form></a></div>';
                         
                     });
@@ -82,13 +83,10 @@ $(function () {
             }
             e.preventDefault();
            // alert(busc);
-
-
         }
 
     });
 
 });
 
-
-
+*/

@@ -81,3 +81,9 @@
     @yield('metodo')
 
 </html>
+
+<footer>
+    @extends('plantillas/footer')
+
+    @section('footer')
+</footer>

@@ -12,8 +12,8 @@
     <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-sacle=1.0, maximun-scale=1.0, minimum-scale=1.0">
 </head>
-<body>
-        <div class="container">
+<body style="background-color: rgb(40, 40, 40);">
+      <div class="container">
         <h1>Condiciones generales de venta</h1>
         <div class="readable">
             <div class="centered title-container">

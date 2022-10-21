@@ -59,7 +59,7 @@ class LoginController
             }
             
         } else {
-            return redirect('/login');
+            return redirect('/login')->with(['response' => 'Correo o contraseña invalidos']);
         }
     }
 

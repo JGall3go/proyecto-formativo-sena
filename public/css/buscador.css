@@ -7,12 +7,12 @@
 }
 
 
+
 .animate__animated.animate__shakeY{
     --animate-duration: 2s;
   }
 
-.carro{
-
+.carro {
     height: 30px;
     width: 25px;
 }
@@ -31,16 +31,14 @@
     position: fixed;
     top: 0;
     background-color: #323232 ;
-
-
 }
 
 .logo_header {
     width: 120px;
-    height: 31px;   
+    height: 31px;
 }
 
-.user{
+.user {
     width: 50px;
     height: 40px;
 }
@@ -64,7 +62,6 @@
     width: max-content;
     align-items: center;
     justify-content: center;
-
 }
 
 .navegacion_link {
@@ -72,7 +69,6 @@
     color: #fff;
     opacity: .8;
     text-decoration: none;
-
 }
 
 .navegacion_link:hover {
@@ -86,6 +82,43 @@
     opacity: .5;
     height: 20px;
 
+}
+
+/* Phones */
+@media screen and (max-width: 767px) {
+
+    .navegacion_container {
+        display: none;
+    }
+
+    .logo_header {
+        width: 70px;
+        height: 30px;
+    }
+
+    .nav-item {
+        margin-left: -90px;
+        width: max-content;
+    }
+
+}
+
+/* Tablets */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+
+    .navegacion_container {
+        display: none;
+    }
+
+    .logo_header {
+        width: 70px;
+        height: 30px;
+    }
+
+    .nav-item {
+        margin-left: -110px;
+        width: max-content;
+    }
 }
 
 
@@ -114,7 +147,6 @@
     background-color: #9256F0;
     transition: 0.5s;
     overflow: hidden;
-
 }
 
 .buscador_icono {
@@ -129,12 +161,10 @@
     font-size: 21px;
     color: white;
     cursor: pointer;
-
 }
 
 .container_buscador.active {
     width: 500px;
-
 }
 
 .buscador_input {
@@ -145,7 +175,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 
 .buscador_input input {
@@ -158,7 +187,40 @@
     font-size: 18px;
     color: white;
     background-color: #9256F0;
+}
 
+/* Phones */
+@media screen and (max-width: 767px) {
+
+    .container_buscador {
+        margin-top: 90px;
+        background-color: rgba(146, 86, 240, 0.8);
+    }
+
+    .container_buscador.active {
+        width: 80vw;
+    }
+
+    .buscador_input input {
+        background-color: rgba(146, 86, 240, 0.1);
+    }
+}
+
+/* Tablets */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+
+    .container_buscador {
+        margin-top: 90px;
+        background-color: rgba(146, 86, 240, 0.8);
+    }
+
+    .container_buscador.active {
+        width: 80vw;
+    }
+
+    .buscador_input input { 
+        background-color: rgba(146, 86, 240, 0.1);
+    }
 }
 
 .clear {
@@ -169,7 +231,6 @@
     color: white;
     cursor: pointer;
     transform: translate(-50% , - 50%);
-
 }
 
 
@@ -215,10 +276,11 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 }
 
 .login_container svg {
-    width: 40px;
+    width: 30px;
     margin-left: 15px;
 }
 
@@ -242,6 +304,23 @@
 
 #imageProfile:hover {
     border: 2px solid #9256F0;
+}
+
+/* Phones */
+@media screen and (max-width: 767px) {
+
+    .login_container { 
+        margin-left: -40px;
+    }
+
+}
+
+/* Tablets */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+
+    .login_container { 
+        margin-left: -40px;
+    }
 }
 
 /* Carrito */

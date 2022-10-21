@@ -30,12 +30,11 @@
         <div class="navegacion_link-separacion"></div>
 
         <a class="navegacion_link animate__animated animate__backInRight" href="{{ route('faq') }}">Soporte 24/7</a>
-
         </div>
 
        
 
-        <div class="container_buscador">
+        <div @if(session('busqueda'))class="container_buscador active"@else class="container_buscador"@endif>
 
             <div class="buscador_icono">
 
@@ -43,10 +42,9 @@
 
             </div>
 
-
                 <form action="{{route('buscar')}}" method="GET" id="buscador" class="buscador_input">
 
-                    <input type="text" id="search_clear" name="query">
+                    <input type="text" id="search_clear" name="query" @if(session('busqueda'))value="{{ session('busqueda') }}"@endif>
                     <i class="clear uil uil-x"></i>
                     <input type="submit" hidden id="search">
                 </form>
@@ -55,9 +53,10 @@
 
     </div>
  
-    <div class="navegacion_link" id="MiniCart" style=" background-color:#9256F0; border-radius: 20px; height: max-content; margin-left: 55%;">
+    <div class="navegacion_link" style=" background-color: #9256F0; border-radius: 20px; height: max-content;
+    margin-left: 65%;">
 
-        <li class="nav-item dropdown" style="">
+        <li class="nav-item dropdown" style="background-color: #9256F0; border-radius: 20px;">
             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="badge badge-pill badge-dark">
                     <i class="fa fa-shopping-cart"></i> {{ \Cart::getTotalQuantity()}}

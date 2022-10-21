@@ -1,6 +1,10 @@
 html {
     background-color: #141414;
-    height: 100vh;
+    height: 100%;
+}
+
+body {
+    overflow: auto;
 }
 
 .content {
@@ -58,6 +62,7 @@ html {
     font-size: 20px;
     height: 70px;
     display: flex;
+    margin-right: 8%;
     justify-content: center;
     align-items: center;
 }
@@ -77,6 +82,7 @@ html {
 /* Phones */
 @media screen and (max-width: 767px) {
   .navegacion_container {
+    width: max-content;
     display: none;
   }
 }
@@ -84,6 +90,7 @@ html {
 /* Tablets */
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   .navegacion_container {
+    width: max-content;
     display: none;
   }
 }
@@ -112,8 +119,13 @@ html {
     flex-direction: row;
 }
 
+.producto:last-child {
+    margin-bottom: 0px;
+}
+
 .producto img {
     width: 150px;
+    height: 100%;
     border-radius: 30px;
 }
 
@@ -158,6 +170,41 @@ html {
     font-weight: bold;
 }
 
+/* Phones */
+@media screen and (max-width: 767px) {
+  .producto {
+    flex-direction: column;
+    height: max-content;
+  }
+
+  .producto img {
+    width: 100%;
+  }
+
+  .producto-precio {
+    display: none;
+  }
+
+  .producto-text {
+    margin-top: 100px;
+  }
+}
+
+/* Tablets */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .producto {
+    flex-direction: column;
+  }
+
+  .producto img {
+    width: 100%;
+  }
+
+  .producto-precio {
+    display: none;
+  }
+}
+
 /* Form */
 
 .profile-form {
@@ -176,7 +223,21 @@ html {
     width: 450px;
 }
 
-.input-container label, .image-container label{
+@media screen and (max-width: 650px) {
+    .input-container {
+      width: max-content;
+    }
+
+    .profile-nav-bar {
+        width: max-content;
+    }
+
+    .submit-container {
+        width: 30%!important;
+    }
+}
+
+.input-container label, .image-container label {
     color: #f5f5f5;
     font-size: 20px;
     margin-bottom: 5px;
@@ -230,6 +291,14 @@ html {
     border: 3px solid #9256F0;
 }
 
+.input-container select:focus {
+    border: 3px solid #9256F0;
+}
+
+.input-container select:hover {
+    border: 3px solid #9256F0;
+}
+
 .submit-container {
     display: flex;
     flex-direction: column;
@@ -252,4 +321,87 @@ html {
 
 .submit-input:hover {
     background-color: #9256F0;
+}
+
+.img-link {
+    height: 100px;
+    border: 2px solid transparent;
+    border-radius: 30px;
+    transition-duration: 0.3s;
+}
+
+.img-link:hover {
+    border: 2px solid #9256F0;
+}
+
+.detalle-link {
+    text-decoration: none; 
+    color: #2f2f2f;
+    transition-duration: 0.1s;
+    width: max-content;
+}
+
+.detalle-link:hover {
+    text-decoration: none; 
+    color: #9256F0;
+}
+
+/* Keys Container */
+
+.keys-container {
+    display: flex;
+    position: fixed;
+    background-color: rgb(102, 102, 102, 0.4);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    z-index: 3;
+    justify-content: center;
+    align-content: center;
+}
+
+.keys-list {
+    width: 50%;
+    height: max-content;
+    max-height: 50%;
+    overflow: auto;
+    background-color: gray;
+    margin-top: 10%;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    border-radius: 30px;
+    color: #f5f5f5
+}
+
+.keys-list h4 {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.keys-list span {
+    padding: 10px;
+    background-color: rgb(102, 102, 102);
+    margin-bottom: 20px;
+    border-radius: 30px;
+}
+
+.keys-list span:last-child {
+    margin-bottom: 0px;
+}
+
+.keys-background {
+    display: flex;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 4;
+}
+
+@media screen and (max-width: 650px) {
+    .keys-list {
+        width: 90%;
+        max-height: 70%;
+    }
 }

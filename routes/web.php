@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-use App\Http\Controllers\store\CartController; /* carrito*/
+use App\Http\Controllers\store\CartController;
 use App\Http\Controllers\store\storeController;
 use App\Http\Controllers\Login\LoginController;
 use App\Http\Controllers\Login\RegisterController;
@@ -21,8 +21,13 @@ use App\Http\Controllers\Login\LogoutController;
 use App\Http\Controllers\store\PerfilController;
 use App\Http\Controllers\store\ConfigController;
 use App\Http\Controllers\store\BibliotecaController;
-
 use App\Http\Controllers\store\PagoController;
+
+use App\Mail\PurchaseResponse;
+use Illuminate\Support\Facades\Mail;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
     return redirect()->route('store.index');
@@ -37,6 +42,7 @@ Route::get('store/producto/{titulo}', [storeController::class, 'ver'])->name('de
 
 //Route::get('store/venta/{id}/{status}', [storeController::class, 'status'])->name('venta.status');
 Route::get('/buscar', [storeController::class, 'buscar'])->name('buscar');
+// Route::get('/biblioteca/buscar', [BibliotecaController::class, 'buscar']);
 
 //Route::get('store', [storeController::class, 'index'])->name('shop');
 Route::get('/cart', [CartController::class, 'cart'])->name('cart.index');

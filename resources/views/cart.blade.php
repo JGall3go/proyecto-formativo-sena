@@ -1,17 +1,15 @@
+@extends('plantillas/buscador')
+
 <!DOCTYPE html>
 
 <html>
 
 <head>
+    <link rel="stylesheet" href="{{ asset('css/cart.css') }}">
     <title>Cart</title>    
 </head>
 
 <body>
-    <header>
-    @extends('plantillas/buscador')
-
-    @section('buscador')
-    </header>
 
     <div class="container" style="margin-top: 120px; width: 100%;">
         <nav aria-label="breadcrumb">
@@ -50,7 +48,7 @@
             <div class="col-lg-7">
                 <br>
                 @if(\Cart::getTotalQuantity()>0)
-                <h4>{{ \Cart::getTotalQuantity()}} Producto(s) en el carrito</h4><br>
+                <h4>{{ \Cart::getTotalQuantity() }} Producto(s) en el carrito</h4><br>
                 @else
                 <h4>No Product(s) In Your Cart</h4><br>
                 <a href="/" class="btn btn-dark">Continue en la tienda</a>
@@ -74,8 +72,8 @@
                             <form action="{{ route('cart.update') }}" method="POST">
                                 {{ csrf_field() }}
                                 <div class="form-group row">
-                                    <input type="hidden" value="{{ $item->idProducto}}" id="idProducto" name="idProducto">
-                                    <input type="number" class="form-control form-control-sm" value="{{ $item->quantity }}" id="quantity" name="quantity" min="1" style="width: 70px; margin-right:10px;">
+                                    <input type="hidden" value="{{ $item->idProducto }}" id="idProducto" name="idProducto">
+                                    <input type="number" class="form-control form-control-sm" value="{{ $item->quantity }}" id="quantity" name="quantity" min="1" max="2" style="width: 70px; margin-right:10px;">
                                     <button class="btn btn-secondary btn-sm" style="margin-right:25px; width:40px; height: 30px;"><i class="fa fa-edit"></i></button>
                                 </div>
                             </form>
