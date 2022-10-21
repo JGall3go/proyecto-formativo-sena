@@ -150,7 +150,7 @@
         <!-- galeria offtopics-->
         <div class="gal-offtopic">
             @php
-            $url=URL::asset('/recursos_css/kindred.jfif')
+            $url=URL::asset('/recursos_css/kindred.jpg')
             @endphp
             <div class="cont-gal-off " style="background: url({{$url}}) no-repeat center; background-size: cover;">
 
@@ -175,7 +175,7 @@
             </div>
 
         </div>
-
+{{-- 
         <!--categorias -->
         <div class="mas">
             <div class="cont">
@@ -351,7 +351,7 @@
 
             <!-- boton mas o menos -->
 
-            <button class="but" id="hidBut">Ver mas</button>
+            <button class="but" id="hidBut">Ver mas</button> --}}
 
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
             <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>

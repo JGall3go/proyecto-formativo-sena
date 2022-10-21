@@ -25,13 +25,19 @@
 
  .cont-gal-off .card{
     margin: 20px;
-    height: 10rem;
+    height: 12rem;
     border-radius: 2.5rem;
+}
+
+@media screen and (max-width: 853px){
+    .cont-gal-off .card{
+        margin-bottom: 30%;
+    }
 }
 
 @media screen and (max-width: 428px){
     .cont-gal-off .card{
-        width: 8rem!important;
+        width: 18rem!important;
     }
 }
 
