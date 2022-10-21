@@ -32,9 +32,9 @@
             
             <div class="container-banner " >
 
-                <h1> <span>banner</span></h1>
-                <span class="cen"> web designer y developer </span>
-                <a class="button-banner" href="#"> view more</a>
+                <h1> <span>Review</span></h1>
+                <span class="cen"> Revisa las ultimas criticas </span>
+                <a class="button-banner" href="https://www.metacritic.com/game/pc/cyberpunk-2077" target="_blank"> view more</a>
 
             </div>
         </div>
@@ -127,9 +127,9 @@
 
             <div class="container-banner" >
 
-                <h1> <span>banner</span></h1>
-                <span class="cen"> web designer y developer </span>
-                <a class="button-banner" href="#"> view more</a>
+                <h1> <span>News</span></h1>
+                <span class="cen"> Descubre proximos lanzamientos</span>
+                <a class="button-banner" href="https://gamerant.com/gaming/" target="_blank"> view more</a>
 
             </div>
         </div>
