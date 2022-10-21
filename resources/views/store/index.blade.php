@@ -93,6 +93,7 @@
                         <span class="precio">${{ number_format($producto->valor, 0) }}</span>
                         
                     </div>
+                    @if($producto->cantidad > 5)
                     <form action="{{ route('cart.store') }}" method="POST">
                         {{ csrf_field() }}
                         <input type="hidden" value="{{ $producto->idProducto }}" id="id" name="idProducto">
@@ -110,6 +111,13 @@
                             </div>
                         </div>
                     </form>
+                    @else
+                    <section style="width: 100%; display: flex; justify-content: center; flex-direction: column;">
+                        <p style="color: #D35555; font-size: 20px; text-align: center;">Agotado</p>
+                        <small style="text-align: center;">Se repondrá en unas horas</small>
+                    </section>
+                    
+                    @endif
                 </a>
             </div>
             @endif
@@ -123,7 +131,6 @@
             $url=URL::asset('/recursos_css/colorful.jfif');
         @endphp
         <div class="main-image-2" style="background: url('{{ $url }}') no-repeat center; background-size: cover; ">
-          
 
             <div class="container-banner" >
 
@@ -133,8 +140,6 @@
 
             </div>
         </div>
-
-
 
         <!-- galeria 2 -->
         <div class="content_grid">
@@ -155,7 +160,7 @@
                     <span class="precio">${{ number_format($producto->valor, 0) }}</span>
                     
                 </div>
-                 <form action="{{ route('cart.store') }}" method="POST">{{ csrf_field() }}
+                <form action="{{ route('cart.store') }}" method="POST">{{ csrf_field() }}
                         <input type="hidden" value="{{ $producto->idProducto }}" id="id" name="idProducto">
                         <input type="hidden" value="{{ $producto->titulo }}" id="titulo" name="titulo">
                         <input type="hidden" value="{{ $producto->valor }}" id="valor" name="valor">
