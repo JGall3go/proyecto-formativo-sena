@@ -32,7 +32,7 @@
                     <div class="pay-text">
                         <span>
 
-                            Los códigos de producto fueron enviados a su correo electrónico anclado a su perfil de KeysGuardian, si no recibió este correo por favor contactar con el soporte para revisar su pedido. Estos códigos de producto estaran a su disposición en la sección <a href="/biblioteca">biblioteca</a> de su perfil.
+                            Se envio un aviso a su correo electrónico anclado a su perfil de KeysGuardian, si no recibió este correo por favor contactar con el soporte para revisar su pedido. Los códigos de producto comprados estaran a su disposición en la sección <a href="/biblioteca">biblioteca</a> de su perfil.
 
                             <br><br>
                             Tenga en cuenta que el código se considerará como "usado" una vez que haya sido aceptado y validado en la plataforma del Desarrollador, así que no nos hacemos responsables del mal uso del código después de ser comprado. <a href="/terminos">(Art 9.1)</a>
@@ -67,6 +67,8 @@
                 </div>
             @endif
         @else
+
+        @if(\Cart::getTotalQuantity() > 0)
         <div class="contenido">
 
             <div class="resumen-de-pago">
@@ -105,6 +107,14 @@
                 </div>
             </div>
         </div>
+        @else
+        <div class="contenido notfound">
+            <h2>No tienes productos en tu carrito</h2>
+            <div class="pay-buttons">
+                <a href="/store" class="store-button">Volver a la tienda</a>
+            </div>
+        </div>
+        @endif
         @endif
     </div>
     

@@ -43,6 +43,9 @@
                           <input required type="password" name="password" class="form-style" placeholder="Tu Contraseña" id="logpass" autocomplete="off">
                           <i class="input-icon uil uil-lock-alt"></i>
                         </div>
+                        @if(session('response'))
+                        <div class="alert-danger" style="text-align: center; margin-top: 15px;">{{session('response')}}</div>
+                        @endif
                         <button autofocus type="submit" class="btn mt-4">Entrar</button>
                       </form>
                     </div>
@@ -54,7 +57,7 @@
                     <div class="section text-center">
                       <h4 class="mb-4 pb-3">REGISTRARSE</h4>
                       <form method="POST" action="/signup">
-                          @csrf
+                        @csrf
                         <div class="form-group">
                           <input type="text" name="nombres" class="form-style" placeholder="Ingresa tu Nombre " id="logname" autocomplete="off">
                           <i class="input-icon uil uil-user"></i>
@@ -74,7 +77,23 @@
                           <input type="date" name="fechaNacimiento" class="form-style" placeholder="Fecha de Nacimiento" id="logname" autocomplete="off">
                           <i class="input-icon bi bi-calendar2-event"></i>
                           <div class="alert-danger">@error("fechaNacimiento"){{ $message }}@enderror</div>
-                        </div>       
+                        </div>  
+
+                        <div class="form-group mt-2"> 
+                          <select class="form-style" name="tipoDocumento">
+                            <option selected disabled>Tipo de documento</option>
+                            <option value="1">CC</option>
+                            <option value="2">CE</option>
+                          </select>
+                          <i class="input-icon uil uil-user"></i>
+                          <div class="alert-danger">@error("tipoDocumento"){{ $message }}@enderror</div>
+                        </div> 
+                        <div class="form-group mt-2"> 
+                          <input type="text" name="documento" class="form-style" placeholder="Documento" id="logname" autocomplete="off">
+                          <i class="input-icon uil uil-user"></i>
+                          <div class="alert-danger">@error("documento"){{ $message }}@enderror</div>
+                        </div> 
+
                         <div class="form-group mt-2">
                           <input type="email" name="email" class="form-style" placeholder="Ingresa tu correo electronico" id="logemail" autocomplete="off">
                           <i class="input-icon uil uil-at"></i>

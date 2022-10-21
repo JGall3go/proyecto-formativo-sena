@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
+// Modelos
+use App\Models\Keys;
+use App\Models\KeyDetalle;
+use App\Models\Producto;
+
 class BibliotecaController
 {
 
@@ -109,4 +114,38 @@ class BibliotecaController
         // dump($data['productos']);
     }
 
+    public function show($tituloProducto)
+    {
+
+        $datosContacto = Auth::user();
+
+        $perfil = DB::table('perfil')
+        ->join('usuario', 'usuario_idUsuario', '=', 'idUsuario')
+        ->join('datos_contacto', 'datos_contacto_idContacto', '=', 'idContacto')
+        ->select('idPerfil')
+        ->where('idContacto', $datosContacto['idContacto'])
+        ->first();
+
+        $producto = DB::table('producto')
+        ->join('descripcion_producto', 'descripcion_producto_idDescripcion', '=', 'idDescripcion')
+        ->select('idProducto', 'titulo')
+        ->where('titulo', $tituloProducto)
+        ->first();
+
+        if ($producto == null) {
+            return redirect('/biblioteca')->with(['keys' => 'null']);
+        }
+
+        $keys = Keys::where('producto_idProducto', '=', $producto->idProducto)->first();
+
+        $keysCompradas = DB::table('key_detalle')
+        ->join('keys', 'keys_idKey', '=', 'idKey')
+        ->join('producto', 'producto_idProducto', '=', 'idProducto')
+        ->select('idDetalle', 'key', 'key_detalle.perfil_idPerfil')
+        ->where('keys_idKey', $keys->idKey)
+        ->where('key_detalle.perfil_idPerfil', $perfil->idPerfil)
+        ->get();
+
+        return redirect('/biblioteca')->with(['keys' => $keysCompradas]);
+    }
 }

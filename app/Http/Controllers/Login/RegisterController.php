@@ -49,11 +49,13 @@ class RegisterController
 
         $userData = request()->validate([
             'email'=>'bail|required|unique:datos_contacto|max:45',
-            'password'=>'bail|required|max:45',
+            'password'=>'bail|required|min:12|max:45',
             'nombres'=>'bail|required|max:45',
             'apellidos'=>'bail|required|max:45',
             'fechaNacimiento'=> 'bail|required|date_format:Y-m-d|before_or_equal:'.$adultos.'-12-31',
             'nombrePerfil'=>'bail|required|unique:perfil|max:15',
+            'tipoDocumento'=>'bail|required',
+            'documento'=>'bail|required|unique:usuario|min:10|max:10|numeric',
         ],
         [
 
@@ -63,6 +65,7 @@ class RegisterController
 
             'password.required'=>'Campo requerido',
             'password.max'=>'La contraseña solo puede tener 45 caracteres',
+            'password.min'=>'La contraseña debe tener al menos 12 caracteres',
 
             'nombres.required'=>'Campo requerido',
             'nombres.max'=>'El campo nombre solo puede tener 45 caracteres',
@@ -76,6 +79,14 @@ class RegisterController
             'nombrePerfil.required'=>'Campo requerido',
             'nombrePerfil.max'=>'El nombre de perfil solo puede tener 15 caracteres',
             'nombrePerfil.unique'=>'Este nombre de perfil ya fue usado',
+
+            'tipoDocumento.required' => 'Campo requerido',
+
+            'documento.required' => 'Campo requerido',
+            'documento.max'=>'El campo documento solo puede tener 10 caracteres',
+            'documento.min'=>'El campo documento debe tener al menos 10 caracteres',
+            'documento.unique'=>'Este documento ya fue usado',
+            'documento.numeric'=>'El campo documento solo puede contener numeros',
         ]);
         
         $password = Hash::make($userData['password']);
@@ -91,7 +102,9 @@ class RegisterController
             'apellidos' => $userData['apellidos'],
             'fechaNacimiento' => $userData['fechaNacimiento'],
             'estado_idEstado' => '1',
-            'datos_contacto_idContacto' => $datosContactoInsertado
+            'datos_contacto_idContacto' => $datosContactoInsertado,
+            'tipo_documento_idDocumento' => $userData['tipoDocumento'],
+            'documento' => $userData['documento']
         ]);
         
         $perfilInsertado = DB::table('perfil')->insertGetId([
@@ -100,7 +113,7 @@ class RegisterController
             'rol_idRol' => '1' // Rol Automatico (1 = Cliente)
         ]);
 
-        return redirect('/store');
+        return redirect('/login');
     }
 
     /**

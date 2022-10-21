@@ -84,7 +84,7 @@ class storeController extends Controller
       }
     }
 
-    return redirect()->route('store.index')->with('resultado', $productos1);
+    return redirect()->route('store.index')->with(['resultado' => $productos1, 'busqueda' => $query]);
   }
 
   public function show(Request $request, $idProducto)

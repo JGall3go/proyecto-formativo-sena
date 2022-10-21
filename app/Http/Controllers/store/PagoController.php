@@ -14,6 +14,8 @@ use App\Models\Producto;
 
 // Carrito
 use Darryldecode\Cart\Cart;
+use App\Mail\PurchaseResponse;
+use Illuminate\Support\Facades\Mail;
 
 // Paypal
 use PayPal\Auth\OAuthTokenCredential;
@@ -200,7 +202,7 @@ class PagoController extends Controller
 			$usuario = DB::table('perfil')
 			->join('usuario', 'usuario_idUsuario', '=', 'idUsuario')
 			->join('datos_contacto', 'datos_contacto_idContacto', '=', 'idContacto')
-			->select('idPerfil')
+			->select('idPerfil', 'email')
 			->where('idContacto', $datosContacto['idContacto'])
 			->first();
 
@@ -244,6 +246,7 @@ class PagoController extends Controller
 				->get();
 
 				$quantity = intval($producto->quantity);
+				$keysCompradas = [];
 
 				foreach ($keysDisponibles as $key) {
 
@@ -258,10 +261,14 @@ class PagoController extends Controller
 				}
 			}
 
+			$correo = new PurchaseResponse;
+			Mail::to($usuario->email)->send($correo);
+
 			\Cart::clear();
 
 			$status = "true";
 			$cartCollection = \Cart::getContent();
+
 			return redirect('/checkout')->with(['status' => $status, 'cartCollection' => $cartCollection]);
 		}
 

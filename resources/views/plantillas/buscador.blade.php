@@ -29,7 +29,7 @@
 
        
 
-        <div class="container_buscador">
+        <div @if(session('busqueda'))class="container_buscador active"@else class="container_buscador"@endif>
 
             <div class="buscador_icono">
 
@@ -37,10 +37,9 @@
 
             </div>
 
-
                 <form action="{{route('buscar')}}" method="GET" id="buscador" class="buscador_input">
 
-                    <input type="text" id="search_clear" name="query">
+                    <input type="text" id="search_clear" name="query" @if(session('busqueda'))value="{{ session('busqueda') }}"@endif>
                     <i class="clear uil uil-x"></i>
                     <input type="submit" hidden id="search">
                 </form>

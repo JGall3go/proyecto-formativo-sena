@@ -14,6 +14,7 @@
     @endisset
    
     <link href="{{ asset('css/producto.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/content.js') }}"></script>
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <link href="{{ asset('css/descripcion.css') }}" rel="stylesheet">
 
@@ -28,7 +29,7 @@
 
         @isset($productos)
         <div class="producto_waves">
-              <img src="{{ env('DASHBOARD_URL').$productos->imagen }}"style="width: 1519px"> 
+            <img src="{{ env('DASHBOARD_URL').$productos->imagen }}" id="imagen"> 
         </div>
         @endisset
         
@@ -47,35 +48,24 @@
 
                 <div class="name_producto">
 
-                    <h1 class="titulo_producto"> {{$productos->titulo }} </h1>
+                    <h1 class="titulo_producto" style="font-weight: bold;"> {{$productos->titulo }} </h1>
 
                 </div>
 
                 <!-- Subinfo del producto -->
                 <div class="subinfo_producto">
 
-                    <a href="" target="_blank">
+                    <a target="_blank" style="color: #f5f5f5">
 
                         <!-- Iconos de las secciones del Subinfo -->
                         <div class=""></div>
 
-                        {{$productos->nombrePerfil }}
+                        {{ $productos->nombrePerfil }}
 
                         <!-- Espacio entre cada sección del Subinfo -->
                         <div class="espacio_subinfo-producto"></div>
 
                     </a>
-
-                    <div class="stock_producto">
-                        <!-- Iconos de las secciones del Subinfo -->
-                        <div class="uil uil-check"></div>
-
-                        {{$productos->cantidad }}
-
-                        <!-- Espacio entre cada sección del Subinfo -->
-                        <div class="espacio_subinfo-producto"></div>
-
-                    </div>
 
                     <div class="descarga_producto">
                         <!-- Iconos de las secciones del Subinfo -->
@@ -87,12 +77,28 @@
 
                 </div>
 
-                <div class="viral_producto">
+                <div class="botones-producto">
+                    @if($productos->cantidad > 5)
+                    <form action="{{ route('cart.store') }}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" value="{{ $productos->idProducto }}" id="id" name="idProducto">
+                        <input type="hidden" value="{{ $productos->titulo }}" id="titulo" name="titulo">
+                        <input type="hidden" value="{{ $productos->valor }}" id="valor" name="valor">
+                        <input type="hidden" value="{{ $productos->imagen }}" id="img" name="imagen">
+                        <input type="hidden" value="{{ $productos->estado }}" id="img" name="estado">
 
-                    <div class="uil uil-fire"></div>
-
-                    Hay 67 usuarios en esta página
-
+                        <input type="hidden" value="1" id="quantity" name="quantity">
+                        <div class="card-footer" >
+                            <div class="row">
+                                <button class="btn btn-secondary btn-sm" class="tooltip-test" title="add to cart">
+                                    <i class="fa fa-shopping-cart"></i> agregar al carrito
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    @else
+                    <span style="color: #D35555; font-size: 20px; margin-top: 15px;">Stock Insuficiente</span>
+                    @endif
                 </div>
 
 

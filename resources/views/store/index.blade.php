@@ -179,7 +179,7 @@
         </div>
 
         <!-- galeria offtopics-->
-        <div class="gal-offtopic">
+        <div class="gal-offtopic" style="margin-bottom: 100px;">
             @php
                 $url=URL::asset('/recursos_css/kindred.jfif')
             @endphp
@@ -207,21 +207,20 @@
 
         </div>
 
-        <!--categorias -->
+        <!--
         <div class="mas">
             <div class="cont">
                 <div class="title">
                     <h1 class="underline_title">Categorias</h1>
                 </div>
             </div>
-            <!-- fila 1 caracteristicas -->
 
             <div class="container">
                 <div class="card">
                     <a href="">
                         <img src="{{URL::asset('/img/wach.jpg')}}">
                     </a>
-                    <!-- hoover y efectos-->
+
                     <div class="overlay">
                         <div class="text">ACCION</div>
                     </div>
@@ -246,7 +245,6 @@
                 </div>
             </div>
 
-            <!-- flia 2 caracteristicas -->
 
             <div class="container">
                 <div class="card">
@@ -277,7 +275,6 @@
                 </div>
             </div>
 
-            <!-- fila 3 caracteristicas -->
 
             <div class="container">
                 <div class="card">
@@ -312,10 +309,6 @@
 
             </div>
 
-            <!-- ver mas o menos -->
-
-            <!-- fila 1 caracteristicas ver mas -->
-
             <span class="hid" id="hidText">
 
                 <div class="container">
@@ -346,8 +339,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- fila 2 caracteristicas ver mas -->
 
                 <div class="container">
                     <div class="card">
@@ -380,7 +371,7 @@
 
             </span>
 
-            <!-- boton mas o menos -->
+
 
             <button class="but" id="hidBut">Ver mas</button>
 
@@ -388,6 +379,7 @@
             <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
             <script src="{{ asset('js/bot.js') }}"></script>
         </div>
+        -->
 
     </div>
     <!--div de cierre -->

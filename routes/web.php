@@ -21,8 +21,13 @@ use App\Http\Controllers\Login\LogoutController;
 use App\Http\Controllers\store\PerfilController;
 use App\Http\Controllers\store\ConfigController;
 use App\Http\Controllers\store\BibliotecaController;
-
 use App\Http\Controllers\store\PagoController;
+
+use App\Mail\PurchaseResponse;
+use Illuminate\Support\Facades\Mail;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
     return redirect()->route('store.index');

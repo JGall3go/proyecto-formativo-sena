@@ -9,17 +9,41 @@
      crossorigin="anonymous">
     <script src="{{ asset ('https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js') }}"></script>
     <script src="{{ asset ('https://cdn.jsdelivr.net/jquery.scrollto/2.1.2/jquery.scrollTo.js') }}"></script>
-    <script src="{{ asset ('autofocus.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script src="{{ asset('js/content.js') }}"></script>
     <link rel="stylesheet" href="{{ asset ('css/perfil.css') }}">
     <title>Perfil</title>
 </head>
 <body>
 
-    <header>
-        @extends('plantillas/buscador')
+    @if(session('keys') && session('keys') != null)
+      <style type="text/css">
+        
+        body {
+          overflow: hidden;
+        }
+        
+        .keys-container {
+            display: flex;
+        }
 
-        @section('buscador')
-    </header>
+      </style>
+      <div class="keys-container">
+        <div class="keys-background" onclick="showForm()"></div>
+        <div class="keys-list">
+          <h4>Keys:</h4>
+          @foreach(session('keys') as $key)
+            <span>{{ $key->key }}</span>
+          @endforeach
+        </div>
+      </div>
+    @endif
+
+    @extends('plantillas/buscador')
+
+    @section('buscador')
 
     <div id="resultado" class="content_grid"> </div>
     
@@ -50,7 +74,7 @@
                   <span class="producto-titulo">{{ $producto['titulo'] }}</span>
                   <span class="producto-item"><b>Fecha: {{ $producto['fecha'] }}</b> </span>
                   <span class="producto-item"><b>Items: {{ $producto['cantidad'] }}</b> </span>
-                  <a class="detalle-link" href=""><b>Detalle</b></a>
+                  <a class="detalle-link" href="/biblioteca/{{ $producto['titulo'] }}"><b>Detalle</b></a>
                 </div>
                 <div class="producto-precio">
                   <span>${{ number_format($producto['total'], 0) }}</span>

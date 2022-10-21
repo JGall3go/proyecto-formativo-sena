@@ -3,6 +3,10 @@ html {
     height: 100%;
 }
 
+body {
+    overflow: auto;
+}
+
 .content {
     background-color: #141414;
     width: 100%;
@@ -166,6 +170,41 @@ html {
     font-weight: bold;
 }
 
+/* Phones */
+@media screen and (max-width: 767px) {
+  .producto {
+    flex-direction: column;
+    height: max-content;
+  }
+
+  .producto img {
+    width: 100%;
+  }
+
+  .producto-precio {
+    display: none;
+  }
+
+  .producto-text {
+    margin-top: 100px;
+  }
+}
+
+/* Tablets */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .producto {
+    flex-direction: column;
+  }
+
+  .producto img {
+    width: 100%;
+  }
+
+  .producto-precio {
+    display: none;
+  }
+}
+
 /* Form */
 
 .profile-form {
@@ -189,16 +228,16 @@ html {
       width: max-content;
     }
 
-    .profile-nav-bar{
+    .profile-nav-bar {
         width: max-content;
     }
 
-    .submit-container{
+    .submit-container {
         width: 30%!important;
     }
-  }
+}
 
-.input-container label, .image-container label{
+.input-container label, .image-container label {
     color: #f5f5f5;
     font-size: 20px;
     margin-bottom: 5px;
@@ -305,4 +344,64 @@ html {
 .detalle-link:hover {
     text-decoration: none; 
     color: #9256F0;
+}
+
+/* Keys Container */
+
+.keys-container {
+    display: flex;
+    position: fixed;
+    background-color: rgb(102, 102, 102, 0.4);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    z-index: 3;
+    justify-content: center;
+    align-content: center;
+}
+
+.keys-list {
+    width: 50%;
+    height: max-content;
+    max-height: 50%;
+    overflow: auto;
+    background-color: gray;
+    margin-top: 10%;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    border-radius: 30px;
+    color: #f5f5f5
+}
+
+.keys-list h4 {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.keys-list span {
+    padding: 10px;
+    background-color: rgb(102, 102, 102);
+    margin-bottom: 20px;
+    border-radius: 30px;
+}
+
+.keys-list span:last-child {
+    margin-bottom: 0px;
+}
+
+.keys-background {
+    display: flex;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 4;
+}
+
+@media screen and (max-width: 650px) {
+    .keys-list {
+        width: 90%;
+        max-height: 70%;
+    }
 }

@@ -52,13 +52,13 @@
 
                 <div class="input-container">
                   <label>Nombres</label>
-                  <input name="nombres" value="{{ $perfil->nombres }}">
+                  <input name="nombres" value="{{ $perfil->nombres }}" type="text">
                 </div>
                 @error('nombres'){{ $message }}@enderror
 
                 <div class="input-container">
                   <label>Apellidos</label>
-                  <input name="apellidos" value="{{ $perfil->apellidos }}">
+                  <input name="apellidos" value="{{ $perfil->apellidos }}" type="text">
                 </div>
                 @error('apellidos'){{ $message }}@enderror
 
@@ -70,7 +70,7 @@
 
                 <div class="input-container">
                   <label>Contraseña</label>
-                  <input name="contrasena" value="">
+                  <input name="contrasena" value="" type="password">
                 </div>
                 @error('contrasena'){{ $message }}@enderror
 
@@ -79,12 +79,6 @@
                   <input name="telefono" value="{{ $perfil->telefono }}">
                 </div>
                 @error('telefono'){{ $message }}@enderror
-
-                <div class="input-container">
-                  <label>Documento</label>
-                  <input name="documento" value="{{ $perfil->documento }}">
-                </div>
-                @error('documento'){{ $message }}@enderror
 
                 <div class="input-container">
                   <label>Direccion</label>

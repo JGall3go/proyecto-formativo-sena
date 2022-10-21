@@ -8,6 +8,7 @@
 body {
     font-size: 15px;
     font-family: arial, sans-serif;
+    --color-light: #B0B0B0;
 }
 
 .privacy-container {
