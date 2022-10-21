@@ -210,23 +210,26 @@ h5{
     justify-content: center;
     display: flex;
 }
-.Plataformas{
+.Plataformas {
     width: 650px;
     margin:5px;
     text-align: center;
 }
-.nombre-apellido{
+.nombre-apellido {
     display: inline-flex;
     width: 600px;
     margin: 4px;
 }
-.contenido{
-    width: 400px;
-    margin:5px;
+.contenido {
+    width: 100%;
+    margin: 5px;
     text-align: center;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
 }
+
 .col-md-6{
     margin: 3px;
 }
@@ -239,8 +242,37 @@ h5{
     display:flex;
     margin: 20px; 
     text-align: center;
-    width:300px;
+    width: 300px;
     background-color: #bdc3c7;   
+}
+
+.productos-card {
+    width: 600px;
+}
+
+.productos img {
+    width: 150px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition-duration: 0.3s;
+}
+
+.productos img:hover {
+    border: 3px solid #9256F0;
+}
+
+.producto {
+    display: flex;
+    justify-content: space-between;
+    border: 2px solid gray;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.producto:last-child {
+    margin-bottom: 0;
 }
 
 .card-credit {
@@ -320,6 +352,7 @@ h5{
     flex-direction: column;
     width: 100%;
     align-items: center;
+    margin-bottom: 50px;
 }
 
 .pay-alert {

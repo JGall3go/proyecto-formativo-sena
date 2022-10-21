@@ -1,6 +1,6 @@
 html {
     background-color: #141414;
-    height: 100vh;
+    height: 100%;
 }
 
 .content {
@@ -58,6 +58,7 @@ html {
     font-size: 20px;
     height: 70px;
     display: flex;
+    margin-right: 8%;
     justify-content: center;
     align-items: center;
 }
@@ -77,6 +78,7 @@ html {
 /* Phones */
 @media screen and (max-width: 767px) {
   .navegacion_container {
+    width: max-content;
     display: none;
   }
 }
@@ -84,6 +86,7 @@ html {
 /* Tablets */
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   .navegacion_container {
+    width: max-content;
     display: none;
   }
 }
@@ -112,8 +115,13 @@ html {
     flex-direction: row;
 }
 
+.producto:last-child {
+    margin-bottom: 0px;
+}
+
 .producto img {
     width: 150px;
+    height: 100%;
     border-radius: 30px;
 }
 
@@ -176,6 +184,20 @@ html {
     width: 450px;
 }
 
+@media screen and (max-width: 650px) {
+    .input-container {
+      width: max-content;
+    }
+
+    .profile-nav-bar{
+        width: max-content;
+    }
+
+    .submit-container{
+        width: 30%!important;
+    }
+  }
+
 .input-container label, .image-container label{
     color: #f5f5f5;
     font-size: 20px;
@@ -230,6 +252,14 @@ html {
     border: 3px solid #9256F0;
 }
 
+.input-container select:focus {
+    border: 3px solid #9256F0;
+}
+
+.input-container select:hover {
+    border: 3px solid #9256F0;
+}
+
 .submit-container {
     display: flex;
     flex-direction: column;
@@ -252,4 +282,27 @@ html {
 
 .submit-input:hover {
     background-color: #9256F0;
+}
+
+.img-link {
+    height: 100px;
+    border: 2px solid transparent;
+    border-radius: 30px;
+    transition-duration: 0.3s;
+}
+
+.img-link:hover {
+    border: 2px solid #9256F0;
+}
+
+.detalle-link {
+    text-decoration: none; 
+    color: #2f2f2f;
+    transition-duration: 0.1s;
+    width: max-content;
+}
+
+.detalle-link:hover {
+    text-decoration: none; 
+    color: #9256F0;
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\store;
 use App\Models\Usuario;
 use App\Models\Perfil;
 use App\Models\DatosContacto;
+use Darryldecode\Cart\Cart;
 
 // Laravel Modules
 use Illuminate\Http\Request;
@@ -47,6 +48,24 @@ class ConfigController
         }
 
         $data = busquedaDB();
+
+        $cartCollection = \Cart::getContent();
+
+        foreach ($cartCollection as $producto) {
+            
+            $estado = DB::table('producto')
+            ->join('estado', 'estado_idEstado', '=', 'idEstado') // Tabla de Estado (Activo, Inactivo)
+            ->select('estado')
+            ->where('idProducto', 'Like', '%' . $producto->idProducto . '%')
+            ->first();
+
+            /* Si el producto se inactiva en el momento de hacer la compra
+            se removera de la lista del carrito y por ende de la compra*/
+            if ($estado->estado == "Inactivo") {
+
+                \Cart::remove($producto->idProducto);
+            }
+        }
 
         return view('Perfil.config', $data);
     }

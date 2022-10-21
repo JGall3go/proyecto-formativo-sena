@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-use App\Http\Controllers\store\CartController; /* carrito*/
+use App\Http\Controllers\store\CartController;
 use App\Http\Controllers\store\storeController;
 use App\Http\Controllers\Login\LoginController;
 use App\Http\Controllers\Login\RegisterController;
@@ -37,6 +37,7 @@ Route::get('store/producto/{titulo}', [storeController::class, 'ver'])->name('de
 
 //Route::get('store/venta/{id}/{status}', [storeController::class, 'status'])->name('venta.status');
 Route::get('/buscar', [storeController::class, 'buscar'])->name('buscar');
+// Route::get('/biblioteca/buscar', [BibliotecaController::class, 'buscar']);
 
 //Route::get('store', [storeController::class, 'index'])->name('shop');
 Route::get('/cart', [CartController::class, 'cart'])->name('cart.index');

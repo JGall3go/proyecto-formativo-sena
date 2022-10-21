@@ -1,3 +1,5 @@
+@extends('plantillas/buscador')
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,14 +20,6 @@
 
 <body style="background-color:black ;">
 
-    <header>
-        @extends('plantillas/buscador')
-
-        @section('buscador')
-
-        
-    </header>
-
 
     <!-- home -->
     <div class="cotanier-fluid">
@@ -45,10 +39,43 @@
             </div>
         </div>
         <!-- resultado busqueda -->
-        <div id="resultado" class="content_grid"> </div>
+        <div id="resultado" class="content_grid">
+            @if(session('resultado'))
+                @foreach(session('resultado') as $resultado)
+                @isset($resultado->detalle[0])
+                <div class="card" style="width: 18rem;">
+                    <a href="{{ route('detalle.producto', [$resultado->titulo]) }}" style="text-decoration: none; color: #f5f5f5;">
+                        <img src="{{ env('DASHBOARD_URL').$resultado->detalle[0]->imagen }}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <span class="card-text">{{ $resultado->titulo }}</span>
+                            <span class="precio">${{ number_format($resultado->detalle[0]->valor, 0) }}</span>
+                            
+                        </div>
+                        <form action="{{ route('cart.store') }}" method="POST">
+                            {{ csrf_field() }}
+                            <input type="hidden" value="{{ $resultado->detalle[0]->idProducto }}" id="id" name="idProducto">
+                            <input type="hidden" value="{{ $resultado->titulo }}" id="titulo" name="titulo">
+                            <input type="hidden" value="{{ $resultado->detalle[0]->valor }}" id="valor" name="valor">
+                            <input type="hidden" value="{{ $resultado->detalle[0]->imagen }}" id="img" name="imagen">
+                            <input type="hidden" value="{{ $resultado->detalle[0]->estado }}" id="img" name="estado">
+
+                            <input type="hidden" value="1" id="quantity" name="quantity">
+                            <div class="card-footer" >
+                                <div class="row">
+                                    <button class="btn btn-secondary btn-sm" class="tooltip-test" title="add to cart">
+                                        <i class="fa fa-shopping-cart"></i> agregar al carrito
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </a>
+                </div>
+                @endisset
+                @endforeach            
+            @endif
+        </div>
         <!-- galeria 1 -->
         <div class="content_grid">
-
             @php
                 $count = 0;
             @endphp
@@ -59,17 +86,20 @@
             @endphp
             @if($count <= 12)
             <div class="card" style="width: 18rem;">
-                <a href="{{ route('detalle.producto',[$producto->titulo]) }}" style="text-decoration: none; color: #f5f5f5;"><img src="{{ env('DASHBOARD_URL').$producto->imagen }}" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <span class="card-text">{{ $producto->titulo }}</span>
-                    <span class="precio">${{ number_format($producto->valor, 0) }}</span>
-                    
-                </div>
-                 <form action="{{ route('cart.store') }}" method="POST">{{ csrf_field() }}
+                <a href="{{ route('detalle.producto',[$producto->titulo]) }}" style="text-decoration: none; color: #f5f5f5;">
+                    <img src="{{ env('DASHBOARD_URL').$producto->imagen }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <span class="card-text">{{ $producto->titulo }}</span>
+                        <span class="precio">${{ number_format($producto->valor, 0) }}</span>
+                        
+                    </div>
+                    <form action="{{ route('cart.store') }}" method="POST">
+                        {{ csrf_field() }}
                         <input type="hidden" value="{{ $producto->idProducto }}" id="id" name="idProducto">
                         <input type="hidden" value="{{ $producto->titulo }}" id="titulo" name="titulo">
                         <input type="hidden" value="{{ $producto->valor }}" id="valor" name="valor">
                         <input type="hidden" value="{{ $producto->imagen }}" id="img" name="imagen">
+                        <input type="hidden" value="{{ $producto->estado }}" id="img" name="estado">
 
                         <input type="hidden" value="1" id="quantity" name="quantity">
                         <div class="card-footer" >
@@ -79,7 +109,8 @@
                                 </button>
                             </div>
                         </div>
-                    </form> </a>
+                    </form>
+                </a>
             </div>
             @endif
             
@@ -90,7 +121,7 @@
         <!--banner2-->
         @php
             $url=URL::asset('/recursos_css/background-op-2.jpg');
-            @endphp
+        @endphp
         <div class="main-image-2" style="background: url('{{ $url }}') no-repeat center; ">
           
 
@@ -150,7 +181,7 @@
         <!-- galeria offtopics-->
         <div class="gal-offtopic">
             @php
-            $url=URL::asset('/recursos_css/background-op-3.jpg')
+                $url=URL::asset('/recursos_css/background-op-3.jpg')
             @endphp
             <div class="cont-gal-off " style="background: url({{$url}}) no-repeat center;">
 
@@ -359,12 +390,11 @@
         </div>
 
     </div>
-    <!--div de cierre perron -->
+    <!--div de cierre -->
     <footer>
         @extends('plantillas/footer')
 
         @section('footer')
-
 
     </footer>
 

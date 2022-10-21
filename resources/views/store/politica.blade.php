@@ -1,6 +1,4 @@
 @extends('plantillas.buscador') 
- 
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +10,7 @@
     <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-sacle=1.0, maximun-scale=1.0, minimum-scale=1.0">
 </head>
-<body>
+<body style="background-color: rgb(40, 40, 40);">
     <div class="privacy-container"> 
         <h1>Politica de privacidad</h1>
         <div class="readable">

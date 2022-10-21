@@ -22,13 +22,9 @@
     <div class="menu_header">
 
         <div class="navegacion_container">
-
-        <a class="navegacion_link" href="{{ route('condicion') }}">Terminos y condiciones</a>
-
-        <div class="navegacion_link-separacion"></div>
-
-        <a class="navegacion_link" href="{{ route('faq') }}">Soporte 24/7</a>
-
+            <a class="navegacion_link" href="{{ route('condicion') }}">Terminos y condiciones</a>
+            <div class="navegacion_link-separacion"></div>
+            <a class="navegacion_link" href="{{ route('faq') }}">Soporte 24/7</a>
         </div>
 
        
@@ -53,10 +49,10 @@
 
     </div>
  
-    <div class="navegacion_link" style=" background-color:#9256F0; border-radius: 20px; height: max-content;
+    <div class="navegacion_link" style=" background-color: #9256F0; border-radius: 20px; height: max-content;
     margin-left: 65%;">
 
-        <li class="nav-item dropdown" style="">
+        <li class="nav-item dropdown" style="background-color: #9256F0; border-radius: 20px;">
             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="badge badge-pill badge-dark">
                     <i class="fa fa-shopping-cart"></i> {{ \Cart::getTotalQuantity()}}

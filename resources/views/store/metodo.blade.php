@@ -67,43 +67,18 @@
                 </div>
             @endif
         @else
-        <div class="Plataformas">
-
-            <p class="text_name">Tarjeta de credito
-                <img src="{{ asset('img/Mastercard.png') }}" class="imga">
-                <img src="{{ asset('img/visa.png') }}" class="imga">
-            </p>
-
-            <div class="card card-credit">
-
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="123-456-789" aria-label="Text input with radio button" required>
-                </div>
-
-                <div class="input-group mb-3 input-credit">
-                    <span class="input-group-text">MM/AA</span>
-                    <input type="text" class="form-control" placeholder="11/22" aria-label="Username">
-                    <span class="input-group-text"><img src="{{ asset('img/cvc.png') }}" class="cvc" width="40px"></span>
-                    <input type="text" class="form-control" placeholder="123" aria-label="Server">
-                </div>
-
-                <input type="submit" class="btn btn-success" id="btn" value="Pagar con tarjeta" style="margin: 15px;">
-            </div>
-        </div>
-
         <div class="contenido">
 
-            <h5> Productos </h5>
             <div class="resumen-de-pago">
-                <div class="card">
-                    <div class="card-body">
+                <div class="card productos-card">
+                    <div class="card-body productos">
+                        @foreach($cartCollection as $item)
                         <div class="producto">
-                            <span></span>
-                        </div>
-                        @foreach($cartCollection as $item) 
+                            <a href="{{ route('detalle.producto', [$item->titulo]) }}"><img src="{{ env('DASHBOARD_URL').$item->attributes->imagen }}" alt="..."></a>
                             <div class="precio">
-                                <p>{{ $item->titulo}}</p> 
+                                <p style="text-align: left;">{{ $item->quantity }} x {{ $item->titulo }}: ${{ $item->valor }}</p> 
                             </div>
+                        </div>
                         @endforeach
                         <hr>
                         <div class="precio">
