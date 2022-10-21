@@ -32,9 +32,9 @@
             
             <div class="container-banner " >
 
-                <h1> <span>banner</span></h1>
-                <span class="cen"> web designer y developer </span>
-                <a class="button-banner" href="#"> view more</a>
+                <h1> <span>Review</span></h1>
+                <span class="cen"> Revisa las ultimas criticas </span>
+                <a class="button-banner" href="https://www.metacritic.com/game/pc/cyberpunk-2077" target="_blank"> view more</a>
 
             </div>
         </div>
@@ -134,9 +134,9 @@
 
             <div class="container-banner" >
 
-                <h1> <span>banner</span></h1>
-                <span class="cen"> web designer y developer </span>
-                <a class="button-banner" href="#"> view more</a>
+                <h1> <span>News</span></h1>
+                <span class="cen"> Descubre proximos lanzamientos</span>
+                <a class="button-banner" href="https://gamerant.com/gaming/" target="_blank"> view more</a>
 
             </div>
         </div>
@@ -186,7 +186,7 @@
         <!-- galeria offtopics-->
         <div class="gal-offtopic" style="margin-bottom: 100px;">
             @php
-                $url=URL::asset('/recursos_css/kindred.jfif')
+            $url=URL::asset('/recursos_css/kindred.jpg')
             @endphp
             <div class="cont-gal-off " style="background: url({{$url}}) no-repeat center; background-size: cover;">
 
@@ -211,175 +211,6 @@
             </div>
 
         </div>
-
-        <!--
-        <div class="mas">
-            <div class="cont">
-                <div class="title">
-                    <h1 class="underline_title">Categorias</h1>
-                </div>
-            </div>
-
-            <div class="container">
-                <div class="card">
-                    <a href="">
-                        <img src="{{URL::asset('/img/wach.jpg')}}">
-                    </a>
-
-                    <div class="overlay">
-                        <div class="text">ACCION</div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <a href="">
-                        <img src="img/metal.jpg">
-                    </a>
-                    <div class="overlay">
-                        <div class="text">ARCADE</div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <a href="">
-                        <img src="img/aventura.jpg">
-                    </a>
-                    <div class="overlay">
-                        <div class="text">AVENTURA</div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="container">
-                <div class="card">
-                    <a href="">
-                        <img src="img/estrategia.jpg">
-                    </a>
-                    <div class="overlay">
-                        <div class="text">ESTRATEGIA</div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <a href="">
-                        <img src="img/fps.jpg">
-                    </a>
-                    <div class="overlay">
-                        <div class="text">SHOOTER</div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <a href="">
-                        <img src="img/lucha.jpg">
-                    </a>
-                    <div class="overlay">
-                        <div class="text">FIGTHER</div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="container">
-                <div class="card">
-                    <a href="">
-                        <img src="img/rpg.jpg">
-                    </a>
-                    <div class="overlay">
-                        <div class="text">RPG</div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <a href="">
-                        <img src="img/uno.jpeg">
-                    </a>
-                    <div class="overlay">
-                        <div class="text">SURVIVAL</div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <a href="">
-                        <img src="img/vr.jpg">
-                    </a>
-                    <div class="overlay">
-                        <div class="text">VIRTUAL-REALITY</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="more">
-
-            </div>
-
-            <span class="hid" id="hidText">
-
-                <div class="container">
-                    <div class="card">
-                        <a href="">
-                            <img src="img/carrera.jpg">
-                        </a>
-                        <div class="overlay">
-                            <div class="text">RACER</div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <a href="">
-                            <img src="img/multijugador.jpeg">
-                        </a>
-                        <div class="overlay">
-                            <div class="text">BATTLE-GROUND</div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <a href="">
-                            <img src="img/mmo.jpg">
-                        </a>
-                        <div class="overlay">
-                            <div class="text">MMO</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="container">
-                    <div class="card">
-                        <a href="">
-                            <img src="img/cooli.jpg">
-                        </a>
-                        <div class="overlay">
-                            <div class="text">COOPERATIVO</div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <a href="">
-                            <img src="img/depor.jpg">
-                        </a>
-                        <div class="overlay">
-                            <div class="text">DEPORTES</div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <a href="">
-                            <img src="img/cooduo.jpg">
-                        </a>
-                        <div class="overlay">
-                            <div class="text">FANTASIA</div>
-                        </div>
-                    </div>
-                </div>
-
-            </span>
-
-
-
-            <button class="but" id="hidBut">Ver mas</button>
-
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
             <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
             <script src="{{ asset('js/bot.js') }}"></script>

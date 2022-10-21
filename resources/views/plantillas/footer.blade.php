@@ -4,6 +4,8 @@
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!--Animacion TEST -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="{{ asset('css/footer.css') }}" rel="stylesheet">
         <title></title>
@@ -22,7 +24,7 @@
         </figure>   
         </div>
 
-        <div class="box2_footer">
+        <div class="box2_footer animate__animated animate__animated animate__slideInDown animate__delay-5s animate__slow">
             <ul class = "list_footer">
                 <li><a href="{{ route('condicion') }}" class="footer_li">Terminos y condiciones</a></li>
                 <li><a href="{{ route('politic') }}" class="footer_li">Polictica de privacidad</a></li>

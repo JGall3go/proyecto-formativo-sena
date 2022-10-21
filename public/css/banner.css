@@ -65,24 +65,24 @@
     background-size: cover;
     height: 15rem;
     overflow: hidden;
-    margin-top: 30px;
+    margin-bottom: 30px;
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
 
-.cont-gal-off h1 {
-    margin: 0;
-    font-size: 70px;
-}
-
-.cont-gal-off h1 span {
-    text-align: center;
-    border: 6px solid white;
-    padding: 6px 14px;
-    display: inline-block;
-}
-
+     .cont-gal-off h1{
+        margin: 0;
+        font-size: 70px;
+    }
+     .cont-gal-off h1 span{
+        text-align: center;
+        background-color: rgba(255, 255, 255, 0.364);
+        color: black;
+        border: 6px solid white;
+        padding: 6px 14px;
+        display: inline-block;
+     }
 .card-body {
     display: flex;
     justify-content: space-between;
