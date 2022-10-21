@@ -7,6 +7,10 @@
 }
 
 
+.animate__animated.animate__shakeY{
+    --animate-duration: 2s;
+  }
+
 .carro{
 
     height: 30px;
